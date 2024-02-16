@@ -1,0 +1,12 @@
+version: "3"
+services:
+  bot:
+    image: registry1.serinanya.5050net/library/commspt-bot-avilla:latest
+    restart: always
+    container_name: commspt-bot-avilla
+    volumes:
+      - ./:/app
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/ssl/certs:/etc/ssl/certs:ro
+    environment:
+      - TZ=Asia/Shanghai

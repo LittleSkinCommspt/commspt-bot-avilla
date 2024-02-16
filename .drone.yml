@@ -1,0 +1,40 @@
+kind: pipeline
+type: exec
+name: deploy
+
+platform:
+    os: linux
+    arch: arm64
+
+trigger:
+    branch:
+        - main
+
+clone:
+    disable: true
+
+steps:
+    - name: pull and deploy
+      commands:
+          - su -c "cd /data/commspt-bot-avilla/ && proxychains4 -q git pull origin main" ubuntu
+          - docker restart commspt-bot-avilla
+
+    - name: send message to telegram via apprise (success)
+      failure: ignore
+      commands:
+          - apprise --title="commspt-bot-avilla DEPLOY" --body="branch main has been deployed successfully." apprise://10.50.0.3:8988/telegram-commspt?tags=all
+      when:
+          status:
+              - success
+
+    - name: send message to telegram via apprise (error)
+      failure: ignore
+      commands:
+          - apprise --title="commspt-bot-avilla DEPLOY" --body="error while deploying! please check!" \ apprise://10.50.0.3:8988/telegram-commspt?tags=all
+      when:
+          status:
+              - failure
+
+node:
+    lxc: "111"
+    exec: "true"
