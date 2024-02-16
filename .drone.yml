@@ -19,7 +19,7 @@ steps:
     - name: send message to telegram via apprise (success)
       failure: ignore
       commands:
-          - apprise --title="commspt-bot-avilla DEPLOY" --body="branch main has been deployed successfully." apprise://10.50.0.3:8988/telegram-commspt?tags=all
+          - /root/.local/bin/apprise --title="commspt-bot-avilla DEPLOY" --body="branch main has been deployed successfully." apprise://10.50.0.3:8988/telegram-commspt?tags=all
       when:
           status:
               - success
@@ -27,7 +27,7 @@ steps:
     - name: send message to telegram via apprise (error)
       failure: ignore
       commands:
-          - apprise --title="commspt-bot-avilla DEPLOY" --body="error while deploying! please check!" \ apprise://10.50.0.3:8988/telegram-commspt?tags=all
+          - /root/.local/bin/apprise --title="commspt-bot-avilla DEPLOY" --body="error while deploying! please check!" \ apprise://10.50.0.3:8988/telegram-commspt?tags=all
       when:
           status:
               - failure
