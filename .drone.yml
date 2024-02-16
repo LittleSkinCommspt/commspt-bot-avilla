@@ -16,8 +16,9 @@ clone:
 steps:
     - name: pull and deploy
       commands:
-          - su -c "cd /data/commspt-bot-avilla/ && proxychains4 -q git pull origin main" ubuntu
-          - docker restart commspt-bot-avilla
+          - cd /data/commspt-bot-avilla/ && proxychains4 -q git pull origin main
+          - docker kill commspt-bot-avilla
+          - docker start commspt-bot-avilla
 
     - name: send message to telegram via apprise (success)
       failure: ignore
