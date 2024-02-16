@@ -2,10 +2,6 @@ kind: pipeline
 type: exec
 name: deploy
 
-platform:
-    os: linux
-    arch: arm64
-
 trigger:
     branch:
         - main
