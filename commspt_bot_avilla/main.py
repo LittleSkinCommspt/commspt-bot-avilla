@@ -7,7 +7,7 @@ from graia.broadcast import Broadcast
 from graia.saya import Saya
 from graia.saya.builtins.broadcast import BroadcastBehaviour
 from loguru import logger
-from utils.setting_manager import S_
+from commspt_bot_avilla.utils.setting_manager import S_
 from rich.markdown import Markdown
 
 richuru.install()
