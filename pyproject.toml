@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "commspt-bot-avilla"
-version = "0.1.0"
+version = "0.1.1"
 description = ""
 authors = ["SerinaNya <34389622+SerinaNya@users.noreply.github.com>"]
 readme = "README.md"
@@ -21,6 +21,7 @@ motor = "^3.3.2"
 httpx = {extras = ["http2", "socks"], version = "^0.26.0"}
 email-validator = "^2.1.0.post1"
 arclet-alconna-avilla = "^0.17.3"
+avilla-onebot-v11 = "^1.0.0a25"
 
 
 [[tool.poetry.source]]

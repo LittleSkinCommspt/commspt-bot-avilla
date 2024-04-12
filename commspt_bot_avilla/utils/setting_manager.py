@@ -13,9 +13,7 @@ class DefinedQQ(BaseModel):
 
 
 class Connection(BaseModel):
-    qq: int
-    host: str
-    port: int
+    endpoint: str
     access_token: str
 
 

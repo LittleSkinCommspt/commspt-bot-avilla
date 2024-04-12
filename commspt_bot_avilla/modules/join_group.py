@@ -15,7 +15,8 @@ from commspt_bot_avilla.utils.random_sleep import random_sleep
     .dispatch(RequestReceived)
     .all(
         [
-            lambda e: e.request.request_type == "elizabeth::member_join",
+            lambda e: e.request.request_type
+            in ["onebot11::group.add", "onebot11::group.invite"],
             lambda e: from_groups_preset_general()(e.context.scene),
         ]
     )
@@ -27,7 +28,9 @@ async def member_join_request(ctx: Context, event: RequestReceived):
         return
 
     answer = req.message.splitlines()[-1].lstrip("答案：")
-    logger.info(f"Event member_join was received. {applicant} : {answer}")
+    logger.info(
+        f"Member Join Request Event {req.request_type} was received. {applicant} : {answer}"
+    )
 
     if not answer.isdecimal():  # UID 应为十进制纯数字
         return
@@ -42,11 +45,15 @@ async def member_join_request(ctx: Context, event: RequestReceived):
             # ok: pass verification
             await UIDMapping(uid=uid, qq=applicant, qmail_verified=True).update()
             await req.accept()
-            logger.info(f"Event member_join was accepted. {applicant} : {answer}")
+            logger.info(
+                f"Member Join Request Event {req.request_type} was accepted. {applicant} : {answer}"
+            )
             return
 
     # failed: not pass verification
-    logger.info(f"Event member_join was ignored. {applicant} : {answer}")
+    logger.info(
+        f"Member Join Request Event {req.request_type} was ignored. {applicant} : {answer}"
+    )
     await UIDMapping(uid=uid, qq=applicant).update()
 
 
@@ -61,12 +68,12 @@ async def member_join_request(ctx: Context, event: RequestReceived):
     )
 )
 async def member_join_welcome(ctx: Context, event: MemberCreated):
-    message = [Notice(ctx.client), "  "]
+    message = [Notice(ctx.client), "\n"]
 
     # add UID info
     if uid_mapping := await UIDMapping.fetch(qq=int(ctx.client["member"])):
         message.append(
-            f"UID:{uid_mapping.uid} {'✅' if uid_mapping.qmail_verified else '❔'}"
+            f"UID:{uid_mapping.uid} QMAIL:{'✅' if uid_mapping.qmail_verified else '❔'}"
         )
 
     # add join announcement
