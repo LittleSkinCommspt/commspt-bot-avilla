@@ -9,7 +9,7 @@ readme = "README.md"
 python = "^3.12"
 avilla-core = "^1.0.0a24"
 avilla-console = "^0.2.0"
-avilla-elizabeth = "^1.0.0a26"
+avilla-elizabeth = "^1.0.0a29"
 pydantic = "^2.5.3"
 loguru = "^0.7.2"
 arclet-alconna = {extras = ["full"], version = "^1.7.42"}
@@ -26,7 +26,7 @@ arclet-alconna-avilla = "^0.17.3"
 [[tool.poetry.source]]
 name = "mirrors"
 url = "https://mirror.sjtu.edu.cn/pypi/web/simple"
-priority = "default"
+priority = "primary"
 
 [build-system]
 requires = ["poetry-core"]
