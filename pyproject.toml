@@ -1,37 +1,43 @@
-[tool.poetry]
+[project]
+authors = [
+    { name = "SerinaNya", email = "34389622+SerinaNya@users.noreply.github.com" },
+]
+requires-python = "<4.0,>=3.12"
+dependencies = [
+    "avilla-core<2.0.0,>=1.0.0a24",
+    "avilla-console<1.0.0,>=0.2.0",
+    "avilla-elizabeth<2.0.0,>=1.0.0a29",
+    "pydantic<3.0.0,>=2.5.3",
+    "loguru<1.0.0,>=0.7.2",
+    "arclet-alconna[full]<2.0.0,>=1.7.42",
+    "pygtrie<3.0.0,>=2.5.0",
+    "graia-saya<1.0.0,>=0.0.19",
+    "richuru<1.0.0,>=0.1.1",
+    "pyyaml<7.0.0,>=6.0.1",
+    "motor<4.0.0,>=3.3.2",
+    "httpx[http2,socks]<1.0.0,>=0.26.0",
+    "email-validator<3.0.0.0,>=2.1.0.post1",
+    "arclet-alconna-avilla<1.0.0,>=0.17.3",
+    "avilla-onebot-v11<2.0.0,>=1.0.0a25",
+    "yggdrasil-mc<1.0.0,>=0.2.3",
+]
 name = "commspt-bot-avilla"
 version = "0.1.1"
 description = ""
-authors = ["SerinaNya <34389622+SerinaNya@users.noreply.github.com>"]
 readme = "README.md"
 
-[tool.poetry.dependencies]
-python = "^3.12"
-avilla-core = "^1.0.0a24"
-avilla-console = "^0.2.0"
-avilla-elizabeth = "^1.0.0a29"
-pydantic = "^2.5.3"
-loguru = "^0.7.2"
-arclet-alconna = {extras = ["full"], version = "^1.7.42"}
-pygtrie = "^2.5.0"
-graia-saya = "^0.0.19"
-richuru = "^0.1.1"
-pyyaml = "^6.0.1"
-motor = "^3.3.2"
-httpx = {extras = ["http2", "socks"], version = "^0.26.0"}
-email-validator = "^2.1.0.post1"
-arclet-alconna-avilla = "^0.17.3"
-avilla-onebot-v11 = "^1.0.0a25"
-
-
-[[tool.poetry.source]]
-name = "mirrors"
-url = "https://mirror.sjtu.edu.cn/pypi/web/simple"
-priority = "primary"
+[project.scripts]
+start-bot = "commspt_bot_avilla.main:main"
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
 
-[tool.poetry.scripts]
-start-bot = "commspt_bot_avilla.main:main"
+[tool.pdm]
+[tool.pdm.build]
+includes = []
+
+[[tool.pdm.source]]
+name = "mirrors"
+url = "https://mirror.sjtu.edu.cn/pypi/web/simple"
+verify_ssl = true

@@ -5,15 +5,15 @@ LABEL org.opencontainers.image.url=https://github.com/LittleSkinCommspt/commspt-
 
 WORKDIR /app
 
-COPY poetry.lock ./poetry.lock
+COPY pdm.lock ./pdm.lock
 COPY pyproject.toml ./pyproject.toml
 
-ENV POETRY_HOME=/opt/poetry
-    
+ENV PDM_HOME=/opt/pdm
+
 RUN pip config set global.index-url https://mirror.sjtu.edu.cn/pypi/web/simple && \
-    python3 -m venv $POETRY_HOME && \
-    $POETRY_HOME/bin/pip install poetry
+    python3 -m venv $PDM_HOME && \
+    $PDM_HOME/bin/pip install pdm
 
-RUN $POETRY_HOME/bin/poetry install --no-interaction
+RUN $POETRY_HOME/bin/pdm install
 
-CMD $POETRY_HOME/bin/poetry run start-bot
+CMD $POETRY_HOME/bin/pdm run start-bot
