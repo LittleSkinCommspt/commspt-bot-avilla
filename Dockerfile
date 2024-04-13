@@ -7,6 +7,7 @@ WORKDIR /app
 
 COPY pdm.lock ./pdm.lock
 COPY pyproject.toml ./pyproject.toml
+COPY README.md ./README.md
 
 ENV PDM_HOME=/opt/pdm
 
