@@ -38,6 +38,6 @@ build-backend = "pdm.backend"
 includes = []
 
 [[tool.pdm.source]]
-name = "mirrors"
+name = "pypi"
 url = "https://mirror.sjtu.edu.cn/pypi/web/simple"
 verify_ssl = true

@@ -17,7 +17,7 @@ steps:
     - name: deploy
       commands:
           - docker pull registry1.serinanya.5050net/library/commspt-bot-avilla:latest
-          - docker run -v /data/commspt-bot-avilla:/app --rm registry1.serinanya.5050net/library/commspt-bot-avilla:latest /opt/pdm/bin/pdm sync --prod --clean
+          - docker run -v /data/commspt-bot-avilla:/app --rm registry1.serinanya.5050net/library/commspt-bot-avilla:latest /opt/pdm/bin/pdm install --prod
           - docker kill commspt-bot-avilla
           - docker start commspt-bot-avilla
 
