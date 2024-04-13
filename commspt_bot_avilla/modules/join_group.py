@@ -24,7 +24,7 @@ from commspt_bot_avilla.utils.setting_manager import S_
 )
 async def member_join_request(ctx: Context, event: RequestEvent):
     req = event.request
-    applicant = int(req.sender["contact"])
+    applicant = int(ctx.client.user)
     if not req.message:
         return
 
@@ -78,10 +78,10 @@ async def member_join_request(ctx: Context, event: RequestEvent):
     )
 )
 async def member_join_welcome(ctx: Context, event: SceneCreated):
-    message = [Notice(ctx.client), "\n"]
+    message = [Notice(event.context.endpoint), "\n"]
 
     # add UID info
-    if uid_mapping := await UIDMapping.fetch(qq=int(ctx.client["member"])):
+    if uid_mapping := await UIDMapping.fetch(qq=int(event.context.endpoint)):
         message.append(
             f"UID:{uid_mapping.uid} QMAIL:{'✅' if uid_mapping.qmail_verified else '❔'}"
         )
