@@ -81,3 +81,30 @@ register(
 https://ln.putton.net/bH3
 """,
 )
+
+register(
+    r"%manual",
+    [
+        Picture("assets/rtfm.png"),
+        """请仔细阅读 LittleSkin 用户使用手册，特别是「常见问题解答」！
+https://manual.littlesk.in/
+""",
+    ],
+)
+
+register(
+    r"%pro_verify",
+    """目前在 LittleSkin 验证正版后有以下功能：
+· 在主页上获得一个「正版」（英文为「Pro」）徽标
+· 赠送您 1k 积分；
+· 在皮肤站内取回您的正版 ID 对应的角色（如果您的 ID 已被人抢注）。
+请注意，正版验证完成后，您的 LittleSkin 外置登录账号并不具备正版的属性，性质 **仍为离线账号**，您无法将 LittleSkin 外置登录账号代替正版账号使用。
+""",
+)
+
+register(
+    r"%ygg.online",
+    """如果服务器未开启「正版验证」则所有登录方式都会被服务器视为离线模式处理
+即服务器自行生成 UUID，且不会向验证服务器（皮肤站 / 正版）获取材质
+""",
+)
