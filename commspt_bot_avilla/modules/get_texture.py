@@ -2,16 +2,15 @@ from uuid import UUID
 
 from avilla.core.builtins.command import AvillaCommands
 from avilla.core import Context, Message, Notice
-from avilla
 
 from yggdrasil_mc.client import YggdrasilMC
-from yggdrasil_mc.models import 
 
 # region utils
 LS_YGG = YggdrasilMC("https://littleskin.cn/api/yggdrasil")
 # endregion
 
 cmd = AvillaCommands(need_tome=False, remove_tome=False)
+
 
 @cmd.on(r"%ygg {player_name: str}")
 async def cmd_ygg(cx: Context, target: Notice, message: Message, player_name: str):
