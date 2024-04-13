@@ -1,4 +1,4 @@
-from avilla.core import Context, MemberCreated, Notice, RequestReceived
+from avilla.core import Context, SceneCreated, Notice, RequestEvent
 from avilla.core.tools.filter import Filter
 from graia.saya.builtins.broadcast.shortcut import dispatch, listen
 from loguru import logger
@@ -9,10 +9,10 @@ from commspt_bot_avilla.utils.adv_filter import from_groups_preset_general
 from commspt_bot_avilla.utils.random_sleep import random_sleep
 
 
-@listen(RequestReceived)
+@listen(RequestEvent)
 @dispatch(
     Filter()
-    .dispatch(RequestReceived)
+    .dispatch(RequestEvent)
     .all(
         [
             lambda e: e.request.request_type
@@ -21,7 +21,7 @@ from commspt_bot_avilla.utils.random_sleep import random_sleep
         ]
     )
 )
-async def member_join_request(ctx: Context, event: RequestReceived):
+async def member_join_request(ctx: Context, event: RequestEvent):
     req = event.request
     applicant = int(req.sender["contact"])
     if not req.message:
@@ -57,17 +57,17 @@ async def member_join_request(ctx: Context, event: RequestReceived):
     await UIDMapping(uid=uid, qq=applicant).update()
 
 
-@listen(MemberCreated)
+@listen(SceneCreated)
 @dispatch(
     Filter()
-    .dispatch(MemberCreated)
+    .dispatch(SceneCreated)
     .all(
         [
             lambda e: from_groups_preset_general()(e.context.scene),
         ]
     )
 )
-async def member_join_welcome(ctx: Context, event: MemberCreated):
+async def member_join_welcome(ctx: Context, event: SceneCreated):
     message = [Notice(ctx.client), "\n"]
 
     # add UID info
