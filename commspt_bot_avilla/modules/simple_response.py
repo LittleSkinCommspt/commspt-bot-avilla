@@ -71,14 +71,14 @@ register(
 register(
     r"%pay",
     """在群里和大佬吹牛逼帮助不了你的问题？
-https://afdian.net/@tnqzh123
+https://afdian.net/a/tnqzh123
 买一对一帮助服务即可快速解决你的问题！""",
 )
 
 register(
     r"%csl.config",
     """若安装了 CustomSkinLoader 后无法正确加载皮肤，可能是当前角色名被同名正版优先加载，可通过以下方法手动修改 CustomSkinLoader 的加载顺序：
-https://ln.putton.net/bH""",
+https://manual-ng.littlesk.in/newbee/mod#edit-csl-config""",
 )
 
 register(
@@ -86,17 +86,19 @@ register(
     [
         Picture("assets/rtfm.png"),
         """请仔细阅读 LittleSkin 用户使用手册，特别是「常见问题解答」！
-https://manual.littlesk.in/""",
+https://manual-ng.littlesk.in/""",
     ],
 )
 
 register(
     r"%pro_verify",
-    """目前在 LittleSkin 验证正版后有以下功能：
+    """目前在 LittleSkin 验证正版后会产生如下影响：
 · 在主页上获得一个「正版」（英文为「Pro」）徽标
-· 赠送您 1k 积分；
+· 赠送您 1000 积分；
 · 在皮肤站内取回您的正版 ID 对应的角色（如果您的 ID 已被人抢注）。
-请注意，正版验证完成后，您的 LittleSkin 外置登录账号并不具备正版的属性，性质 **仍为离线账号**，您无法将 LittleSkin 外置登录账号代替正版账号使用。""",
+
+请注意，无论是否进行正版验证，您的 LittleSkin 外置登录账号始终不具备正版的属性，性质 **仍为离线账号**。
+您无法将 LittleSkin 外置登录账号代替正版账号使用。""",
 )
 
 register(
