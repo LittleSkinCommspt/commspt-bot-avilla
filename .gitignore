@@ -163,3 +163,4 @@ cython_debug/
 # custom
 .join-announcement.txt
 .config.yaml
+.pdm-python
