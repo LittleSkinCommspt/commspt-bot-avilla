@@ -10,9 +10,13 @@ clone:
     disable: true
 
 steps:
-    - name: pull and deploy
+    - name: pull
       commands:
           - cd /data/commspt-bot-avilla/ && proxychains4 -q git pull origin main
+
+    - name: deploy
+      commands:
+          - docker run -v /data/commspt-bot-avilla:/app --rm -it registry1.serinanya.5050net/library/commspt-bot-avilla:latest /opt/pdm/bin/pdm sync --prod --clean
           - docker kill commspt-bot-avilla
           - docker start commspt-bot-avilla
 

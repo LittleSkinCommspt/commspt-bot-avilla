@@ -11,10 +11,4 @@ RUN pip config set global.index-url https://mirror.sjtu.edu.cn/pypi/web/simple &
     python3 -m venv $PDM_HOME && \
     $PDM_HOME/bin/pip install pdm
 
-COPY pdm.lock ./pdm.lock
-COPY pyproject.toml ./pyproject.toml
-COPY README.md ./README.md
-
-RUN $PDM_HOME/bin/pdm install
-
 CMD $PDM_HOME/bin/pdm run start-bot
