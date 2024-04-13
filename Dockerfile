@@ -12,7 +12,7 @@ ENV POETRY_HOME=/opt/poetry
     
 RUN pip config set global.index-url https://mirror.sjtu.edu.cn/pypi/web/simple && \
     python3 -m venv $POETRY_HOME && \
-    $POETRY_HOME/bin/pip install poetry==1.7.0
+    $POETRY_HOME/bin/pip install poetry
 
 RUN $POETRY_HOME/bin/poetry install --no-interaction
 
