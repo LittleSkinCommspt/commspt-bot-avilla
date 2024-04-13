@@ -164,3 +164,4 @@ cython_debug/
 .join-announcement.txt
 .config.yaml
 .pdm-python
+typings/
