@@ -7,6 +7,7 @@ from commspt_bot_avilla.models.littleskin_api import LittleSkinUser
 from commspt_bot_avilla.models.mongodb_data import UIDMapping
 from commspt_bot_avilla.utils.adv_filter import from_groups_preset_general
 from commspt_bot_avilla.utils.random_sleep import random_sleep
+from commspt_bot_avilla.utils.setting_manager import S_
 
 
 @listen(RequestEvent)
@@ -31,6 +32,9 @@ async def member_join_request(ctx: Context, event: RequestEvent):
     logger.info(
         f"Member Join Request Event {req.request_type} was received. {applicant} : {answer}"
     )
+    await ctx.scene.into(f"::group({S_.defined_qq.commspt_group})").send_message(
+        f"新的入群申请待处理\n$ {applicant} : {answer}"
+    )
 
     if not answer.isdecimal():  # UID 应为十进制纯数字
         return
@@ -45,6 +49,12 @@ async def member_join_request(ctx: Context, event: RequestEvent):
             # ok: pass verification
             await UIDMapping(uid=uid, qq=applicant, qmail_verified=True).update()
             await req.accept()
+
+            await random_sleep(1)
+
+            await ctx.scene.into(
+                f"::group({S_.defined_qq.commspt_group})"
+            ).send_message("👆 已同意，因为 QMAIL API 验证通过")
             logger.info(
                 f"Member Join Request Event {req.request_type} was accepted. {applicant} : {answer}"
             )
