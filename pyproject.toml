@@ -26,8 +26,8 @@ version = "0.1.1"
 description = ""
 readme = "README.md"
 
-[project.scripts]
-start-bot = "commspt_bot_avilla.main:main"
+[tool.pdm.scripts.start-bot]
+call = "commspt_bot_avilla.main:main"
 
 [build-system]
 requires = ["pdm-backend"]
