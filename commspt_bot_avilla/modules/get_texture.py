@@ -19,7 +19,7 @@ default_dispatchers = [
 cmd = AvillaCommands(need_tome=False, remove_tome=False)
 
 
-@cmd.on(r"%ygg {player_name: str}", dispatchers=default_dispatchers)
+@cmd.on(r"%ygg {player_name:str}", dispatchers=default_dispatchers)
 async def cmd_ygg(cx: Context, target: Notice, message: Message, player_name: str):
     try:
         player = await LS_YGG.by_name_async(player_name)
