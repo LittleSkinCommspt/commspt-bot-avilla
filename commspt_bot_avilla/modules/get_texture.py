@@ -2,17 +2,24 @@ from uuid import UUID
 
 from avilla.core.builtins.command import AvillaCommands
 from avilla.core import Context, Message, Notice
+from avilla.core.tools.filter import Filter
 
 from yggdrasil_mc.client import YggdrasilMC
+
+from commspt_bot_avilla.utils.adv_filter import from_groups_preset_general
 
 # region utils
 LS_YGG = YggdrasilMC("https://littleskin.cn/api/yggdrasil")
 # endregion
 
+default_dispatchers = [
+    Filter.cx.client.all([from_groups_preset_general()]),
+]
+
 cmd = AvillaCommands(need_tome=False, remove_tome=False)
 
 
-@cmd.on(r"%ygg {player_name: str}")
+@cmd.on(r"%ygg {player_name: str}", dispatchers=default_dispatchers)
 async def cmd_ygg(cx: Context, target: Notice, message: Message, player_name: str):
     try:
         player = await LS_YGG.by_name_async(player_name)
