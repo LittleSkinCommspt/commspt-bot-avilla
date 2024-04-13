@@ -1,4 +1,4 @@
-from avilla.core import Context, SceneCreated, Notice, RequestEvent
+from avilla.core import Context, Notice, RequestEvent, SceneCreated
 from avilla.core.tools.filter import Filter
 from graia.saya.builtins.broadcast.shortcut import dispatch, listen
 from loguru import logger
@@ -24,16 +24,16 @@ from commspt_bot_avilla.utils.setting_manager import S_
 )
 async def member_join_request(ctx: Context, event: RequestEvent):
     req = event.request
-    applicant = int(ctx.client.user)
+    applicant = int(req.sender["user"])
     if not req.message:
         return
 
     answer = req.message.splitlines()[-1].lstrip("答案：")
     logger.info(
-        f"Member Join Request Event {req.request_type} was received. {applicant} : {answer}"
+        f"Member Join Request Event {req.request_type} id={req.id} was received. {applicant} : {answer}"
     )
     await ctx.scene.into(f"::group({S_.defined_qq.commspt_group})").send_message(
-        f"新的入群申请待处理\n$ {applicant} : {answer}"
+        f"新的入群申请待处理\n${applicant} > {answer}\n\n{req.id=}\n{req.request_type=}"
     )
 
     if not answer.isdecimal():  # UID 应为十进制纯数字
@@ -78,12 +78,12 @@ async def member_join_request(ctx: Context, event: RequestEvent):
     )
 )
 async def member_join_welcome(ctx: Context, event: SceneCreated):
-    message = [Notice(event.context.endpoint), "\n"]
+    message = [Notice(event.context.endpoint), " "]
 
     # add UID info
-    if uid_mapping := await UIDMapping.fetch(qq=int(event.context.endpoint)):
+    if uid_mapping := await UIDMapping.fetch(qq=int(event.context.endpoint.user)):
         message.append(
-            f"UID:{uid_mapping.uid} QMAIL:{'✅' if uid_mapping.qmail_verified else '❔'}"
+            f"UID:{uid_mapping.uid} QMAIL:{'✅' if uid_mapping.qmail_verified else '❔'}\n"
         )
 
     # add join announcement
