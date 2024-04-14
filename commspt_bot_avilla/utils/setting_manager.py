@@ -40,6 +40,7 @@ class Setting(BaseModel):
     dev_mode: bool
     admin_list: list[int]
     littleskin_admin_token: str
+    littleskin_origin_domain: str
 
 
 S_ = Setting(**yaml.load(open(".config.yaml", "r"), Loader=yaml.CBaseLoader))
