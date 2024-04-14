@@ -5,7 +5,7 @@
 groups = ["default"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.1"
-content_hash = "sha256:0bb2c25464688c10ab6ed083f1a78d9e3c5c3bead327e814077cba989e151608"
+content_hash = "sha256:efd78fbfa9f479b85ffd09c177ddaafabc503b1fccdeaffbed0debe2417d7466"
 
 [[package]]
 name = "aiohttp"
@@ -190,7 +190,7 @@ files = [
 
 [[package]]
 name = "avilla-core"
-version = "1.0.0a25"
+version = "1.0.0a26"
 requires_python = ">=3.9"
 summary = ""
 groups = ["default"]
@@ -202,43 +202,27 @@ dependencies = [
     "loguru>=0.6.0",
 ]
 files = [
-    {file = "avilla_core-1.0.0a25-py3-none-any.whl", hash = "sha256:a1def50639bdeb41672684921c715fdd083d5cc8701430db7cef637e848dcd04"},
-    {file = "avilla_core-1.0.0a25.tar.gz", hash = "sha256:ef5b5d89aae050818a86c2e07e04fbf33f85b1c61c17996fc1a546c4a5fbec82"},
-]
-
-[[package]]
-name = "avilla-elizabeth"
-version = "1.0.0a30"
-requires_python = ">=3.9"
-summary = ""
-groups = ["default"]
-dependencies = [
-    "aiohttp>=3.8.1",
-    "avilla-core>=1.0.0a25",
-    "avilla-standard-qq>=1.0.0a21",
-]
-files = [
-    {file = "avilla_elizabeth-1.0.0a30-py3-none-any.whl", hash = "sha256:b3ee19ff272c10c0fe64283bd3f02f15a5117f99fa7681b6433c84f48b0325bd"},
-    {file = "avilla_elizabeth-1.0.0a30.tar.gz", hash = "sha256:b23be8b0de7a8eb86e1f0e4d5dd446a5846edbd80f61dda83827436d5b8fb491"},
+    {file = "avilla_core-1.0.0a26-py3-none-any.whl", hash = "sha256:a7098c24d227dce527d1be3803e85dbaa222d8ade62b614042e006ff6c097b55"},
+    {file = "avilla_core-1.0.0a26.tar.gz", hash = "sha256:d18f38838d72198e0e58b2b455879856c161ee47887610708bed4bc8428a3cf9"},
 ]
 
 [[package]]
 name = "avilla-onebot-v11"
-version = "1.0.0a25"
+version = "1.0.0a26"
 requires_python = ">=3.9"
 summary = ""
 groups = ["default"]
 dependencies = [
     "aiohttp>=3.8.1",
-    "avilla-core>=1.0.0a24",
+    "avilla-core>=1.0.0a26",
     "avilla-standard-qq>=1.0.0a21",
     "graia-amnesia[asgi]>=0.9.0",
     "starlette>=0.34.0",
     "wsproto>=1.2.0",
 ]
 files = [
-    {file = "avilla_onebot_v11-1.0.0a25-py3-none-any.whl", hash = "sha256:be63cb63f36cd4039fbacf1cb8e65e13c9bb27e8eb53817d52885e4345d1f2ab"},
-    {file = "avilla_onebot_v11-1.0.0a25.tar.gz", hash = "sha256:6c2634d215e44536f8713afc329b9a79e157b535efa245cc71405a44b18a1a67"},
+    {file = "avilla_onebot_v11-1.0.0a26-py3-none-any.whl", hash = "sha256:a4134b6da6c5b26316194e52c900c9ad09bdad4d35e89aa119b3e3c08cf426f2"},
+    {file = "avilla_onebot_v11-1.0.0a26.tar.gz", hash = "sha256:d3a3fbbd5d2d1a9d1730f245dfcade4777916cf8123addfda90e01d893396754"},
 ]
 
 [[package]]

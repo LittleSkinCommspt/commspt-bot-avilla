@@ -1,25 +1,26 @@
 [project]
 authors = [
     { name = "SerinaNya", email = "34389622+SerinaNya@users.noreply.github.com" },
+    { name = "XieXiLin", email = "support@xiexilin.com" },
+    { name = "FalfaChino", email = "falfachino@qq.com" },
 ]
 requires-python = "<4.0,>=3.12"
 dependencies = [
     "avilla-core<2.0.0,>=1.0.0a24",
     "avilla-console<1.0.0,>=0.2.0",
-    "avilla-elizabeth<2.0.0,>=1.0.0a29",
+    "avilla-onebot-v11>=1.0.0a26",
+    "arclet-alconna[full]<2.0.0,>=1.7.42",
+    "arclet-alconna-avilla<1.0.0,>=0.17.3",
+    "graia-saya<1.0.0,>=0.0.19",
     "pydantic<3.0.0,>=2.5.3",
     "loguru<1.0.0,>=0.7.2",
-    "arclet-alconna[full]<2.0.0,>=1.7.42",
     "pygtrie<3.0.0,>=2.5.0",
-    "graia-saya<1.0.0,>=0.0.19",
     "richuru<1.0.0,>=0.1.1",
     "pyyaml<7.0.0,>=6.0.1",
     "motor<4.0.0,>=3.3.2",
     "httpx[http2,socks]<1.0.0,>=0.26.0",
     "email-validator<3.0.0.0,>=2.1.0.post1",
-    "arclet-alconna-avilla<1.0.0,>=0.17.3",
-    "avilla-onebot-v11<2.0.0,>=1.0.0a25",
-    "yggdrasil-mc<1.0.0,>=0.2.3",
+    "yggdrasil-mc<0.3.0,>=0.2.3",
 ]
 name = "commspt-bot-avilla"
 version = "0.1.1"
