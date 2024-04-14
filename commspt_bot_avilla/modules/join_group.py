@@ -42,7 +42,7 @@ async def member_join_request(ctx: Context, event: RequestEvent):
     await ctx.scene.into(f"::group({S_.defined_qq.commspt_group})").send_message(
         f"""新的入群申请待处理
 👉 申请人 {applicant}
-👉 答案    {answer}
+👉 答案     {answer}
 
 id={req.id}"""
     )
