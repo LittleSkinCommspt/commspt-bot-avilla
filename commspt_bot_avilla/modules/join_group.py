@@ -117,10 +117,10 @@ async def member_join_welcome(ctx: Context, event: SceneCreated):
 
     # add UID info
     if uid_mapping := await UIDMapping.fetch(qq=int(event.context.endpoint.user)):
-        welcome_msg.append(f"UID:{uid_mapping.uid}  ")
-        nofi_msg.append(f"UID:{uid_mapping.uid}")
+        welcome_msg.append(f"UID: {uid_mapping.uid}  ")
+        nofi_msg.append(f"UID: {uid_mapping.uid}")
         nofi_msg.append(
-            f"QMAIL{'✅一致性校验通过' if uid_mapping.qmail_verified else '❔'}"
+            f"QMAIL {'✅一致性校验通过' if uid_mapping.qmail_verified else '❔'}"
         )
 
     # add LTSK email verification status (only noti)
