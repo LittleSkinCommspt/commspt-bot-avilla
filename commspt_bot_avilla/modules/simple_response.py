@@ -51,6 +51,7 @@ logger.info("registering simple response...")
 
 register(r"%ping", "在", reply=True)
 
+# region ot
 register(
     r"%cafe",
     [
@@ -58,7 +59,9 @@ register(
         "本群不允许闲聊，可以加入 Honoka Café 和大家一起水群。群号：651672723。",
     ],
 )
+# endregion
 
+# region log
 register(r"%browser", Picture("assets/images/browser.png"), reply=True)
 
 register(
@@ -71,17 +74,29 @@ register(
     "请使用启动器的「测试游戏」功能启动游戏，并在复现问题后导出日志发送至群内。如果问题与外置登录有关，请在启动器的「JVM 参数（Java 虚拟机参数）」设置中填入 -Dauthlibinjector.debug",
 )
 
+# region 过渡区
+register(
+    r"%csl.log",
+    "CustomSkinLoader 的日志位于 .minecraft/CustomSkinLoader/CustomSkinLoader.log，请将文件直接发送至群内。",
+)
+# endregion
+
+# endregion
+
+# region csl
+register(
+    r"%csl.config",
+    """若安装了 CustomSkinLoader 后无法正确加载皮肤，可能是当前角色名被同名正版优先加载，可通过以下方法手动修改 CustomSkinLoader 的加载顺序：
+https://manual-ng.littlesk.in/newbee/mod#edit-csl-config""",
+)
+# endregion
+
+# region other
 register(
     r"%pay",
     """在群里和大佬吹牛逼帮助不了你的问题？
 https://afdian.net/a/tnqzh123
 买一对一帮助服务即可快速解决你的问题！""",
-)
-
-register(
-    r"%csl.config",
-    """若安装了 CustomSkinLoader 后无法正确加载皮肤，可能是当前角色名被同名正版优先加载，可通过以下方法手动修改 CustomSkinLoader 的加载顺序：
-https://manual-ng.littlesk.in/newbee/mod#edit-csl-config""",
 )
 
 register(
@@ -106,13 +121,26 @@ register(
 
 register(
     r"%ygg.online_mode",
-    """如果服务器未开启「正版验证」则所有登录方式都会被服务器视为离线模式处理
-即服务器自行生成 UUID，且不会向验证服务器（皮肤站 / 正版）获取材质""",
+    """请确认服务器正确配置 authlib-injector 并将 online-mode 设为 true，否则请使用 CustomSkinLoader。
+如果服务器未开启「正版验证」则所有登录方式都会被服务器视为离线模式处理；
+即服务器自行生成 UUID，且不会向验证服务器（皮肤站 / 正版）获取材质。
+详细：https://manual.littlesk.in/advanced/yggdrasil.html""",
 )
 
-# region 过渡区
 register(
-    r"%csl.log",
-    "CustomSkinLoader 的日志位于 .minecraft/CustomSkinLoader/CustomSkinLoader.log，请将文件直接发送至群内。",
+    r"%cape_format",
+    """「不是有效的披风文件」
+LittleSkin 对于披风文件的格式要求如下：
+· png 格式文件；
+· 宽高比需为 2:1；
+· 为 64x32 的整倍数。""",
+)
+
+register(
+    r"%network",
+    """「登录失败：身份验证服务器目前正在停机维护」
+「无法验证用户名」
+「验证服务器他们宕了吗？」：
+玄学的网络问题会导致此情况的出现，请优先检查您的网络环境和使用的域名是否为 littleskin.cn，并在重启游戏后再次尝试登录。""",
 )
 # endregion
