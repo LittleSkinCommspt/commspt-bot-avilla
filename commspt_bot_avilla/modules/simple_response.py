@@ -59,7 +59,7 @@ register(
 register(r"%browser", Picture("assets/browser.png"), reply=True)
 
 register(
-    r"%log.csl",
+    r"%csl.log",
     "CustomSkinLoader 的日志位于 .minecraft/CustomSkinLoader/CustomSkinLoader.log，请将文件直接发送至群内。",
 )
 
