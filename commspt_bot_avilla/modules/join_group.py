@@ -50,7 +50,7 @@ id={req.id}"""
     if not answer.isdecimal():  # UID 应为十进制纯数字
         if req.request_type != "onebot11::group.invite":
             # 非邀请，正常流程应拒绝
-            await req.reject("UID应为纯数字，再仔细看看")
+            await req.reject("UID 应为纯数字，再仔细看看")
             await random_sleep(2)
             await ctx.scene.into(
                 f"::group({S_.defined_qq.commspt_group})"
@@ -123,7 +123,7 @@ async def member_join_welcome(ctx: Context, event: SceneCreated):
             f"QMAIL {'✅一致性校验通过' if uid_mapping.qmail_verified else '❔'}"
         )
 
-    # add LTSK email verification status (only noti)
+        # add LTSK email verification status (only noti)
         if ltsk_user := await LittleSkinUser.uid_info(uid_mapping.uid):
             nofi_msg.append(
                 f"邮箱验证 {'✅已验证' if ltsk_user.verified else f'❌未验证 ({ltsk_user.email})'}"
