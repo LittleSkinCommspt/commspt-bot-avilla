@@ -32,10 +32,27 @@ async def member_join_request(ctx: Context, event: RequestEvent):
         f"Member Join Request Event {req.request_type} id={req.id} was received. {applicant} > {answer}"
     )
     await ctx.scene.into(f"::group({S_.defined_qq.commspt_group})").send_message(
-        f"新的入群申请待处理\n${applicant} > {answer}\n\nreq={req.id}/{req.request_type.removeprefix('onebot11::group.')}"
+        f"""新的入群申请待处理
+👉 申请人\t{applicant} 
+👉 答案\t{answer}
+
+id={req.id}"""
     )
 
     if not answer.isdecimal():  # UID 应为十进制纯数字
+        if req.request_type != "onebot11::group.invite":
+            # 非邀请，正常流程应拒绝
+            await req.reject("UID应为纯数字，再仔细看看")
+            await random_sleep(2)
+            await ctx.scene.into(
+                f"::group({S_.defined_qq.commspt_group})"
+            ).send_message("👆 已拒绝，因为 UID 不是纯数字")
+        else:
+            # 邀请加群，可能身份特殊，不能直接拒绝
+            await random_sleep()
+            await ctx.scene.into(
+                f"::group({S_.defined_qq.commspt_group})"
+            ).send_message("👆 虽然填写的 UID 不是纯数字，但是此请求为邀请加群，请手动处理")
         return
 
     uid = int(answer)
@@ -51,7 +68,7 @@ async def member_join_request(ctx: Context, event: RequestEvent):
                 f"Member Join Request Event {req.request_type} was accepted. (QMAIL PASS) {applicant} > {answer}"
             )
             await req.accept()
-            await random_sleep(1)
+            await random_sleep()
             await ctx.scene.into(
                 f"::group({S_.defined_qq.commspt_group})"
             ).send_message("👆 已同意，因为 QMAIL API 验证通过")
@@ -64,7 +81,7 @@ async def member_join_request(ctx: Context, event: RequestEvent):
             f"Member Join Request Event {req.request_type} was rejected. (UID NOT EXISTS) {applicant} > {answer}"
         )
         await req.reject("UID有误，再仔细看看")
-        await random_sleep(1)
+        await random_sleep()
         await ctx.scene.into(f"::group({S_.defined_qq.commspt_group})").send_message(
             "👆 已拒绝，因为这个 UID 根本不存在"
         )
