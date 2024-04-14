@@ -1,11 +1,19 @@
-from avilla.core import Context, Notice, RequestEvent, SceneCreated
+from typing import Literal, Optional
+
+from arclet.alconna import Alconna, Args
+from arclet.alconna.graia import Match, alcommand
+from avilla.core import Context, Message, Notice, RequestEvent, SceneCreated, Selector
+from avilla.core.elements import Reference
 from avilla.core.tools.filter import Filter
 from graia.saya.builtins.broadcast.shortcut import dispatch, listen
 from loguru import logger
 
 from commspt_bot_avilla.models.littleskin_api import LittleSkinUser
 from commspt_bot_avilla.models.mongodb_data import UIDMapping
-from commspt_bot_avilla.utils.adv_filter import dispatcher_from_preset_general
+from commspt_bot_avilla.utils.adv_filter import (
+    dispatcher_from_preset_general,
+    dispather_by_admin_only,
+)
 from commspt_bot_avilla.utils.random_sleep import random_sleep
 from commspt_bot_avilla.utils.setting_manager import S_
 
@@ -33,8 +41,8 @@ async def member_join_request(ctx: Context, event: RequestEvent):
     )
     await ctx.scene.into(f"::group({S_.defined_qq.commspt_group})").send_message(
         f"""新的入群申请待处理
-👉 申请人\t{applicant} 
-👉 答案\t{answer}
+👉 申请人 {applicant}
+👉 答案   {answer}
 
 id={req.id}"""
     )
@@ -52,7 +60,9 @@ id={req.id}"""
             await random_sleep()
             await ctx.scene.into(
                 f"::group({S_.defined_qq.commspt_group})"
-            ).send_message("👆 虽然填写的 UID 不是纯数字，但是此请求为邀请加群，请手动处理")
+            ).send_message(
+                "👆 虽然填写的 UID 不是纯数字，但是此请求为邀请加群，请手动处理"
+            )
         return
 
     uid = int(answer)
@@ -103,7 +113,7 @@ id={req.id}"""
 @dispatcher_from_preset_general
 async def member_join_welcome(ctx: Context, event: SceneCreated):
     welcome_msg = [Notice(event.context.endpoint), " "]
-    nofi_msg = [f"用户已入群 > {event.context.endpoint.user}\n"]
+    nofi_msg = [f"用户已入群 > {event.context.endpoint.user}"]
 
     # add UID info
     if uid_mapping := await UIDMapping.fetch(qq=int(event.context.endpoint.user)):
@@ -121,7 +131,7 @@ async def member_join_welcome(ctx: Context, event: SceneCreated):
 
     # send noti to commspt group
     await ctx.scene.into(f"::group({S_.defined_qq.commspt_group})").send_message(
-        "".join(nofi_msg)
+        "\n".join(nofi_msg)
     )
 
     # add join announcement
@@ -135,3 +145,28 @@ async def member_join_welcome(ctx: Context, event: SceneCreated):
 
 
 # endregion
+
+
+# disabled for now
+@alcommand(
+    Alconna(
+        r"do join",
+        Args["action", Literal["accpet", "reject"]]["reason", Optional[str], None],
+    )
+)
+@dispatcher_from_preset_general
+@dispather_by_admin_only
+async def do_join_action(
+    ctx: Context,
+    message: Message,
+    action: Match[Literal["accpet", "reject"]],
+    reason: Match[Optional[str]],
+):
+    ref = message.content.get_first(Reference).message
+    scene = Selector().land("qq").user()
+    match action.result:
+        case "accept":
+            await ctx.accept()
+        case "reject":
+            await ctx.reject()
+    ...
