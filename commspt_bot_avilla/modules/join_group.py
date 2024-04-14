@@ -124,10 +124,10 @@ async def member_join_welcome(ctx: Context, event: SceneCreated):
         )
 
     # add LTSK email verification status (only noti)
-    if ltsk_user := await LittleSkinUser.uid_info(int(event.context.endpoint.user)):
-        nofi_msg.append(
-            f"邮箱验证 {'✅已验证' if ltsk_user.verified else f'❌未验证 ({ltsk_user.email})'}"
-        )
+        if ltsk_user := await LittleSkinUser.uid_info(uid_mapping.uid):
+            nofi_msg.append(
+                f"邮箱验证 {'✅已验证' if ltsk_user.verified else f'❌未验证 ({ltsk_user.email})'}"
+            )
 
     # send noti to commspt group
     await ctx.scene.into(f"::group({S_.defined_qq.commspt_group})").send_message(
