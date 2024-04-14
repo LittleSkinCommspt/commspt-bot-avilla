@@ -21,6 +21,8 @@ dependencies = [
     "httpx[http2,socks]<1.0.0,>=0.26.0",
     "email-validator<3.0.0.0,>=2.1.0.post1",
     "yggdrasil-mc<0.3.0,>=0.2.3",
+    "pillow>=10.3.0",
+    "pytz>=2024.1",
 ]
 name = "commspt-bot-avilla"
 version = "0.1.1"

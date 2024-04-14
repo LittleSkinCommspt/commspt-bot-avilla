@@ -54,12 +54,12 @@ register(r"%ping", "在", reply=True)
 register(
     r"%cafe",
     [
-        Picture("assets/honoka cafe ng.png"),
+        Picture("assets/images/honoka cafe ng.png"),
         "本群不允许闲聊，可以加入 Honoka Café 和大家一起水群。群号：651672723。",
     ],
 )
 
-register(r"%browser", Picture("assets/browser.png"), reply=True)
+register(r"%browser", Picture("assets/images/browser.png"), reply=True)
 
 register(
     r"%log.csl",
@@ -87,7 +87,7 @@ https://manual-ng.littlesk.in/newbee/mod#edit-csl-config""",
 register(
     r"%manual",
     [
-        Picture("assets/rtfm.png"),
+        Picture("assets/images/rtfm.png"),
         """请仔细阅读 LittleSkin 用户使用手册，特别是「常见问题解答」！
 https://manual-ng.littlesk.in/""",
     ],
