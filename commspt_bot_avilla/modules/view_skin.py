@@ -101,7 +101,7 @@ async def cmd_view_pro(ctx: Context, message: Message, player_name: Match[str]):
             RawResource(
                 process_image(
                     image,
-                    f"Skin {skin_hash} ({skin_model}), Cape {cape_hash} | {datetime.now(TZ_SHANGHAI).isoformat()}, via SkinRenderMC, Pro",
+                    f"Skin {skin_hash} ({skin_model}), Cape {cape_hash} / {datetime.now(TZ_SHANGHAI).isoformat()}, via SkinRenderMC, Pro",
                 )
             )
         )
