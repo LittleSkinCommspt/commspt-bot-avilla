@@ -1,8 +1,6 @@
 from arclet.alconna import Alconna, Args
 from arclet.alconna.graia import Match, alcommand
-from avilla.core import (
-    Context,
-)
+from avilla.core import Context
 
 from commspt_bot_avilla.utils.adv_filter import (
     dispatcher_from_preset_general,
