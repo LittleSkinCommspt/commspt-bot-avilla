@@ -59,7 +59,7 @@ register(
 register(r"%browser", Picture("assets/browser.png"), reply=True)
 
 register(
-    r"%csl.log",
+    r"%log.csl",
     "CustomSkinLoader 的日志位于 .minecraft/CustomSkinLoader/CustomSkinLoader.log，请将文件直接发送至群内。",
 )
 
@@ -106,3 +106,10 @@ register(
     """如果服务器未开启「正版验证」则所有登录方式都会被服务器视为离线模式处理
 即服务器自行生成 UUID，且不会向验证服务器（皮肤站 / 正版）获取材质""",
 )
+
+# region 过渡区
+register(
+    r"%csl.log",
+    "CustomSkinLoader 的日志位于 .minecraft/CustomSkinLoader/CustomSkinLoader.log，请将文件直接发送至群内。",
+)
+# endregion
