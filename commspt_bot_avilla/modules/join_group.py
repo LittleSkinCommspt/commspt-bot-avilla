@@ -80,8 +80,8 @@ id={req.id}"""
         logger.info(
             f"Member Join Request Event {req.request_type} was rejected. (UID NOT EXISTS) {applicant} > {answer}"
         )
-        await req.reject("UID有误，再仔细看看")
-        await random_sleep()
+        await req.reject("UID 有误，再仔细看看")
+        await random_sleep(1)
         await ctx.scene.into(f"::group({S_.defined_qq.commspt_group})").send_message(
             "👆 已拒绝，因为这个 UID 根本不存在"
         )
