@@ -1,4 +1,8 @@
-from avilla.core.context import ContextSceneSelector, ContextClientSelector
+from avilla.core import Context
+from avilla.core.context import ContextClientSelector, ContextSceneSelector
+from avilla.core.tools.filter import Filter
+from graia.saya.builtins.broadcast.shortcut import dispatch
+
 from commspt_bot_avilla.utils.setting_manager import S_
 
 Q_ = S_.defined_qq
@@ -23,3 +27,12 @@ def by_admin_only():
         return int(selector.user) in S_.admin_list
 
     return _wrapper
+
+
+dispather_by_admin_only = dispatch(
+    Filter().dispatch(Context).assert_true(lambda ctx: by_admin_only()(ctx.client))
+)
+
+dispatcher_from_preset_general = dispatch(
+    Filter().dispatch(Context).assert_true(lambda ctx: from_groups_preset_general()(ctx.scene))
+)

@@ -15,6 +15,7 @@ default_dispatchers = [
 ]
 
 
+# region register
 def register(
     command: str, response: str | Element | list[str | Element], reply: bool = False
 ):
@@ -42,6 +43,8 @@ def register(
         dispatchers=default_dispatchers,
     )(_simple_response)
 
+
+# endregion
 
 logger.info("registering simple response...")
 

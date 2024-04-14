@@ -1,13 +1,14 @@
 import pkgutil
 
 import richuru
+from arclet.alconna.avilla import AlconnaAvillaAdapter
+from arclet.alconna.graia import AlconnaBehaviour, AlconnaGraiaService
 from avilla.core import Avilla
 from creart import it
 from graia.broadcast import Broadcast
 from graia.saya import Saya
-from graia.saya.builtins.broadcast import BroadcastBehaviour
+from launart import Launart
 from loguru import logger
-from rich.markdown import Markdown
 
 from commspt_bot_avilla.utils.setting_manager import S_
 
@@ -15,26 +16,29 @@ from commspt_bot_avilla.utils.setting_manager import S_
 def main():
     richuru.install()
 
+    # region init launart
+    manager = Launart()
+    saya = it(Saya)
     broadcast = it(Broadcast)
-    saya = Saya(broadcast)
-    saya.install_behaviours(BroadcastBehaviour(broadcast))
+    it(AlconnaBehaviour)
+    manager.add_component(
+        AlconnaGraiaService(AlconnaAvillaAdapter, global_remove_tome=True)
+    )
+    # endregion
 
-    # saya load modules
-
+    # region saya load modules
     logger.info("Loading Saya modules...")
 
     with saya.module_context():
         for module_info in pkgutil.iter_modules(["commspt_bot_avilla/modules"]):
             logger.info(
                 f"- module: {module_info.name}",
-                rich=Markdown(f"# module: `{module_info.name}`"),
             )
             saya.require(f"commspt_bot_avilla.modules.{module_info.name}")
-            logger.info("------", rich=Markdown("---"))
+    # endregion
 
-    # apply protocols
-
-    avilla = Avilla()
+    # region apply protocols
+    avilla = Avilla(broadcast=broadcast, launch_manager=manager)
     if S_.dev_mode:
         from avilla.console.protocol import ConsoleProtocol
 
@@ -45,7 +49,6 @@ def main():
         config = OneBot11ForwardConfig(**S_.connection.model_dump())
         logger.info(f"Protocol connection config: {config}")
         avilla.apply_protocols(OneBot11Protocol().configure(config))
-
-    # finally launch
+    # endregion
 
     avilla.launch()
