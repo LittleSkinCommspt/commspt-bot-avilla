@@ -35,7 +35,7 @@ async def member_join_request(ctx: Context, event: RequestEvent):
     if not req.message:
         return
 
-    answer = req.message.splitlines()[-1].lstrip("答案：")
+    answer = req.message.splitlines()[-1].removeprefix("答案：").strip()
     logger.info(
         f"Member Join Request Event {req.request_type} id={req.id} was received. {applicant} > {answer}"
     )
@@ -48,22 +48,10 @@ id={req.id}"""
     )
 
     if not answer.isdecimal():  # UID 应为十进制纯数字
-        if req.request_type != "onebot11::group.invite":
-            # 非邀请，正常流程应拒绝
-            # await req.reject("UID 应为纯数字，再仔细看看")
-            await random_sleep(2)
-            await ctx.scene.into(
-                f"::group({S_.defined_qq.commspt_group})"
-            ).send_message("👆 检测到填写答案可能不是 UID，可能需要手动确认")
-        else:
-            # 邀请加群，可能身份特殊，不能直接拒绝
-            await random_sleep()
-            await ctx.scene.into(
-                f"::group({S_.defined_qq.commspt_group})"
-            ).send_message(
-                "👆 虽然填写的 UID 不是纯数字，但是此请求为邀请加群，请手动处理"
-            )
-        return
+        await random_sleep()
+        await ctx.scene.into(f"::group({S_.defined_qq.commspt_group})").send_message(
+            "👆 答案不是纯数字，需要手动确认 👀"
+        )
 
     uid = int(answer)
 
@@ -91,7 +79,7 @@ id={req.id}"""
             f"Member Join Request Event {req.request_type} was rejected. (UID NOT EXISTS) {applicant} > {answer}"
         )
         await req.reject("UID 有误，再仔细看看")
-        await random_sleep(1)
+        await random_sleep()
         await ctx.scene.into(f"::group({S_.defined_qq.commspt_group})").send_message(
             "👆 已拒绝，因为这个 UID 根本不存在"
         )
