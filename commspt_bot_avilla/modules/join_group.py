@@ -50,11 +50,11 @@ id={req.id}"""
     if not answer.isdecimal():  # UID 应为十进制纯数字
         if req.request_type != "onebot11::group.invite":
             # 非邀请，正常流程应拒绝
-            await req.reject("UID 应为纯数字，再仔细看看")
+            # await req.reject("UID 应为纯数字，再仔细看看")
             await random_sleep(2)
             await ctx.scene.into(
                 f"::group({S_.defined_qq.commspt_group})"
-            ).send_message("👆 已拒绝，因为 UID 不是纯数字")
+            ).send_message("👆 检测到填写答案可能不是 UID，可能需要手动确认")
         else:
             # 邀请加群，可能身份特殊，不能直接拒绝
             await random_sleep()
