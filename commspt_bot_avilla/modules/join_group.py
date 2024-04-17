@@ -48,9 +48,12 @@ id={req.id}"""
     )
 
     if not answer.isdecimal():  # UID 应为十进制纯数字
+        logger.info(
+            f"Member Join Request Event {req.request_type} was ignored. (ANSWER NOT DECIMAL) {applicant} > {answer}"
+        )
         await random_sleep()
         await ctx.scene.into(f"::group({S_.defined_qq.commspt_group})").send_message(
-            "👆 答案不是纯数字，需要手动确认 👀"
+            "👆 答案不是纯数字，亦需手动处理 👀"
         )
 
     uid = int(answer)
@@ -76,12 +79,11 @@ id={req.id}"""
     if not await LittleSkinUser.uid_info(uid):
         # failed: uid not exists
         logger.info(
-            f"Member Join Request Event {req.request_type} was rejected. (UID NOT EXISTS) {applicant} > {answer}"
+            f"Member Join Request Event {req.request_type} was ignored. (UID NOT EXISTS) {applicant} > {answer}"
         )
-        await req.reject("UID 有误，再仔细看看")
         await random_sleep()
         await ctx.scene.into(f"::group({S_.defined_qq.commspt_group})").send_message(
-            "👆 已拒绝，因为这个 UID 根本不存在"
+            "👆 这个 UID 根本不存在，亦需手动处理 👀"
         )
 
         return
@@ -108,13 +110,14 @@ async def member_join_welcome(ctx: Context, event: SceneCreated):
         welcome_msg.append(f"UID: {uid_mapping.uid}  ")
         nofi_msg.append(f"UID: {uid_mapping.uid}")
         nofi_msg.append(
-            f"QMAIL {'✅一致性校验通过' if uid_mapping.qmail_verified else '❔'}"
+            f"QMAIL {'✅验证通过' if uid_mapping.qmail_verified else '❔验证失败'}"
         )
 
         # add LTSK email verification status (only noti)
         if ltsk_user := await LittleSkinUser.uid_info(uid_mapping.uid):
             nofi_msg.append(
-                f"邮箱验证 {'✅已验证' if ltsk_user.verified else f'❌未验证 ({ltsk_user.email})'}"
+                f"邮箱验证 {'✅已验证' if ltsk_user.verified else '❌未验证'}\
+                ({ltsk_user.email if not ltsk_user.verified or not uid_mapping.qmail_verified else ''})"
             )
 
     # send noti to commspt group
