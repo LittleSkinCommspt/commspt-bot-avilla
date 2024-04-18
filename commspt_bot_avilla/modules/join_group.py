@@ -55,6 +55,7 @@ id={req.id}"""
         await ctx.scene.into(f"::group({S_.defined_qq.commspt_group})").send_message(
             "👆 答案不是纯数字，亦需手动处理 👀"
         )
+        return
 
     uid = int(answer)
 
@@ -109,9 +110,16 @@ async def member_join_welcome(ctx: Context, event: SceneCreated):
     if uid_mapping := await UIDMapping.fetch(qq=int(event.context.endpoint.user)):
         welcome_msg.append(f"UID: {uid_mapping.uid}  ")
         nofi_msg.append(f"UID: {uid_mapping.uid}")
-        nofi_msg.append(
-            f"QMAIL {'✅验证通过' if uid_mapping.qmail_verified else '❔验证失败'}"
-        )
+        
+        # if qmail verified (only noti)
+        if uid_mapping.qmail_verified:
+            nofi_msg.append("QMAIL ✅验证通过")
+        elif ltsk_user := await LittleSkinUser.uid_info(uid_mapping.uid):
+            nofi_msg.append(f"QMAIL {'❔不匹配' if ltsk_user.email.lower().endswith('@qq.com') else '❌非 QQ 邮箱'}")
+            
+        # check if email contains uppercase letters (only noti)
+        if ltsk_user := await LittleSkinUser.uid_info(uid_mapping.uid):
+            nofi_msg.append("⚠️ 该用户邮箱可能含有大写字母" if ltsk_user.email.lower() != ltsk_user.email else "")
 
         # add LTSK email verification status (only noti)
         if ltsk_user := await LittleSkinUser.uid_info(uid_mapping.uid):
