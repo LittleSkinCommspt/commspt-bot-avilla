@@ -108,26 +108,32 @@ async def member_join_welcome(ctx: Context, event: SceneCreated):
 
     # add UID info
     if uid_mapping := await UIDMapping.fetch(qq=int(event.context.endpoint.user)):
+        ltsk_user = await LittleSkinUser.uid_info(uid_mapping.uid)
         welcome_msg.append(f"UID: {uid_mapping.uid}  ")
         nofi_msg.append(f"UID: {uid_mapping.uid}")
         
         # if qmail verified (only noti)
         if uid_mapping.qmail_verified:
             nofi_msg.append("QMAIL ✅验证通过")
-        elif ltsk_user := await LittleSkinUser.uid_info(uid_mapping.uid):
-            nofi_msg.append(f"QMAIL {'❔不匹配' if ltsk_user.email.lower().endswith('@qq.com') else '❌非 QQ 邮箱'}")
+        elif ltsk_user:
+            nofi_msg.append(f"QMAIL {'❔与 QQ 号不匹配' if ltsk_user.email.lower().endswith('@qq.com') else '❌非 QQ 邮箱'}")
             
-        # check if email contains uppercase letters (only noti)
-        if ltsk_user := await LittleSkinUser.uid_info(uid_mapping.uid):
-            nofi_msg.append("⚠️ 该用户邮箱可能含有大写字母" if ltsk_user.email.lower() != ltsk_user.email else "")
+        if ltsk_user:
+            # check whether email contains uppercase letters (only noti)
+            if ltsk_user.email.lower() != ltsk_user.email:
+                nofi_msg.append("⚠️ 该用户的邮箱含有大写字母")
 
-        # add LTSK email verification status (only noti)
-        if ltsk_user := await LittleSkinUser.uid_info(uid_mapping.uid):
+            # add LTSK email verification status (only noti)
             nofi_msg.append(
-                f"邮箱验证 {'✅已验证' if ltsk_user.verified else '❌未验证'}\
-                ({ltsk_user.email if not ltsk_user.verified or not uid_mapping.qmail_verified else ''})"
+                f"邮箱验证 {'✅已验证' if ltsk_user.verified else '❌未验证'} ({ltsk_user.email})"
             )
+        else:
+            # UID not exists
+            nofi_msg.append("❌这个 UID 根本不存在")
+    else:
+        nofi_msg.append("🈚 未找到 UIDMapping 信息")
 
+    await random_sleep(3)
     # send noti to commspt group
     await ctx.scene.into(f"::group({S_.defined_qq.commspt_group})").send_message(
         "\n".join(nofi_msg)
@@ -138,7 +144,7 @@ async def member_join_welcome(ctx: Context, event: SceneCreated):
         join_announcement = f.read()
     welcome_msg.append(f"\n{join_announcement}")
 
-    # send
+    # send to main group
     await random_sleep(2)
     await ctx.scene.send_message(welcome_msg)
 
