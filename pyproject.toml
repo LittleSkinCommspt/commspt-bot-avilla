@@ -6,9 +6,9 @@ authors = [
 ]
 requires-python = "<4.0,>=3.12"
 dependencies = [
-    "avilla-core<2.0.0,>=1.0.0a24",
+    "avilla-onebot-v11>=1.0.0a28",
+    "avilla-core<2.0.0,>=1.0.0a26",
     "avilla-console<1.0.0,>=0.2.0",
-    "avilla-onebot-v11>=1.0.0a26",
     "arclet-alconna[full]<2.0.0,>=1.7.42",
     "arclet-alconna-avilla<1.0.0,>=0.17.3",
     "graia-saya<1.0.0,>=0.0.19",

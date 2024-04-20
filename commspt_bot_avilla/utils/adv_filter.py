@@ -34,5 +34,15 @@ dispather_by_admin_only = dispatch(
 )
 
 dispatcher_from_preset_general = dispatch(
-    Filter().dispatch(Context).assert_true(lambda ctx: from_groups_preset_general()(ctx.scene))
+    Filter()
+    .dispatch(Context)
+    .assert_true(lambda ctx: from_groups_preset_general()(ctx.scene))
 )
+
+
+def dispatcher_from(groups: list[int]):
+    return dispatch(
+        Filter()
+        .dispatch(Context)
+        .assert_true(lambda ctx: from_groups(groups)(ctx.scene))
+    )

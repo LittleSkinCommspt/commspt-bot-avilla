@@ -1,0 +1,83 @@
+import re
+from typing import Literal
+
+from arclet.alconna import Alconna, Args
+from arclet.alconna.graia import Match, alcommand
+from avilla.core import (
+    Context,
+    Message,
+    RequestCapability,
+    Selector,
+    Text,
+)
+from avilla.core.tools.filter import Filter
+from graia.saya.builtins.broadcast.shortcut import dispatch
+from loguru import logger
+
+from commspt_bot_avilla.utils.adv_filter import (
+    dispatcher_from,
+    dispather_by_admin_only,
+)
+from commspt_bot_avilla.utils.random_sleep import random_sleep
+from commspt_bot_avilla.utils.setting_manager import S_
+
+
+# region do join action
+@alcommand(
+    Alconna(
+        r"do",
+        Args["action", Literal["accept", "reject"]][
+            "reason", str, "答案错误，再仔细看看"
+        ],
+    )
+)
+@dispather_by_admin_only
+@dispatcher_from([S_.defined_qq.commspt_group, S_.defined_qq.dev_group])
+@dispatch(
+    Filter().dispatch(Message).assert_true(lambda message: message.reply is not None)
+)
+async def do_action_join(
+    ctx: Context,
+    message: Message,
+    action: Match[Literal["accept", "reject"]],
+    reason: Match[str],
+):
+    logger.info("received do action (join group request)")
+
+    # check origin message
+    origin_message = await ctx.pull(Message, message.reply)
+    origin_raw_text = origin_message.content.get_first(Text).text
+    req_match = re.search(r"^id=(.*)$", origin_raw_text, re.MULTILINE)
+    applicant_match = re.search(r"申请人\s*(.*)$", origin_raw_text, re.MULTILINE)
+
+    # if check failed then kill
+    if not (
+        origin_raw_text.startswith("新的入群申请待处理")
+        and req_match
+        and applicant_match
+    ):
+        return
+
+    reqid = req_match.group(1)
+    applicant = applicant_match.group(1)
+    logger.info(
+        f"do action (join group request): {action.result=}, {reason.result=}, {applicant=}, {reqid=}"
+    )
+
+    # make selector
+    scene = Selector().land("qq").group("")
+    selector = scene.request(f"onebot11::group.{reqid.split('_')[0]}@{reqid}")
+
+    # Fn action
+    random_sleep(3)
+    match action.result:
+        case "accept":
+            await ctx[RequestCapability.accept](selector)
+            logger.info("accepted")
+        case "reject":
+            await ctx[RequestCapability.reject](selector, reason=reason.result)
+            logger.info("rejected")
+    await ctx.scene.send_message(f"QQ {applicant} 处理了", reply=message)
+
+
+# endregion

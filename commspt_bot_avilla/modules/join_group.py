@@ -1,9 +1,9 @@
-from typing import Literal, Optional
-
-from arclet.alconna import Alconna, Args
-from arclet.alconna.graia import Match, alcommand
-from avilla.core import Context, Message, Notice, RequestEvent, SceneCreated, Selector
-from avilla.core.elements import Reference
+from avilla.core import (
+    Context,
+    Notice,
+    RequestEvent,
+    SceneCreated,
+)
 from avilla.core.tools.filter import Filter
 from graia.saya.builtins.broadcast.shortcut import dispatch, listen
 from loguru import logger
@@ -12,7 +12,6 @@ from commspt_bot_avilla.models.littleskin_api import LittleSkinUser
 from commspt_bot_avilla.models.mongodb_data import UIDMapping
 from commspt_bot_avilla.utils.adv_filter import (
     dispatcher_from_preset_general,
-    dispather_by_admin_only,
 )
 from commspt_bot_avilla.utils.random_sleep import random_sleep
 from commspt_bot_avilla.utils.setting_manager import S_
@@ -111,13 +110,15 @@ async def member_join_welcome(ctx: Context, event: SceneCreated):
         ltsk_user = await LittleSkinUser.uid_info(uid_mapping.uid)
         welcome_msg.append(f"UID: {uid_mapping.uid}  ")
         nofi_msg.append(f"UID: {uid_mapping.uid}")
-        
+
         # if qmail verified (only noti)
         if uid_mapping.qmail_verified:
             nofi_msg.append("QMAIL ✅验证通过")
         elif ltsk_user:
-            nofi_msg.append(f"QMAIL {'❔与 QQ 号不匹配' if ltsk_user.email.lower().endswith('@qq.com') else '❌非 QQ 邮箱'}")
-            
+            nofi_msg.append(
+                f"QMAIL {'❔与 QQ 号不匹配' if ltsk_user.email.lower().endswith('@qq.com') else '❌非 QQ 邮箱'}"
+            )
+
         if ltsk_user:
             # check whether email contains uppercase letters (only noti)
             if ltsk_user.email.lower() != ltsk_user.email:
@@ -150,28 +151,3 @@ async def member_join_welcome(ctx: Context, event: SceneCreated):
 
 
 # endregion
-
-
-# disabled for now
-@alcommand(
-    Alconna(
-        r"do join",
-        Args["action", Literal["accpet", "reject"]]["reason", Optional[str], None],
-    )
-)
-@dispatcher_from_preset_general
-@dispather_by_admin_only
-async def do_join_action(
-    ctx: Context,
-    message: Message,
-    action: Match[Literal["accpet", "reject"]],
-    reason: Match[Optional[str]],
-):
-    ref = message.content.get_first(Reference).message
-    scene = Selector().land("qq").user()
-    match action.result:
-        case "accept":
-            await ctx.accept()
-        case "reject":
-            await ctx.reject()
-    ...
