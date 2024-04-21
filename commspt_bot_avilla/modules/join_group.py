@@ -56,6 +56,9 @@ id={req.id}"""
             f"Member Join Request Event {req.request_type} was ignored. (ANSWER NOT DECIMAL) {applicant} > {answer}"
         )
         message.append("👀 答案不是纯数字，需手动处理")
+        await ctx.scene.into(f"::group({S_.defined_qq.commspt_group})").send_message(
+            "\n\n".join(m for m in message if m)
+        )
         return
 
     uid = int(answer)
@@ -81,7 +84,9 @@ id={req.id}"""
             f"Member Join Request Event {req.request_type} was ignored. (UID NOT EXISTS) {applicant} > {answer}"
         )
         message.append("👀 这个 UID 根本不存在，需手动处理")
-
+        await ctx.scene.into(f"::group({S_.defined_qq.commspt_group})").send_message(
+            "\n\n".join(m for m in message if m)
+        )
         return
 
     # failed: not pass verification
@@ -89,6 +94,8 @@ id={req.id}"""
         f"Member Join Request Event {req.request_type} was ignored. (GENERAL) {applicant} > {answer}"
     )
     await UIDMapping(uid=uid, qq=applicant).update()
+    message.append("👀 请手动处理")
+
 
     await random_sleep(4)
     # remove empty string or None
