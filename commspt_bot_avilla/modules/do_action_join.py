@@ -52,7 +52,7 @@ async def do_action_join(
 
     # if check failed then kill
     if not (
-        origin_raw_text.startswith("新的入群申请待处理")
+        origin_raw_text.startswith("新的入群申请")
         and req_match
         and applicant_match
     ):
@@ -77,7 +77,7 @@ async def do_action_join(
         case "reject":
             await ctx[RequestCapability.reject](selector, reason=reason.result)
             logger.info("rejected")
-    await ctx.scene.send_message(f"QQ {applicant} 处理了", reply=message)
+    await ctx.scene.send_message(f"{action.result}ed {applicant}", reply=message)
 
 
 # endregion
