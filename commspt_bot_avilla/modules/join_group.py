@@ -140,7 +140,7 @@ async def member_join_welcome(ctx: Context, event: SceneCreated):
             nofi_msg.append(f"注册时间: {reg_time}")
 
             # render image
-            render = RenderUserInfo(**ltsk_user.model_dump())
+            render = RenderUserInfo(**ltsk_user.model_dump(), qq=int(event.context.endpoint.user))
             image = await render.get_image()
         else:
             # UID not exists
