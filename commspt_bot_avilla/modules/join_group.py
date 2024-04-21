@@ -5,12 +5,15 @@ from avilla.core import (
     RequestEvent,
     SceneCreated,
 )
+from avilla.core.elements import Picture
+from avilla.core.resource import RawResource
 from avilla.core.tools.filter import Filter
 from graia.saya.builtins.broadcast.shortcut import dispatch, listen
 from loguru import logger
 
 from commspt_bot_avilla.models.littleskin_api import LittleSkinUser
 from commspt_bot_avilla.models.mongodb_data import UIDMapping
+from commspt_bot_avilla.models.render_user_info import RenderUserInfo
 from commspt_bot_avilla.utils.adv_filter import (
     dispatcher_from_preset_general,
 )
@@ -135,6 +138,10 @@ async def member_join_welcome(ctx: Context, event: SceneCreated):
                 .format("YYYY-MM-DD HH:mm:ss")
             )
             nofi_msg.append(f"注册时间: {reg_time}")
+
+            # render image
+            render = RenderUserInfo(**ltsk_user.model_dump())
+            image = await render.get_image()
         else:
             # UID not exists
             nofi_msg.append("❌这个 UID 根本不存在")
@@ -144,7 +151,7 @@ async def member_join_welcome(ctx: Context, event: SceneCreated):
     await random_sleep(3)
     # send noti to commspt group
     await ctx.scene.into(f"::group({S_.defined_qq.notification_channel})").send_message(
-        "\n".join(nofi_msg)
+        [Picture(RawResource(image)), "\n".join(nofi_msg)]
     )
 
     # add join announcement
