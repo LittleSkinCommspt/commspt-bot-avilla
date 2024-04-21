@@ -40,7 +40,7 @@ async def member_join_request(ctx: Context, event: RequestEvent):
     logger.info(
         f"Member Join Request Event {req.request_type} id={req.id} was received. {applicant} > {answer}"
     )
-    await message.append(
+    message.append(
         f"""新的入群申请
 » 申请人 {applicant}
 » 答案     {answer}
