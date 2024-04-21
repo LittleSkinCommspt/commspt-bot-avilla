@@ -119,6 +119,7 @@ async def member_join_welcome(ctx: Context, event: SceneCreated):
         ltsk_user = await LittleSkinUser.uid_info(uid_mapping.uid)
         welcome_msg.append(f"UID: {uid_mapping.uid}  ")
         nofi_msg.append(f"UID: {uid_mapping.uid}")
+        image: bytes | None = None  # pre define
 
         # if qmail verified (only noti)
         if uid_mapping.qmail_verified:
@@ -158,7 +159,7 @@ async def member_join_welcome(ctx: Context, event: SceneCreated):
     await random_sleep(3)
     # send noti to commspt group
     await ctx.scene.into(f"::group({S_.defined_qq.notification_channel})").send_message(
-        [Picture(RawResource(image)), "\n".join(nofi_msg)]
+        [Picture(RawResource(image)) if image else "", "\n".join(nofi_msg)]
     )
 
     # add join announcement
