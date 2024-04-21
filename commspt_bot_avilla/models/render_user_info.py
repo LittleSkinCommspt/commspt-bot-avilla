@@ -13,7 +13,9 @@ from commspt_bot_avilla.utils.setting_manager import S_, VERIFY_CONTENT
 
 HumanReadableTime = Annotated[
     datetime,
-    PlainSerializer(lambda t: arrow.get(t).format("YYYY-MM-DD HH:mm:ss")),
+    PlainSerializer(
+        lambda t: arrow.get(t).to("Asia/Shanghai").format("YYYY-MM-DD HH:mm:ss")
+    ),
     Field(default_factory=datetime.now),
 ]
 
