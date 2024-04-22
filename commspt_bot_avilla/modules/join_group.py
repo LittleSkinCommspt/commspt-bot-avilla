@@ -75,6 +75,9 @@ id={req.id}"""
             )
             await req.accept()
             message.append("👆 已同意，因为 QMAIL API 验证通过")
+            await ctx.scene.into(f"::group({S_.defined_qq.commspt_group})").send_message(
+                "\n\n".join(m for m in message if m)
+            )
             return
 
     # lstk uid check
