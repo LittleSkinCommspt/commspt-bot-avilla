@@ -9,7 +9,7 @@ from avilla.core.elements import Picture
 from avilla.core.resource import RawResource
 from avilla.core.tools.filter import Filter
 from graia.saya.builtins.broadcast.shortcut import dispatch, listen
-from loguru import logger
+from richuru import logger
 
 from commspt_bot_avilla.models.littleskin_api import LittleSkinUser
 from commspt_bot_avilla.models.mongodb_data import UIDMapping
@@ -52,7 +52,7 @@ id={req.id}"""
     )
 
     if not answer.isdecimal():  # UID 应为十进制纯数字
-        logger.info(
+        logger.warning(
             f"Member Join Request Event {req.request_type} was ignored. (ANSWER NOT DECIMAL) {applicant} > {answer}"
         )
         message.append("👀 答案不是纯数字，需手动处理")
@@ -70,7 +70,7 @@ id={req.id}"""
         if ltsk_qmail.uid == uid:
             # ok: pass verification
             await UIDMapping(uid=uid, qq=applicant, qmail_verified=True).update()
-            logger.info(
+            logger.success(
                 f"Member Join Request Event {req.request_type} was accepted. (QMAIL PASS) {applicant} > {answer}"
             )
             await req.accept()
@@ -80,7 +80,7 @@ id={req.id}"""
     # lstk uid check
     if not await LittleSkinUser.uid_info(uid):
         # failed: uid not exists
-        logger.info(
+        logger.warning(
             f"Member Join Request Event {req.request_type} was ignored. (UID NOT EXISTS) {applicant} > {answer}"
         )
         message.append("👀 这个 UID 根本不存在，需手动处理")
@@ -90,7 +90,7 @@ id={req.id}"""
         return
 
     # failed: not pass verification
-    logger.info(
+    logger.warning(
         f"Member Join Request Event {req.request_type} was ignored. (GENERAL) {applicant} > {answer}"
     )
     await UIDMapping(uid=uid, qq=applicant).update()
