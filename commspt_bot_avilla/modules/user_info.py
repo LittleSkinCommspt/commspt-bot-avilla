@@ -28,4 +28,5 @@ async def user_info(ctx: Context, uid: Match[int]):
         await ctx.scene.send_message(Picture(RawResource(image)))
         logger.success("Image sent.")
     else:
+        await ctx.scene.send_message(f"未找到 UID 为 {uid.result} 的用户")
         logger.error(f"UID {uid.result} not found.")
