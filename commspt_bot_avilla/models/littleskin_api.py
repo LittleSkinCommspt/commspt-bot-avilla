@@ -1,8 +1,22 @@
 from datetime import datetime
+from typing import Annotated
 
+import arrow
 import httpx
-from pydantic import BaseModel, EmailStr, IPvAnyAddress, field_validator
+from pydantic import (
+    BaseModel,
+    EmailStr,
+    IPvAnyAddress,
+    AfterValidator,
+    field_validator,
+)
+
 from commspt_bot_avilla.utils.setting_manager import S_
+
+StdTime = Annotated[
+    datetime,
+    AfterValidator(lambda v: arrow.get(v).replace(tzinfo="Asia/Shanghai").datetime),
+]
 
 
 class LittleSkinUser(BaseModel):
@@ -14,16 +28,22 @@ class LittleSkinUser(BaseModel):
     avatar: int = 0
     ip: list[IPvAnyAddress]
     is_dark_mode: bool = False
-    permisson: int = 0
+
+    permission: int = 0
+    # Banned = -1,
+    # Normal = 0,
+    # Admin = 1,
+    # SuperAdmin = 2,
+    
     last_sign_at: datetime
     register_at: datetime
     verified: bool
     verification_token: str = ""
     salt: str = ""
 
-    @field_validator('ip', mode='before')
+    @field_validator("ip", mode="before")
     def validate_ip(cls, v: str):
-        return v.split(', ')
+        return v.split(", ")
 
     @classmethod
     async def query(cls, query_string: str):

@@ -11,7 +11,7 @@ from commspt_bot_avilla.utils.browserless import screenshot
 HumanReadableTime = Annotated[
     datetime,
     PlainSerializer(
-        lambda t: arrow.get(t).to("Asia/Shanghai").format("YYYY-MM-DD HH:mm:ss")
+        lambda t: arrow.get(t).format("YYYY-MM-DD HH:mm:ss")
     ),
     Field(default_factory=datetime.now),
 ]
@@ -20,6 +20,7 @@ HumanReadableTime = Annotated[
 class RenderUserInfo(BaseModel):
     generated_at: HumanReadableTime
     uid: int
+    permission: int
     score: int
     nickname: str
     network: str = ""
@@ -48,4 +49,4 @@ class RenderUserInfo(BaseModel):
         ipip = await BingLingIPIP.get(self.ip[0])
         self.network = f"{ipip.country_name}{ipip.region_name}{ipip.city_name} {ipip.isp_domain}{ipip.owner_domain}"
 
-        return await screenshot("user-info.html.jinja", self)
+        return await screenshot("user-info.html.jinja", self, height=750)

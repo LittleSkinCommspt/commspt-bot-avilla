@@ -11,13 +11,21 @@ from commspt_bot_avilla.utils.adv_filter import (
     dispather_by_admin_only,
 )
 from commspt_bot_avilla.utils.setting_manager import S_
+from richuru import logger
 
 
 @alcommand(Alconna(r"%user", Args["uid", int]))
 @dispather_by_admin_only
 @dispatcher_from([S_.defined_qq.commspt_group, S_.defined_qq.dev_group])
 async def user_info(ctx: Context, uid: Match[int]):
+    logger.info(f"Looking for user info uid={uid.result}")
     ltsk_user = await LittleSkinUser.uid_info(uid.result)
-    render = RenderUserInfo(**ltsk_user.model_dump())
-    image = await render.get_image()
-    await ctx.scene.send_message(Picture(RawResource(image)))
+    if ltsk_user:
+        logger.info(f"Ready to render {uid.result} ↓")
+        logger.info(ltsk_user)
+        render = RenderUserInfo(**ltsk_user.model_dump())
+        image = await render.get_image()
+        await ctx.scene.send_message(Picture(RawResource(image)))
+        logger.success("Image sent.")
+    else:
+        logger.error(f"UID {uid.result} not found.")
