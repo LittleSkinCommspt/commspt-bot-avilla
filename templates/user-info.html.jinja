@@ -79,15 +79,6 @@
         {% if qq %}
         <div class="fixed-grid has-2-cols">
             <div class="grid">
-                <div class="field">
-                    <label class="label">QQ</label>
-                    <div class="control has-icons-left">
-                        <input class="input is-family-monospace" type="number" value="{{ qq }}" />
-                        <span class="icon is-small is-left">
-                            <i class="fa-brands fa-qq"></i>
-                        </span>
-                    </div>
-                </div>
                 {% if qq ~ '@qq.com' == email %}
                 <div class="field">
                     <label class="label">QQ</label>
@@ -101,6 +92,16 @@
                         </span>
                     </div>
                     <p class="help is-success">QMAIL API 验证通过</p>
+                </div>
+                {% else %}
+                <div class="field">
+                    <label class="label">QQ</label>
+                    <div class="control has-icons-left">
+                        <input class="input is-family-monospace" type="number" value="{{ qq }}" />
+                        <span class="icon is-small is-left">
+                            <i class="fa-brands fa-qq"></i>
+                        </span>
+                    </div>
                 </div>
                 {% endif %}
                 <div class="field">
