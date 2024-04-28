@@ -1,4 +1,4 @@
-from arclet.alconna import Alconna, Args
+from arclet.alconna import Alconna, Args, CommandMeta
 from arclet.alconna.graia import Match, alcommand
 from avilla.core import Context
 from avilla.core.elements import Picture
@@ -14,7 +14,18 @@ from commspt_bot_avilla.utils.setting_manager import S_
 from richuru import logger
 
 
-@alcommand(Alconna(r"%user", Args["uid", int]))
+@alcommand(
+    Alconna(
+        r"%user",
+        Args["uid", int],
+        meta=CommandMeta(
+            description="查询用户信息 (commspt [group] only)",
+            usage=r"%user <uid>",
+            example=r"%user 123456",
+            author="SerinaNya",
+        ),
+    )
+)
 @dispather_by_admin_only
 @dispatcher_from([S_.defined_qq.commspt_group, S_.defined_qq.dev_group])
 async def user_info(ctx: Context, uid: Match[int]):

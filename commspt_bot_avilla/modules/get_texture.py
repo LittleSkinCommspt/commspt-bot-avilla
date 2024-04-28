@@ -1,4 +1,4 @@
-from arclet.alconna import Alconna, Args
+from arclet.alconna import Alconna, Args, CommandMeta
 from arclet.alconna.graia import Match, alcommand
 from avilla.core import Context, Message
 from yggdrasil_mc.client import YggdrasilMC
@@ -12,7 +12,18 @@ LS_YGG = YggdrasilMC("https://littleskin.cn/api/yggdrasil")
 
 
 # region %ygg
-@alcommand(Alconna(r"%ygg", Args["player_name", str]))
+@alcommand(
+    Alconna(
+        r"%ygg",
+        Args["player_name", str],
+        meta=CommandMeta(
+            description="查询 Yggdrasil 玩家信息",
+            usage=r"%ygg <player_name>",
+            example=r"%ygg SerinaNya",
+            author="FalfaChino & SerinaNya",
+        ),
+    )
+)
 @dispatcher_from_preset_general
 async def cmd_ygg(ctx: Context, message: Message, player_name: Match[str]):
     try:

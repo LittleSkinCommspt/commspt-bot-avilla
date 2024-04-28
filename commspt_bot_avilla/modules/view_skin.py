@@ -1,4 +1,4 @@
-from arclet.alconna import Alconna, Args
+from arclet.alconna import Alconna, Args, CommandMeta
 from avilla.core import Context, Message
 from avilla.core import Picture, RawResource
 from arclet.alconna.graia import alcommand, Match
@@ -19,7 +19,18 @@ TZ_SHANGHAI = timezone("Asia/Shanghai")
 # endregion
 
 
-@alcommand(Alconna("%view", Args["player_name", str]))
+@alcommand(
+    Alconna(
+        "%view",
+        Args["player_name", str],
+        meta=CommandMeta(
+            description="查看玩家皮肤",
+            usage="%view <player_name>",
+            example="%view SerinaNya",
+            author="FalfaChino & SerinaNya",
+        ),
+    )
+)
 @alcommand(Alconna("%view.ls", Args["player_name", str]))
 @dispatcher_from_preset_general
 async def cmd_view_ygg(ctx: Context, message: Message, player_name: Match[str]):
@@ -64,7 +75,18 @@ async def cmd_view_ygg(ctx: Context, message: Message, player_name: Match[str]):
     )
 
 
-@alcommand(Alconna("%view.pro", Args["player_name", str]))
+@alcommand(
+    Alconna(
+        "%view.pro",
+        Args["player_name", str],
+        meta=CommandMeta(
+            description="查看玩家皮肤",
+            usage=r"%view <player_name>",
+            example=r"%view SerinaNya",
+            author="FalfaChino & SerinaNya",
+        ),
+    )
+)
 @dispatcher_from_preset_general
 async def cmd_view_pro(ctx: Context, message: Message, player_name: Match[str]):
     try:

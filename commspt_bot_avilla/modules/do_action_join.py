@@ -1,7 +1,7 @@
 import re
 from typing import Literal
 
-from arclet.alconna import Alconna, Args
+from arclet.alconna import Alconna, Args, CommandMeta
 from arclet.alconna.graia import Match, alcommand
 from avilla.core import (
     Context,
@@ -29,6 +29,12 @@ from commspt_bot_avilla.utils.setting_manager import S_
         Args["action", Literal["accept", "reject"]][
             "reason", str, "答案错误，再仔细看看"
         ],
+        meta=CommandMeta(
+            description="处理入群请求 (commspt only)",
+            usage="do <accept|reject> [reason]",
+            example="do accept",
+            author="SerinaNya",
+        ),
     )
 )
 @dispather_by_admin_only
@@ -45,6 +51,11 @@ async def do_action_join(
     logger.info("received do action (join group request)")
 
     # check origin message
+    if not message.reply:
+        await ctx.scene.send_message(
+            "需要回复一条申请提示消息以进行处理", reply=message
+        )
+        return
     origin_message = await ctx.pull(Message, message.reply)
     origin_raw_text = origin_message.content.get_first(Text).text
     req_match = re.search(r"^id=(.*)$", origin_raw_text, re.MULTILINE)
@@ -52,9 +63,7 @@ async def do_action_join(
 
     # if check failed then kill
     if not (
-        origin_raw_text.startswith("新的入群申请")
-        and req_match
-        and applicant_match
+        origin_raw_text.startswith("新的入群申请") and req_match and applicant_match
     ):
         return
 
@@ -69,7 +78,7 @@ async def do_action_join(
     selector = scene.request(f"onebot11::group.{reqid.split('_')[0]}@{reqid}")
 
     # Fn action
-    random_sleep(3)
+    await random_sleep(3)
     match action.result:
         case "accept":
             await ctx[RequestCapability.accept](selector)
