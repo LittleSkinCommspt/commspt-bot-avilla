@@ -31,7 +31,18 @@ TZ_SHANGHAI = timezone("Asia/Shanghai")
         ),
     )
 )
-@alcommand(Alconna("%view.ls", Args["player_name", str]))
+@alcommand(
+    Alconna(
+        r"%view.ygg",
+        Args["player_name", str],
+        meta=CommandMeta(
+            description="查看玩家皮肤 (LittleSkin)",
+            usage=r"%view.ygg <player_name>",
+            example=r"%view.ygg SerinaNya",
+            author="FalfaChino & SerinaNya",
+        ),
+    )
+)
 @dispatcher_from_preset_general
 async def cmd_view_ygg(ctx: Context, message: Message, player_name: Match[str]):
     try:
