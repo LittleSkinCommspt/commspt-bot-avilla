@@ -1,4 +1,4 @@
-from arclet.alconna import Alconna, Args
+from arclet.alconna import Alconna, Args, CommandMeta
 from arclet.alconna.graia import Match, alcommand
 from avilla.core import Context
 from avilla.core.elements import Picture
@@ -21,3 +21,20 @@ from commspt_bot_avilla.utils.setting_manager import S_
 #     render = RenderUserInfo(**ltsk_user.model_dump(), qq=None, qq_nickname="")
 #     image = await render.get_image()
 #     await ctx.scene.send_message(Picture(RawResource(image)))
+
+
+@alcommand(
+    Alconna(
+        r"%id",
+        meta=CommandMeta(
+            description="获取环境 ID (commspt [group] only)",
+            usage=r"%id",
+            example=r"%id",
+            author="FalfaChino",
+        ),
+    )
+)
+@dispather_by_admin_only
+@dispatcher_from([S_.defined_qq.commspt_group, S_.defined_qq.dev_group])
+async def _(ctx: Context):
+    await ctx.scene.send_message(f"Channel ID: {ctx.scene.channel}")
