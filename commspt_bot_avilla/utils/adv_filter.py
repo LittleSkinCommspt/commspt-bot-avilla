@@ -17,7 +17,7 @@ def from_groups(allowed_groups: list[int]):
 
 def from_groups_preset_general():
     """
-    Preset groups: `littleskin_main`, `commspt_group`, `dev_group`
+    Preset groups: `littleskin_main`, `littleskin_cafe`,  `commspt_group`, `dev_group`
     """
     return from_groups([Q_.littleskin_main, Q_.littleskin_cafe, Q_.commspt_group, Q_.dev_group])
 
