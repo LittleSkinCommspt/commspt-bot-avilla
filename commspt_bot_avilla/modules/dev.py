@@ -1,6 +1,6 @@
 from arclet.alconna import Alconna, Args, CommandMeta
 from arclet.alconna.graia import Match, alcommand
-from avilla.core import Context
+from avilla.core import Context, Message
 from avilla.core.elements import Picture
 from avilla.core.resource import RawResource
 
@@ -36,5 +36,9 @@ from commspt_bot_avilla.utils.setting_manager import S_
 )
 @dispather_by_admin_only
 @dispatcher_from([S_.defined_qq.commspt_group, S_.defined_qq.dev_group])
-async def _(ctx: Context):
-    await ctx.scene.send_message(f"Channel ID: {ctx.scene.channel}")
+async def _(ctx: Context, message: Message):
+    if message.reply:
+        origin_message = await ctx.pull(Message, message.reply)
+    await ctx.scene.send_message(
+        f"Channel ID: {ctx.scene.channel}\nMessage ID: {message.id}\nReply Message ID: {origin_message.id if message.reply else None}"
+    )

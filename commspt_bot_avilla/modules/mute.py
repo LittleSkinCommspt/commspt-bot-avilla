@@ -1,9 +1,9 @@
 from datetime import timedelta
-from typing import Literal
+from typing import Literal, Optional
 
 from arclet.alconna import Alconna, Args, CommandMeta
 from arclet.alconna.graia import Match, alcommand
-from avilla.core import Context, MuteCapability, Notice
+from avilla.core import Context, MuteCapability, Notice, Message
 
 from commspt_bot_avilla.utils.adv_filter import (
     dispatcher_from_preset_general,
@@ -136,3 +136,27 @@ async def unmute(
                 )
                 return
     await ctx.scene.send_message("需要指定群组 main 或 cafe")
+
+
+# MARK: %recall
+@alcommand(
+    Alconna(
+        r"%recall",
+        meta=CommandMeta(
+            description="撤回消息 (commspt only)",
+            usage=r"%recall",
+            example=r"%recall",
+            author="FalfaChino",
+        ),
+    )
+)
+@dispatcher_from_preset_general
+@dispather_by_admin_only
+async def recall(ctx: Context, message: Message):
+    if message.reply:
+        origin_message = await ctx.pull(Message, message.reply)
+    else:
+        await ctx.scene.send_message("需要回复消息")
+        return
+    await origin_message.revoke()
+    await message.revoke()
