@@ -12,7 +12,7 @@ clone:
 steps:
     - name: pull
       commands:
-          - cd /data/commspt-bot-avilla/ && proxychains4 -q git pull origin main
+          - cd /data/commspt-bot-avilla/ && proxychains4 -q git pull -f origin main
 
     - name: install dependencies
       commands:
