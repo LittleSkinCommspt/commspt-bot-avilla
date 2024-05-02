@@ -19,7 +19,7 @@ def from_groups_preset_general():
     """
     Preset groups: `littleskin_main`, `commspt_group`, `dev_group`
     """
-    return from_groups([Q_.littleskin_main, Q_.commspt_group, Q_.dev_group])
+    return from_groups([Q_.littleskin_main, Q_.littleskin_cafe, Q_.commspt_group, Q_.dev_group])
 
 
 def by_admin_only():
