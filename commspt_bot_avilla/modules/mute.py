@@ -35,42 +35,41 @@ async def mute(
     duration: int,
     group: Match[Literal["main", "cafe", None]],
 ):
-    if (
-        ctx.scene.channel
-        in [S_.defined_qq.littleskin_main, S_.defined_qq.littleskin_cafe]
-        and not group
-    ):
-        await ctx[MuteCapability.mute](
-            target=(
-                target.result.target
-                if isinstance(target.result, Notice)
-                else ctx.scene.into(f"~.member({target.result})")
-            ),
-            # duration 的单位为分钟，默认 10 分钟
-            duration=timedelta(minutes=duration),
-        )
-    elif group:
-        match group.result:
-            case "main":
+    match group.result:
+        case "main":
+            await ctx[MuteCapability.mute](
+                target=(
+                    target.result.target
+                    if isinstance(target.result, Notice)
+                    else ctx.scene.into(
+                        f"::group({S_.defined_qq.littleskin_main})"
+                    ).into(f"~.member({target.result})")
+                ),
+                duration=timedelta(minutes=duration),
+            )
+            return
+        case "cafe":
+            await ctx[MuteCapability.mute](
+                target=(
+                    target.result.target
+                    if isinstance(target.result, Notice)
+                    else ctx.scene.into(
+                        f"::group({S_.defined_qq.littleskin_cafe})"
+                    ).into(f"~.member({target.result})")
+                ),
+                duration=timedelta(minutes=duration),
+            )
+            return
+        case None:
+            if int(ctx.scene.channel) in [
+                S_.defined_qq.littleskin_main,
+                S_.defined_qq.littleskin_cafe,
+            ]:
                 await ctx[MuteCapability.mute](
                     target=(
                         target.result.target
                         if isinstance(target.result, Notice)
-                        else ctx.scene.into(
-                            f"::group({S_.defined_qq.littleskin_main})"
-                        ).into(f"~.member({target.result})")
-                    ),
-                    duration=timedelta(minutes=duration),
-                )
-                return
-            case "cafe":
-                await ctx[MuteCapability.mute](
-                    target=(
-                        target.result.target
-                        if isinstance(target.result, Notice)
-                        else ctx.scene.into(
-                            f"::group({S_.defined_qq.littleskin_cafe})"
-                        ).into(f"~.member({target.result})")
+                        else ctx.scene.into(f"~.member({target.result})")
                     ),
                     duration=timedelta(minutes=duration),
                 )
@@ -98,40 +97,39 @@ async def unmute(
     target: Match[int | Notice],
     group: Match[Literal["main", "cafe", None]],
 ):
-    if (
-        ctx.scene.channel
-        in [S_.defined_qq.littleskin_main, S_.defined_qq.littleskin_cafe]
-        and not group
-    ):
-        await ctx[MuteCapability.unmute](
-            target=(
-                target.result.target
-                if isinstance(target.result, Notice)
-                else ctx.scene.into(f"~.member({target.result})")
-            )
-        )
-        return
-    elif group:
-        match group.result:
-            case "main":
-                await ctx[MuteCapability.unmute](
-                    target=(
-                        target.result.target
-                        if isinstance(target.result, Notice)
-                        else ctx.scene.into(
-                            f"::group({S_.defined_qq.littleskin_main})"
-                        ).into(f"~.member({target.result})")
-                    )
+    match group.result:
+        case "main":
+            await ctx[MuteCapability.unmute](
+                target=(
+                    target.result.target
+                    if isinstance(target.result, Notice)
+                    else ctx.scene.into(
+                        f"::group({S_.defined_qq.littleskin_main})"
+                    ).into(f"~.member({target.result})")
                 )
-                return
-            case "cafe":
+            )
+            return
+        case "cafe":
+            await ctx[MuteCapability.unmute](
+                target=(
+                    target.result.target
+                    if isinstance(target.result, Notice)
+                    else ctx.scene.into(
+                        f"::group({S_.defined_qq.littleskin_cafe})"
+                    ).into(f"~.member({target.result})")
+                )
+            )
+            return
+        case None:
+            if int(ctx.scene.channel) in [
+                S_.defined_qq.littleskin_main,
+                S_.defined_qq.littleskin_cafe,
+            ]:
                 await ctx[MuteCapability.unmute](
                     target=(
                         target.result.target
                         if isinstance(target.result, Notice)
-                        else ctx.scene.into(
-                            f"::group({S_.defined_qq.littleskin_cafe})"
-                        ).into(f"~.member({target.result})")
+                        else ctx.scene.into(f"~.member({target.result})")
                     )
                 )
                 return
