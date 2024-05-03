@@ -117,13 +117,28 @@ async def member_join_welcome(ctx: Context, event: SceneCreated):
     welcome_msg = [Notice(event.context.endpoint), " "]
     nofi_msg = [f"用户已入群 > {event.context.endpoint.user}"]
 
+    uid_mapping = await UIDMapping.fetch(qq=int(event.context.endpoint.user))
+
     # add UID info
-    if uid_mapping := await UIDMapping.fetch(qq=int(event.context.endpoint.user)):
-        ltsk_user = await LittleSkinUser.uid_info(uid_mapping.uid)
+    if uid_mapping:
         welcome_msg.append(f"UID: {uid_mapping.uid}  ")
         nofi_msg.append(f"UID: {uid_mapping.uid}")
-        image: bytes | None = None  # pre define
 
+        
+    # add join announcement
+    with open(".join-announcement.txt", encoding="utf-8") as f:
+        join_announcement = f.read()
+    welcome_msg.append(f"\n{join_announcement}")
+
+    # send to main group
+    await random_sleep(2)
+    await ctx.scene.send_message(welcome_msg)
+
+    # render image
+
+    if uid_mapping:
+        image: bytes | None = None  # pre define
+        ltsk_user = await LittleSkinUser.uid_info(uid_mapping.uid)
         # if qmail verified (only noti)
         if uid_mapping.qmail_verified:
             nofi_msg.append("QMAIL ✅验证通过")
@@ -164,15 +179,5 @@ async def member_join_welcome(ctx: Context, event: SceneCreated):
     await ctx.scene.into(f"::group({S_.defined_qq.notification_channel})").send_message(
         [Picture(RawResource(image)) if image else "", "\n".join(nofi_msg)]
     )
-
-    # add join announcement
-    with open(".join-announcement.txt", encoding="utf-8") as f:
-        join_announcement = f.read()
-    welcome_msg.append(f"\n{join_announcement}")
-
-    # send to main group
-    await random_sleep(2)
-    await ctx.scene.send_message(welcome_msg)
-
 
 # endregion
