@@ -87,7 +87,7 @@ register(
 register(
     r"%csl.config",
     """若安装了 CustomSkinLoader 后无法正确加载皮肤，可能是当前角色名被同名正版优先加载，可通过以下方法手动修改 CustomSkinLoader 的加载顺序：
-https://manual-ng.littlesk.in/newbee/mod#edit-csl-config""",
+https://manual.littlesk.in/newbee/mod#edit-csl-config""",
 )
 # endregion
 
@@ -104,7 +104,7 @@ register(
     [
         Picture("assets/images/rtfm.png"),
         """请仔细阅读 LittleSkin 用户使用手册，特别是「常见问题解答」！
-https://manual-ng.littlesk.in/""",
+https://manual.littlesk.in/""",
     ],
 )
 
@@ -124,7 +124,7 @@ register(
     """请确认服务器正确配置 authlib-injector 并将 online-mode 设为 true，否则请使用 CustomSkinLoader。
 如果服务器未开启「正版验证」则所有登录方式都会被服务器视为离线模式处理；
 即服务器自行生成 UUID，且不会向验证服务器（皮肤站 / 正版）获取材质。
-详细：https://manual.littlesk.in/advanced/yggdrasil.html""",
+详细：https://manual.littlesk.in/yggdrasil/""",
 )
 
 register(
