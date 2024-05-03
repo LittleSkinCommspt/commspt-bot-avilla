@@ -1,5 +1,5 @@
 from datetime import timedelta
-from typing import Literal, Optional
+from typing import Literal
 
 from arclet.alconna import Alconna, Args, CommandMeta
 from arclet.alconna.graia import Match, alcommand
@@ -11,13 +11,18 @@ from commspt_bot_avilla.utils.adv_filter import (
 )
 from commspt_bot_avilla.utils.setting_manager import S_
 
+_GROUP_NAME_MAPPING = {
+    "main": S_.defined_qq.littleskin_main,
+    "cafe": S_.defined_qq.littleskin_cafe,
+}
+
 
 # MARK: %mute
 @alcommand(
     Alconna(
         r"%mute",
         Args["target", int | Notice]["duration", int, 10][
-            "group?", str, Literal["main", "cafe"] | None
+            "group", Literal["main", "cafe"] | None, None
         ],
         meta=CommandMeta(
             description="禁言用户 (commspt only)",
@@ -35,53 +40,38 @@ async def mute(
     duration: int,
     group: Match[Literal["main", "cafe"] | None],
 ):
-    match group.result:
-        case "main":
-            await ctx[MuteCapability.mute](
-                target=(
-                    target.result.target
-                    if isinstance(target.result, Notice)
-                    else ctx.scene.into(
-                        f"::group({S_.defined_qq.littleskin_main})"
-                    ).into(f"~.member({target.result})")
-                ),
-                duration=timedelta(minutes=duration),
-            )
+    if group.result:
+        if isinstance(target.result, Notice):
+            await ctx.scene.send_message("指定群组时不允许使用 @user")
             return
-        case "cafe":
-            await ctx[MuteCapability.mute](
-                target=(
-                    target.result.target
-                    if isinstance(target.result, Notice)
-                    else ctx.scene.into(
-                        f"::group({S_.defined_qq.littleskin_cafe})"
-                    ).into(f"~.member({target.result})")
-                ),
-                duration=timedelta(minutes=duration),
-            )
-            return
-        case _:
-            if int(ctx.scene.channel) in [
-                S_.defined_qq.littleskin_main,
-                S_.defined_qq.littleskin_cafe,
-            ]:
-                await ctx[MuteCapability.mute](
-                    target=(
-                        target.result.target
-                        if isinstance(target.result, Notice)
-                        else ctx.scene.into(f"~.member({target.result})")
-                    ),
-                    duration=timedelta(minutes=duration),
+
+        await ctx[MuteCapability.mute](
+            target=(
+                ctx.scene.into(f"::group({_GROUP_NAME_MAPPING[group.result]})").into(
+                    f"~.member({target.result})"
                 )
-                return
-    await ctx.scene.send_message("需要指定群组 main 或 cafe")
+            ),
+            duration=timedelta(minutes=duration),
+        )
+        return
+
+    else:
+        await ctx[MuteCapability.mute](
+            target=(
+                target.result.target
+                if isinstance(target.result, Notice)
+                else ctx.scene.into(f"~.member({target.result})")
+            ),
+            duration=timedelta(minutes=duration),
+        )
+        return
 
 
 # MARK: %unmute
 @alcommand(
     Alconna(
         r"%unmute",
-        Args["target", int | Notice]["group?", str, Literal["main", "cafe"] | None],
+        Args["target", int | Notice]["group", Literal["main", "cafe"] | None, None],
         meta=CommandMeta(
             description="解除禁言 (commspt only)",
             usage=r"%unmute <target / qq> [group]",
@@ -97,43 +87,30 @@ async def unmute(
     target: Match[int | Notice],
     group: Match[Literal["main", "cafe"] | None],
 ):
-    match group.result:
-        case "main":
-            await ctx[MuteCapability.unmute](
-                target=(
-                    target.result.target
-                    if isinstance(target.result, Notice)
-                    else ctx.scene.into(
-                        f"::group({S_.defined_qq.littleskin_main})"
-                    ).into(f"~.member({target.result})")
-                )
-            )
+    if group.result:
+        
+        if isinstance(target.result, Notice):
+            await ctx.scene.send_message("指定群组时不允许使用 @user")
             return
-        case "cafe":
-            await ctx[MuteCapability.unmute](
-                target=(
-                    target.result.target
-                    if isinstance(target.result, Notice)
-                    else ctx.scene.into(
-                        f"::group({S_.defined_qq.littleskin_cafe})"
-                    ).into(f"~.member({target.result})")
+
+        await ctx[MuteCapability.unmute](
+            target=(
+                ctx.scene.into(f"::group({_GROUP_NAME_MAPPING[group.result]})").into(
+                    f"~.member({target.result})"
                 )
+            ),
+        )
+        return
+
+    else:
+        await ctx[MuteCapability.unmute](
+            target=(
+                target.result.target
+                if isinstance(target.result, Notice)
+                else ctx.scene.into(f"~.member({target.result})")
             )
-            return
-        case _:
-            if int(ctx.scene.channel) in [
-                S_.defined_qq.littleskin_main,
-                S_.defined_qq.littleskin_cafe,
-            ]:
-                await ctx[MuteCapability.unmute](
-                    target=(
-                        target.result.target
-                        if isinstance(target.result, Notice)
-                        else ctx.scene.into(f"~.member({target.result})")
-                    )
-                )
-                return
-    await ctx.scene.send_message("需要指定群组 main 或 cafe")
+        )
+        return
 
 
 # MARK: %recall
