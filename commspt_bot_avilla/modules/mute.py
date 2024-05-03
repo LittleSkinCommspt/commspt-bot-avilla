@@ -3,7 +3,7 @@ from typing import Literal, Optional
 
 from arclet.alconna import Alconna, Args, CommandMeta
 from arclet.alconna.graia import Match, alcommand
-from avilla.core import Context, MuteCapability, Notice, Message
+from avilla.core import Context, Message, MuteCapability, Notice
 
 from commspt_bot_avilla.utils.adv_filter import (
     dispatcher_from_preset_general,
@@ -17,7 +17,7 @@ from commspt_bot_avilla.utils.setting_manager import S_
     Alconna(
         r"%mute",
         Args["target", int | Notice]["duration", int, 10][
-            "group?", str, Literal["main", "cafe", None]
+            "group?", str, Literal["main", "cafe"] | None
         ],
         meta=CommandMeta(
             description="禁言用户 (commspt only)",
@@ -33,7 +33,7 @@ async def mute(
     ctx: Context,
     target: Match[int | Notice],
     duration: int,
-    group: Match[Literal["main", "cafe", None]],
+    group: Match[Literal["main", "cafe"] | None],
 ):
     match group.result:
         case "main":
@@ -60,7 +60,7 @@ async def mute(
                 duration=timedelta(minutes=duration),
             )
             return
-        case None:
+        case _:
             if int(ctx.scene.channel) in [
                 S_.defined_qq.littleskin_main,
                 S_.defined_qq.littleskin_cafe,
@@ -81,7 +81,7 @@ async def mute(
 @alcommand(
     Alconna(
         r"%unmute",
-        Args["target", int | Notice]["group?", str, Literal["main", "cafe", None]],
+        Args["target", int | Notice]["group?", str, Literal["main", "cafe"] | None],
         meta=CommandMeta(
             description="解除禁言 (commspt only)",
             usage=r"%unmute <target / qq> [group]",
@@ -95,7 +95,7 @@ async def mute(
 async def unmute(
     ctx: Context,
     target: Match[int | Notice],
-    group: Match[Literal["main", "cafe", None]],
+    group: Match[Literal["main", "cafe"] | None],
 ):
     match group.result:
         case "main":
@@ -120,7 +120,7 @@ async def unmute(
                 )
             )
             return
-        case None:
+        case _:
             if int(ctx.scene.channel) in [
                 S_.defined_qq.littleskin_main,
                 S_.defined_qq.littleskin_cafe,
