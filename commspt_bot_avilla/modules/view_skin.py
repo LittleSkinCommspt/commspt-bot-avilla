@@ -6,7 +6,7 @@ from arclet.alconna.graia import alcommand, Match
 from yggdrasil_mc.client import YggdrasilMC
 from datetime import datetime
 
-from commspt_bot_avilla.utils.adv_filter import dispatcher_from_preset_general
+from commspt_bot_avilla.utils.adv_filter import dispatcher_from_preset_cafe
 from commspt_bot_avilla.utils.skinrendermcapi import request_skinrendermc, process_image
 
 from httpx import HTTPStatusError
@@ -43,7 +43,7 @@ TZ_SHANGHAI = timezone("Asia/Shanghai")
         ),
     )
 )
-@dispatcher_from_preset_general
+@dispatcher_from_preset_cafe
 async def cmd_view_ygg(ctx: Context, message: Message, player_name: Match[str]):
     try:
         player = await LS_YGG.by_name_async(player_name.result)
@@ -98,7 +98,7 @@ async def cmd_view_ygg(ctx: Context, message: Message, player_name: Match[str]):
         ),
     )
 )
-@dispatcher_from_preset_general
+@dispatcher_from_preset_cafe
 async def cmd_view_pro(ctx: Context, message: Message, player_name: Match[str]):
     try:
         player = await MJ_YGG.by_name_async(player_name.result)

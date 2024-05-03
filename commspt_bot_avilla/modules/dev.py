@@ -7,7 +7,7 @@ from avilla.core.resource import RawResource
 from commspt_bot_avilla.models.littleskin_api import LittleSkinUser
 from commspt_bot_avilla.models.render_user_info import RenderUserInfo
 from commspt_bot_avilla.utils.adv_filter import (
-    dispatcher_from,
+    dispatcher_from_preset_commspt,
     dispather_by_admin_only,
 )
 from commspt_bot_avilla.utils.setting_manager import S_
@@ -35,7 +35,7 @@ from commspt_bot_avilla.utils.setting_manager import S_
     )
 )
 @dispather_by_admin_only
-@dispatcher_from([S_.defined_qq.commspt_group, S_.defined_qq.dev_group])
+@dispatcher_from_preset_commspt
 async def _(ctx: Context, message: Message):
     if message.reply:
         origin_message = await ctx.pull(Message, message.reply)

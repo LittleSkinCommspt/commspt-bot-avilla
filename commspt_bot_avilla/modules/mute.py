@@ -6,7 +6,7 @@ from arclet.alconna.graia import Match, alcommand
 from avilla.core import Context, Message, MuteCapability, Notice
 
 from commspt_bot_avilla.utils.adv_filter import (
-    dispatcher_from_preset_general,
+    dispatcher_from_preset_cafe,
     dispather_by_admin_only,
 )
 from commspt_bot_avilla.utils.setting_manager import S_
@@ -32,7 +32,7 @@ _GROUP_NAME_MAPPING = {
         ),
     )
 )
-@dispatcher_from_preset_general
+@dispatcher_from_preset_cafe
 @dispather_by_admin_only
 async def mute(
     ctx: Context,
@@ -80,7 +80,7 @@ async def mute(
         ),
     )
 )
-@dispatcher_from_preset_general
+@dispatcher_from_preset_cafe
 @dispather_by_admin_only
 async def unmute(
     ctx: Context,
@@ -88,7 +88,7 @@ async def unmute(
     group: Match[Literal["main", "cafe"] | None],
 ):
     if group.result:
-        
+
         if isinstance(target.result, Notice):
             await ctx.scene.send_message("指定群组时不允许使用 @user")
             return
@@ -125,7 +125,7 @@ async def unmute(
         ),
     )
 )
-@dispatcher_from_preset_general
+@dispatcher_from_preset_cafe
 @dispather_by_admin_only
 async def recall(ctx: Context, message: Message):
     if message.reply:

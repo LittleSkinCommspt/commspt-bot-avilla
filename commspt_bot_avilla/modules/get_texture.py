@@ -3,7 +3,7 @@ from arclet.alconna.graia import Match, alcommand
 from avilla.core import Context, Message
 from yggdrasil_mc.client import YggdrasilMC
 
-from commspt_bot_avilla.utils.adv_filter import dispatcher_from_preset_general
+from commspt_bot_avilla.utils.adv_filter import dispatcher_from_preset_cafe
 from commspt_bot_avilla.utils.random_sleep import random_sleep
 
 # region utils
@@ -24,7 +24,7 @@ LS_YGG = YggdrasilMC("https://littleskin.cn/api/yggdrasil")
         ),
     )
 )
-@dispatcher_from_preset_general
+@dispatcher_from_preset_cafe
 async def cmd_ygg(ctx: Context, message: Message, player_name: Match[str]):
     try:
         player = await LS_YGG.by_name_async(player_name.result)

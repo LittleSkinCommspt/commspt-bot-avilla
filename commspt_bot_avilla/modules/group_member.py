@@ -3,7 +3,7 @@ from arclet.alconna.graia import Match, alcommand
 from avilla.core import Context, Message, Notice
 from richuru import logger
 from commspt_bot_avilla.utils.adv_filter import (
-    dispatcher_from_preset_general,
+    dispatcher_from_preset_cafe,
     dispather_by_admin_only,
 )
 from commspt_bot_avilla.models.mongodb_data import UIDMapping
@@ -23,7 +23,7 @@ from commspt_bot_avilla.utils.random_sleep import random_sleep
     )
 )
 @dispather_by_admin_only
-@dispatcher_from_preset_general
+@dispatcher_from_preset_cafe
 async def cmd_uid(ctx: Context, target: Match[Notice], message: Message):
     target_qq = int(target.result.target["member"])
     logger.info(f"UID search: {target_qq}")

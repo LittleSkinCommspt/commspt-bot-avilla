@@ -17,9 +17,25 @@ def from_groups(allowed_groups: list[int]):
 
 def from_groups_preset_general():
     """
-    Preset groups: `littleskin_main`, `littleskin_cafe`,  `commspt_group`, `dev_group`
+    Preset groups: `littleskin_main`, `commspt_group`, `dev_group`
     """
-    return from_groups([Q_.littleskin_main, Q_.littleskin_cafe, Q_.commspt_group, Q_.dev_group])
+    return from_groups([Q_.littleskin_main, Q_.commspt_group, Q_.dev_group])
+
+
+def from_groups_preset_cafe():
+    """
+    Preset groups: `littleskin_main`, `littleskin_cafe`, `commspt_group`, `dev_group`
+    """
+    return from_groups(
+        [Q_.littleskin_main, Q_.littleskin_cafe, Q_.commspt_group, Q_.dev_group]
+    )
+
+
+def from_groups_preset_commspt():
+    """
+    Preset groups: `commspt_group`, `dev_group`
+    """
+    return from_groups([Q_.commspt_group, Q_.dev_group])
 
 
 def by_admin_only():
@@ -37,6 +53,18 @@ dispatcher_from_preset_general = dispatch(
     Filter()
     .dispatch(Context)
     .assert_true(lambda ctx: from_groups_preset_general()(ctx.scene))
+)
+
+dispatcher_from_preset_cafe = dispatch(
+    Filter()
+    .dispatch(Context)
+    .assert_true(lambda ctx: from_groups_preset_cafe()(ctx.scene))
+)
+
+dispatcher_from_preset_commspt = dispatch(
+    Filter()
+    .dispatch(Context)
+    .assert_true(lambda ctx: from_groups_preset_commspt()(ctx.scene))
 )
 
 

@@ -15,7 +15,7 @@ from graia.saya.builtins.broadcast.shortcut import dispatch
 from loguru import logger
 
 from commspt_bot_avilla.utils.adv_filter import (
-    dispatcher_from,
+    dispatcher_from_preset_commspt,
     dispather_by_admin_only,
 )
 from commspt_bot_avilla.utils.random_sleep import random_sleep
@@ -38,7 +38,7 @@ from commspt_bot_avilla.utils.setting_manager import S_
     )
 )
 @dispather_by_admin_only
-@dispatcher_from([S_.defined_qq.commspt_group, S_.defined_qq.dev_group])
+@dispatcher_from_preset_commspt
 @dispatch(
     Filter().dispatch(Message).assert_true(lambda message: message.reply is not None)
 )
