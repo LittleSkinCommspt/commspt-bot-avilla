@@ -14,9 +14,9 @@ class CustomSkinLoaderLatest(BaseModel):
         forge: Annotated[AnyHttpUrl, str] = Field(alias="Forge")
         forgeactive: Annotated[AnyHttpUrl, str] = Field(alias="ForgeActive")
 
-        @classmethod
-        async def generate_download_text(cls):
-            return f"Fabric: {cls.fabric}\nForge: {cls.forge}\nForge Active: {cls.forgeactive}"
+        @property
+        async def generate_download_text(self) -> str:
+            return f"Fabric: {self.fabric}\nForge: {self.forge}\nForge Active: {self.forgeactive}"
 
     version: str
     downloads: Downloads
