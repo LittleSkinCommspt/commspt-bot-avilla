@@ -3,7 +3,6 @@ from pydantic.fields import Field
 from pydantic.networks import AnyHttpUrl
 from typing import Annotated
 from cookit.pyd import type_validate_json
-from hashlib import sha3_256
 from datetime import datetime
 import httpx
 
@@ -40,7 +39,7 @@ class CustomSkinLoaderLatest(BaseModel):
 class AuthlibInjectorLatest(BaseModel):
 
     class CheckSums(BaseModel):
-        sha256: sha3_256
+        sha256: str
 
     build_number: int
     version: str
