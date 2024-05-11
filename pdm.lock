@@ -5,7 +5,7 @@
 groups = ["default"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.1"
-content_hash = "sha256:a5527916bdb6f14d0d0e50634ca239d768c9dc31090bcac60f15e76f878b0acb"
+content_hash = "sha256:b66ae6cd34226bd91643d7186c2660d28b2b96a1fe07a6d353cbaae40f894bf5"
 
 [[package]]
 name = "aiohttp"
@@ -286,6 +286,20 @@ marker = "sys_platform == \"win32\" or platform_system == \"Windows\""
 files = [
     {file = "colorama-0.4.6-py2.py3-none-any.whl", hash = "sha256:4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6"},
     {file = "colorama-0.4.6.tar.gz", hash = "sha256:08695f5cb7ed6e0531a20572697297273c47b8cae5a63ffc6d6ed5c201be6e44"},
+]
+
+[[package]]
+name = "cookit"
+version = "0.4.1"
+requires_python = "<4.0,>=3.9"
+summary = "A toolkit for self use."
+groups = ["default"]
+dependencies = [
+    "typing-extensions>=4.10.0",
+]
+files = [
+    {file = "cookit-0.4.1-py3-none-any.whl", hash = "sha256:5d47c48676a418dc15e31bc43aa2ec0977e9d017375a857dd50d3c220f0fe785"},
+    {file = "cookit-0.4.1.tar.gz", hash = "sha256:ec9c666b9c6bbe6349a117e9d637907e1627e45cd91d0bd75b0a4aadc33cffbe"},
 ]
 
 [[package]]
