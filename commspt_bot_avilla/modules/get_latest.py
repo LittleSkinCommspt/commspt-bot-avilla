@@ -43,6 +43,6 @@ async def _(ctx: Context, message: Message):
 async def _(ctx: Context, message: Message):
     ygg_latest = await AuthlibInjectorLatest.get()
     await ctx.scene.send_message(
-        f"「AuthlibInjector」\n当前最新版本 > {ygg_latest.version}\n\n下载地址 > {ygg_latest.download_url}",
+        f"「AuthlibInjector」\n当前最新版本 > {ygg_latest.version}\n下载地址 > {ygg_latest.download_url}",
         reply=message,
     )
