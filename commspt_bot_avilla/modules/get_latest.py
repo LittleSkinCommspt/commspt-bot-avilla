@@ -24,7 +24,7 @@ from commspt_bot_avilla.utils.setting_manager import S_
 async def _(ctx: Context, message: Message):
     csl_latest = await CustomSkinLoaderLatest.get()
     await ctx.scene.send_message(
-        f"「CustomSkinLoader」\n当前最新版本 > {csl_latest.version}\n\n{await csl_latest.downloads.generate_download_text}",
+        f"「CustomSkinLoader」\n当前最新版本 > {csl_latest.version}\n\n{csl_latest.downloads.generate_download_text}",
         reply=message,
     )
 
