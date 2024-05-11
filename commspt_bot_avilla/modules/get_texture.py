@@ -20,7 +20,7 @@ LS_YGG = YggdrasilMC("https://littleskin.cn/api/yggdrasil")
             description="查询 Yggdrasil 玩家信息",
             usage=r"%ygg <player_name>",
             example=r"%ygg SerinaNya",
-            author="FalfaChino & SerinaNya",
+            author="SerinaNya",
         ),
     )
 )

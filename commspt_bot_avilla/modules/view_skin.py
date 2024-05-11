@@ -27,7 +27,7 @@ TZ_SHANGHAI = timezone("Asia/Shanghai")
             description="查看玩家皮肤",
             usage="%view <player_name>",
             example="%view SerinaNya",
-            author="FalfaChino & SerinaNya",
+            author="SerinaNya",
         ),
     )
 )

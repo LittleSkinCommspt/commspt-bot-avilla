@@ -28,7 +28,7 @@ _GROUP_NAME_MAPPING = {
             description="禁言用户 (commspt only)",
             usage=r"%mute <target / qq> [duration] [group]",
             example=r"%mute @user 10 main",
-            author="SerinaNya & FalfaChino",
+            author="SerinaNya",
         ),
     )
 )
@@ -76,7 +76,7 @@ async def mute(
             description="解除禁言 (commspt only)",
             usage=r"%unmute <target / qq> [group]",
             example=r"%unmute @user main",
-            author="SerinaNya & FalfaChino",
+            author="SerinaNya",
         ),
     )
 )

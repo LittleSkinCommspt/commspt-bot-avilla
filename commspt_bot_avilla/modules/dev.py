@@ -30,7 +30,7 @@ from commspt_bot_avilla.utils.setting_manager import S_
             description="获取环境 ID (commspt [group] only)",
             usage=r"%id",
             example=r"%id",
-            author="FalfaChino",
+            author="SerinaNya",
         ),
     )
 )
