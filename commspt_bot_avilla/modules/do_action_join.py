@@ -19,7 +19,6 @@ from commspt_bot_avilla.utils.adv_filter import (
     dispather_by_admin_only,
 )
 from commspt_bot_avilla.utils.random_sleep import random_sleep
-from commspt_bot_avilla.utils.setting_manager import S_
 
 
 # region do join action
