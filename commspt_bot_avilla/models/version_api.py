@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from pydantic.fields import Field
 from pydantic.networks import AnyHttpUrl
-from typing import Annotated, Optional
+from typing import Annotated
 from cookit.pyd import type_validate_json
 from datetime import datetime
 import httpx
