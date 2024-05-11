@@ -8,6 +8,7 @@ from datetime import datetime
 
 from commspt_bot_avilla.utils.adv_filter import dispatcher_from_preset_cafe
 from commspt_bot_avilla.utils.skinrendermcapi import request_skinrendermc, process_image
+from commspt_bot_avilla.utils.setting_manager import S_
 
 from httpx import HTTPStatusError
 from pytz import timezone
@@ -21,25 +22,25 @@ TZ_SHANGHAI = timezone("Asia/Shanghai")
 
 @alcommand(
     Alconna(
-        "%view",
+        f"{S_.command_prompt}view",
         Args["player_name", str],
         meta=CommandMeta(
             description="查看玩家皮肤",
-            usage="%view <player_name>",
-            example="%view SerinaNya",
+            usage=f"{S_.command_prompt}view <player_name>",
+            example=f"{S_.command_prompt}view SerinaNya",
             author="SerinaNya",
         ),
     )
 )
 @alcommand(
     Alconna(
-        r"%view.ygg",
+        f"{S_.command_prompt}view.ygg",
         Args["player_name", str],
         meta=CommandMeta(
             description="查看玩家皮肤 (LittleSkin)",
-            usage=r"%view.ygg <player_name>",
-            example=r"%view.ygg SerinaNya",
-            author="FalfaChino & SerinaNya",
+            usage=f"{S_.command_prompt}view.ygg <player_name>",
+            example=f"{S_.command_prompt}view.ygg SerinaNya",
+            author="SerinaNya",
         ),
     )
 )
@@ -94,7 +95,7 @@ async def cmd_view_ygg(ctx: Context, message: Message, player_name: Match[str]):
             description="查看玩家皮肤",
             usage=r"%view <player_name>",
             example=r"%view SerinaNya",
-            author="FalfaChino & SerinaNya",
+            author="SerinaNya",
         ),
     )
 )

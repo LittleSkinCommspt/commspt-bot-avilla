@@ -7,14 +7,16 @@ from commspt_bot_avilla.models.version_api import (
     CustomSkinLoaderLatest,
 )
 
+from commspt_bot_avilla.utils.setting_manager import S_
+
 
 @alcommand(
     Alconna(
-        r"%csl.latest",
+        f"{S_.command_prompt}csl.latest",
         meta=CommandMeta(
             description="获取 CustomSkinLoader 最新版本信息",
-            usage=r"%csl.latest",
-            example=r"%csl.latest",
+            usage=f"{S_.command_prompt}csl.latest",
+            example=f"{S_.command_prompt}csl.latest",
             author="SerinaNya",
         ),
     )
@@ -29,11 +31,11 @@ async def _(ctx: Context, message: Message):
 
 @alcommand(
     Alconna(
-        r"%ygg.latest",
+        f"{S_.command_prompt}ygg.latest",
         meta=CommandMeta(
             description="获取 Yggdrasil 最新版本信息",
-            usage=r"%ygg.latest",
-            example=r"%ygg.latest",
+            usage=f"{S_.command_prompt}ygg.latest",
+            example=f"{S_.command_prompt}ygg.latest",
             author="SerinaNya",
         ),
     )

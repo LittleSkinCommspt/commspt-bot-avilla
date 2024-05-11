@@ -1,8 +1,6 @@
 [project]
 authors = [
     { name = "SerinaNya", email = "34389622+SerinaNya@users.noreply.github.com" },
-    { name = "XieXiLin", email = "support@xiexilin.com" },
-    { name = "FalfaChino", email = "falfachino@qq.com" },
 ]
 requires-python = "<4.0,>=3.12"
 dependencies = [

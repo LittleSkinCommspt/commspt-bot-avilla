@@ -1,11 +1,13 @@
 from avilla.core import Context, Message
 from avilla.core.builtins.command import AvillaCommands
-from avilla.core.elements import Element, Picture
+from avilla.core.elements import Picture
+from graia.amnesia.message import Element
 from avilla.core.tools.filter import Filter
 from loguru import logger
 
 from commspt_bot_avilla.utils.adv_filter import from_groups_preset_general
 from commspt_bot_avilla.utils.random_sleep import random_sleep
+from commspt_bot_avilla.utils.setting_manager import S_
 
 cmd = AvillaCommands()
 
@@ -39,8 +41,10 @@ def register(
 
     # register to command events
     cmd.on(
-        command,
+        command=S_.command_prompt + command,
         dispatchers=default_dispatchers,
+        need_tome=False,
+        remove_tome=False,
     )(_simple_response)
 
 
@@ -49,11 +53,11 @@ def register(
 logger.info("registering simple response...")
 
 
-register(r"%ping", "在", reply=True)
+register("ping", "在", reply=True)
 
 # region ot
 register(
-    r"%cafe",
+    "cafe",
     [
         Picture("assets/images/honoka cafe ng.png"),
         "本群不允许闲聊，可以加入 Honoka Café 和大家一起水群。群号：651672723。",
@@ -62,21 +66,21 @@ register(
 # endregion
 
 # region log
-register(r"%browser", Picture("assets/images/browser.png"), reply=True)
+register("browser", Picture("assets/images/browser.png"), reply=True)
 
 register(
-    r"%log.csl",
+    "log.csl",
     "CustomSkinLoader 的日志位于 .minecraft/CustomSkinLoader/CustomSkinLoader.log，请将文件直接发送至群内。",
 )
 
 register(
-    r"%log.mc",
+    "log.mc",
     "请使用启动器的「测试游戏」功能启动游戏，并在复现问题后导出日志发送至群内。如果问题与外置登录有关，请在启动器的「JVM 参数（Java 虚拟机参数）」设置中填入 -Dauthlibinjector.debug",
 )
 
 # region 过渡区
 register(
-    r"%csl.log",
+    "csl.log",
     "CustomSkinLoader 的日志位于 .minecraft/CustomSkinLoader/CustomSkinLoader.log，请将文件直接发送至群内。",
 )
 # endregion
@@ -85,7 +89,7 @@ register(
 
 # region csl
 register(
-    r"%csl.config",
+    "csl.config",
     """若安装了 CustomSkinLoader 后无法正确加载皮肤，可能是当前角色名被同名正版优先加载，可通过以下方法手动修改 CustomSkinLoader 的加载顺序：
 https://manual.littlesk.in/newbee/mod#edit-csl-config""",
 )
@@ -93,14 +97,14 @@ https://manual.littlesk.in/newbee/mod#edit-csl-config""",
 
 # region other
 register(
-    r"%pay",
+    "pay",
     """在群里和大佬吹牛逼帮助不了你的问题？
 https://afdian.net/a/tnqzh123
 买一对一帮助服务即可快速解决你的问题！""",
 )
 
 register(
-    r"%manual",
+    "manual",
     [
         Picture("assets/images/rtfm.png"),
         """请仔细阅读 LittleSkin 用户使用手册，特别是「常见问题解答」！
@@ -109,7 +113,7 @@ https://manual.littlesk.in/""",
 )
 
 register(
-    r"%pro_verify",
+    "pro_verify",
     """目前在 LittleSkin 验证正版后会产生如下影响：
 · 在主页上获得一个「正版」（英文为「Pro」）徽标
 · 赠送您 1000 积分；
@@ -120,7 +124,7 @@ register(
 )
 
 register(
-    r"%ygg.online_mode",
+    "ygg.online_mode",
     """请确认服务器正确配置 authlib-injector 并将 online-mode 设为 true，否则请使用 CustomSkinLoader。
 如果服务器未开启「正版验证」则所有登录方式都会被服务器视为离线模式处理；
 即服务器自行生成 UUID，且不会向验证服务器（皮肤站 / 正版）获取材质。
@@ -128,7 +132,7 @@ register(
 )
 
 register(
-    r"%cape_format",
+    "cape_format",
     """「不是有效的披风文件」
 LittleSkin 对于披风文件的格式要求如下：
 · png 格式文件；
@@ -137,7 +141,7 @@ LittleSkin 对于披风文件的格式要求如下：
 )
 
 register(
-    r"%network",
+    "network",
     """「登录失败：身份验证服务器目前正在停机维护」
 「无法验证用户名」
 「验证服务器他们宕了吗？」：

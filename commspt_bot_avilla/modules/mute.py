@@ -20,14 +20,14 @@ _GROUP_NAME_MAPPING = {
 # MARK: %mute
 @alcommand(
     Alconna(
-        r"%mute",
+        f"{S_.command_prompt}mute",
         Args["target", int | Notice]["duration", int, 10][
             "group", Literal["main", "cafe"] | None, None
         ],
         meta=CommandMeta(
             description="禁言用户 (commspt only)",
-            usage=r"%mute <target / qq> [duration] [group]",
-            example=r"%mute @user 10 main",
+            usage=f"{S_.command_prompt}mute <target / qq> [duration] [group]",
+            example=f"{S_.command_prompt}mute @user 10 main",
             author="SerinaNya",
         ),
     )
@@ -70,12 +70,12 @@ async def mute(
 # MARK: %unmute
 @alcommand(
     Alconna(
-        r"%unmute",
+        f"{S_.command_prompt}unmute",
         Args["target", int | Notice]["group", Literal["main", "cafe"] | None, None],
         meta=CommandMeta(
             description="解除禁言 (commspt only)",
-            usage=r"%unmute <target / qq> [group]",
-            example=r"%unmute @user main",
+            usage=f"{S_.command_prompt}unmute <target / qq> [group]",
+            example=f"{S_.command_prompt}unmute @user main",
             author="SerinaNya",
         ),
     )
@@ -121,7 +121,7 @@ async def unmute(
             description="撤回消息 (commspt only)",
             usage=r"%recall",
             example=r"%recall",
-            author="FalfaChino",
+            author="SerinaNya",
         ),
     )
 )

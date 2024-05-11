@@ -6,6 +6,8 @@ from yggdrasil_mc.client import YggdrasilMC
 from commspt_bot_avilla.utils.adv_filter import dispatcher_from_preset_cafe
 from commspt_bot_avilla.utils.random_sleep import random_sleep
 
+from commspt_bot_avilla.utils.setting_manager import S_
+
 # region utils
 LS_YGG = YggdrasilMC("https://littleskin.cn/api/yggdrasil")
 # endregion
@@ -14,7 +16,7 @@ LS_YGG = YggdrasilMC("https://littleskin.cn/api/yggdrasil")
 # region %ygg
 @alcommand(
     Alconna(
-        r"%ygg",
+        f"{S_.command_prompt}ygg",
         Args["player_name", str],
         meta=CommandMeta(
             description="查询 Yggdrasil 玩家信息",

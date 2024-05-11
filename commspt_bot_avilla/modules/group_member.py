@@ -8,16 +8,17 @@ from commspt_bot_avilla.utils.adv_filter import (
 )
 from commspt_bot_avilla.models.mongodb_data import UIDMapping
 from commspt_bot_avilla.utils.random_sleep import random_sleep
+from commspt_bot_avilla.utils.setting_manager import S_
 
 
 @alcommand(
     Alconna(
-        r"%uid",
+        f"{S_.command_prompt}uid",
         Args["target", Notice],
         meta=CommandMeta(
             description="查询用户 UID (commspt only)",
-            usage=r"%uid <target / qq>",
-            example=r"%uid @user",
+            usage=f"{S_.command_prompt}uid <target / qq>",
+            example=f"{S_.command_prompt}uid @user",
             author="SerinaNya",
         ),
     )

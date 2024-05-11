@@ -25,11 +25,11 @@ from commspt_bot_avilla.utils.setting_manager import S_
 
 @alcommand(
     Alconna(
-        r"%id",
+        f"{S_.command_prompt}id",
         meta=CommandMeta(
             description="获取环境 ID (commspt [group] only)",
-            usage=r"%id",
-            example=r"%id",
+            usage=f"{S_.command_prompt}id",
+            example=f"{S_.command_prompt}id",
             author="SerinaNya",
         ),
     )

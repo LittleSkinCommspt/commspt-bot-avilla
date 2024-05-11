@@ -10,17 +10,18 @@ from commspt_bot_avilla.utils.adv_filter import (
     dispather_by_admin_only,
     dispatcher_from_preset_commspt,
 )
+from commspt_bot_avilla.utils.setting_manager import S_
 from richuru import logger
 
 
 @alcommand(
     Alconna(
-        r"%user",
+        f"{S_.command_prompt}user",
         Args["uid", int],
         meta=CommandMeta(
             description="查询用户信息 (commspt [group] only)",
-            usage=r"%user <uid>",
-            example=r"%user 123456",
+            usage=f"{S_.command_prompt}user <uid>",
+            example=f"{S_.command_prompt}user 123456",
             author="SerinaNya",
         ),
     )
