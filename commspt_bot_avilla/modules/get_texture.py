@@ -2,6 +2,7 @@ from arclet.alconna import Alconna, Args, CommandMeta
 from arclet.alconna.graia import Match, alcommand
 from avilla.core import Context, Message
 from yggdrasil_mc.client import YggdrasilMC
+from httpx import HTTPStatusError
 
 from commspt_bot_avilla.utils.adv_filter import dispatcher_from_preset_cafe
 from commspt_bot_avilla.utils.random_sleep import random_sleep
@@ -34,10 +35,12 @@ async def cmd_ygg(ctx: Context, message: Message, player_name: Match[str]):
         _message = f"「{player_name.result}」不存在"
         await ctx.scene.send_message(_message, reply=message)
         return
+    except HTTPStatusError as e:
+        _message = f"请求错误: {e.response.status_code}"
+        await ctx.scene.send_message(_message, reply=message)
+        return
     # success
-    skin_model = (
-        player.skin.metadata.model if player.skin and player.skin.metadata else None
-    )
+    skin_model = player.skin.metadata.model if player.skin and player.skin.metadata else None
 
     _message = f"""「{player.name}」的资料 - 来自 Yggdrasil API
 
