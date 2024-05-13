@@ -16,7 +16,7 @@ class CustomSkinLoaderLatest(BaseModel):
 
         @property
         def generate_download_text(self) -> str:
-            return f"Fabric: {self.fabric}\nForge: {self.forge}\nForge Active: {self.forgeactive}"
+            return f"Fabric > {self.fabric}\nForge > {self.forge}\nForge Active > {self.forgeactive}"
 
     version: str
     downloads: Downloads
