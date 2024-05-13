@@ -31,11 +31,7 @@ class CustomSkinLoaderLatest(BaseModel):
         async with httpx.AsyncClient() as client:
             return type_validate_json(
                 cls,
-                (
-                    await client.get(
-                        "https://csl-1258131272.cos.ap-shanghai.myqcloud.com/latest.json"
-                    )
-                )
+                (await client.get("https://csl-1258131272.cos.ap-shanghai.myqcloud.com/latest.json"))
                 .raise_for_status()
                 .text,
             )
@@ -62,13 +58,7 @@ class AuthlibInjectorLatest(BaseModel):
         async with httpx.AsyncClient() as client:
             return type_validate_json(
                 cls,
-                (
-                    await client.get(
-                        "https://authlib-injector.yushi.moe/artifact/latest.json"
-                    )
-                )
-                .raise_for_status()
-                .text,
+                (await client.get("https://authlib-injector.yushi.moe/artifact/latest.json")).raise_for_status().text,
             )
 
 
@@ -107,7 +97,7 @@ class LibericaJavaLatest(BaseModel):
     @classmethod
     async def get(
         cls,
-        **kargs,
+        **kwargs,
     ):
         """获取 Liberica Java 版本信息
 
@@ -116,15 +106,15 @@ class LibericaJavaLatest(BaseModel):
         Returns:
             List[LibericaJavaLatest]: Liberica Java 版本信息列表
         """
-        for key, _ in kargs.items():
-            kargs[key.replace("_", "-")] = kargs.pop(key)
+        for key, _ in kwargs.items():
+            kwargs[key.replace("_", "-")] = kwargs.pop(key)
         async with httpx.AsyncClient() as client:
             return type_validate_json(
                 list[cls],
                 (
                     await client.get(
                         "https://api.bell-sw.com/v1/liberica/releases",
-                        params=kargs,
+                        params=kwargs,
                     )
                 )
                 .raise_for_status()

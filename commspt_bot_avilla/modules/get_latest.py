@@ -1,7 +1,6 @@
 from arclet.alconna import Alconna, CommandMeta, Args
 from arclet.alconna.graia import alcommand, CommandResult
 from avilla.core import Context, Message
-from typing import Optional
 
 from commspt_bot_avilla.models.version_api import (
     AuthlibInjectorLatest,
