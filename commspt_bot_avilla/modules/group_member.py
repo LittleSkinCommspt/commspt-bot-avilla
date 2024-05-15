@@ -14,7 +14,7 @@ from commspt_bot_avilla.utils.setting_manager import S_
 @alcommand(
     Alconna(
         f"{S_.command_prompt}uid",
-        Args["target", Notice],
+        Args["target", int | Notice],
         meta=CommandMeta(
             description="查询用户 UID (commspt only)",
             usage=f"{S_.command_prompt}uid <target / qq>",
@@ -25,8 +25,8 @@ from commspt_bot_avilla.utils.setting_manager import S_
 )
 @dispather_by_admin_only
 @dispatcher_from_preset_cafe
-async def cmd_uid(ctx: Context, target: Match[Notice], message: Message):
-    target_qq = int(target.result.target["member"])
+async def cmd_uid(ctx: Context, target: Match[int | Notice], message: Message):
+    target_qq = int(target.result.target["member"]) if isinstance(target.result, Notice) else target.result
     logger.info(f"UID search: {target_qq}")
     uid_mapping = await UIDMapping.fetch(qq=target_qq)
     logger.success(f"UID search: {target_qq} -> {uid_mapping}")
@@ -37,6 +37,4 @@ async def cmd_uid(ctx: Context, target: Match[Notice], message: Message):
             reply=message,
         )
     else:
-        await ctx.scene.send_message(
-            f"找不到 {target_qq} 在缓存中的 UID", reply=message
-        )
+        await ctx.scene.send_message(f"找不到 {target_qq} 在缓存中的 UID", reply=message)
