@@ -1,7 +1,7 @@
 from datetime import datetime
 from motor.motor_asyncio import AsyncIOMotorClient
 
-from utils.setting_manager import S_
+from commspt_bot_avilla.utils.setting_manager import S_
 
 
 async def write_uid_db(uid: int | str, qq: int | str):
