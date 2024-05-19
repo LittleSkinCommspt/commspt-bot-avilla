@@ -18,9 +18,7 @@ default_dispatchers = [
 
 
 # region register
-def register(
-    command: str, response: str | Element | list[str | Element], reply: bool = False
-):
+def register(command: str, response: str | Element | list[str | Element], reply: bool = False):
     """
     ### Simple Response：将简易响应注册到对应的命令事件，可选是否回复触发消息
 

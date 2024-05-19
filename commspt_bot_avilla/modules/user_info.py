@@ -1,11 +1,12 @@
 from arclet.alconna import Alconna, Args, CommandMeta
 from arclet.alconna.graia import Match, alcommand
 from avilla.core import Context
-from avilla.core.elements import Picture
+from avilla.core.elements import Picture, Notice
 from avilla.core.resource import RawResource
 
 from commspt_bot_avilla.models.littleskin_api import LittleSkinUser
 from commspt_bot_avilla.models.render_user_info import RenderUserInfo
+from commspt_bot_avilla.utils.mongodb_manager import write_uid_db
 from commspt_bot_avilla.utils.adv_filter import (
     dispather_by_admin_only,
     dispatcher_from_preset_commspt,
@@ -41,3 +42,24 @@ async def user_info(ctx: Context, uid: Match[int]):
     else:
         await ctx.scene.send_message(f"未找到 UID 为 {uid.result} 的用户")
         logger.error(f"UID {uid.result} not found.")
+
+
+@alcommand(
+    Alconna(
+        f"{S_.command_prompt}setuid",
+        Args["target", Notice | int]["uid", int],
+        meta=CommandMeta(
+            description="设置用户记录的 UID (commspt only)",
+            usage=f"{S_.command_prompt}setuid <target / qq> <uid>",
+            example=f"{S_.command_prompt}setuid 999999 123456",
+            author="SerinaNya",
+        ),
+    )
+)
+@dispather_by_admin_only
+@dispatcher_from_preset_commspt
+async def _(ctx: Context, target: Match[Notice | int], uid: Match[int]):
+    target_qq = int(target.result.target["member"]) if isinstance(target.result, Notice) else target.result
+    target_uid = uid.result
+    await write_uid_db(uid=target_uid, qq=target_qq)
+    await ctx.scene.send_message(f"QQ {target_qq} -> UID {target_uid} ✅")
