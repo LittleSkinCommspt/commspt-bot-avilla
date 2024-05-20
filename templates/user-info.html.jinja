@@ -130,7 +130,9 @@
                 <div class="field">
                     <label class="label">最后签到时间</label>
                     <div class="control has-icons-left">
-                        <input class="input" type="text" value="{{ last_sign_at }}" />
+                        {# <input class="input" type="text" value="{{ last_sign_at }}" /> #}
+                        <input class="input" type="text"
+                            value="{% if register_at > last_sign_at %}从未签到过{% else %}{{ last_sign_at }}{% endif %}" />
                         <span class="icon is-small is-left">
                             <i class="fa-solid fa-right-to-bracket"></i>
                         </span>

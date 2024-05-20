@@ -7,6 +7,7 @@ from avilla.core.resource import RawResource
 from commspt_bot_avilla.models.littleskin_api import LittleSkinUser
 from commspt_bot_avilla.models.render_user_info import RenderUserInfo
 from commspt_bot_avilla.utils.mongodb_manager import write_uid_db
+from commspt_bot_avilla.models.mongodb_data import UIDMapping
 from commspt_bot_avilla.utils.adv_filter import (
     dispather_by_admin_only,
     dispatcher_from_preset_commspt,
@@ -32,10 +33,12 @@ from richuru import logger
 async def user_info(ctx: Context, uid: Match[int]):
     logger.info(f"Looking for user info uid={uid.result}")
     ltsk_user = await LittleSkinUser.uid_info(uid.result)
+    mapping_qq = await UIDMapping.fetch(uid=uid.result)
+    logger.info(f"UID Mapping: {uid.result} -> {mapping_qq}")
     if ltsk_user:
         logger.info(f"Ready to render {uid.result} ↓")
         logger.info(ltsk_user)
-        render = RenderUserInfo(**ltsk_user.model_dump())
+        render = RenderUserInfo(**ltsk_user.model_dump(), qq=mapping_qq)
         image = await render.get_image()
         await ctx.scene.send_message(Picture(RawResource(image)))
         logger.success("Image sent.")
