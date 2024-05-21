@@ -11,6 +11,7 @@ from commspt_bot_avilla.models.mongodb_data import UIDMapping
 from commspt_bot_avilla.utils.adv_filter import (
     dispather_by_admin_only,
     dispatcher_from_preset_commspt,
+    dispatcher_from_preset_cafe,
 )
 from commspt_bot_avilla.utils.setting_manager import S_
 from richuru import logger
