@@ -60,7 +60,7 @@ async def user_info(ctx: Context, uid: Match[int]):
     )
 )
 @dispather_by_admin_only
-@dispatcher_from_preset_commspt
+@dispatcher_from_preset_cafe
 async def _(ctx: Context, target: Match[Notice | int], uid: Match[int]):
     target_qq = int(target.result.target["member"]) if isinstance(target.result, Notice) else target.result
     target_uid = uid.result
