@@ -5,7 +5,7 @@ from graia.amnesia.message import Element
 from avilla.core.tools.filter import Filter
 from loguru import logger
 
-from commspt_bot_avilla.utils.adv_filter import from_groups_preset_general
+from commspt_bot_avilla.utils.adv_filter import from_groups_preset_cafe
 from commspt_bot_avilla.utils.random_sleep import random_sleep
 from commspt_bot_avilla.utils.setting_manager import S_
 
@@ -13,7 +13,7 @@ cmd = AvillaCommands()
 
 
 default_dispatchers = [
-    Filter.cx.client.all([from_groups_preset_general()]),
+    Filter.cx.client.all([from_groups_preset_cafe()]),
 ]
 
 
