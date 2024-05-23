@@ -4,9 +4,7 @@ from pydantic import BaseModel
 
 import yaml
 
-VERIFY_CONTENT = httpx.create_ssl_context(
-    verify=ssl.create_default_context(), http2=True
-)
+VERIFY_CONTENT = httpx.create_ssl_context(verify=ssl.create_default_context(), http2=True)
 
 
 class DefinedQQ(BaseModel):
@@ -35,11 +33,19 @@ class API_mihari_svg(BaseModel):
 class DB_mongo(BaseModel):
     url: str
 
+
 class API_bingling_ipip(BaseModel):
     endpoint: str
 
+
 class API_browserless(BaseModel):
     endpoint: str
+
+
+class Feishu_Bitable(BaseModel):
+    app_token: str
+    table_id: str
+    access_token: str
 
 
 class Setting(BaseModel):
@@ -51,6 +57,7 @@ class Setting(BaseModel):
     db_mongo: DB_mongo
     api_bingling_ipip: API_bingling_ipip
     api_browserless: API_browserless
+    # feishu_bitable: Feishu_Bitable
 
     dev_mode: bool
     admin_list: list[int]
