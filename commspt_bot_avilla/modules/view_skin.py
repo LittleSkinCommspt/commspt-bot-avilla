@@ -5,6 +5,7 @@ from arclet.alconna.graia import alcommand, Match
 
 from yggdrasil_mc.client import YggdrasilMC
 from datetime import datetime
+from time import time
 
 from commspt_bot_avilla.utils.adv_filter import dispatcher_from_preset_cafe
 from commspt_bot_avilla.utils.skinrendermcapi import request_skinrendermc, process_image
@@ -46,6 +47,7 @@ TZ_SHANGHAI = timezone("Asia/Shanghai")
 )
 @dispatcher_from_preset_cafe
 async def cmd_view_ygg(ctx: Context, message: Message, player_name: Match[str]):
+    start_time = time()
     try:
         player = await LS_YGG.by_name_async(player_name.result)
     except ValueError:
@@ -64,23 +66,22 @@ async def cmd_view_ygg(ctx: Context, message: Message, player_name: Match[str]):
             name_tag=name_tag,
         )
     except HTTPStatusError as e:
-        await ctx.scene.send_message(
-            f"SkinRenderMC API Error, Code: {e.response.status_code}", reply=message
-        )
+        await ctx.scene.send_message(f"SkinRenderMC API Error, Code: {e.response.status_code}", reply=message)
         return
 
     skin_hash = player.skin.hash[:8] if player.skin and player.skin.hash else None
-    skin_model = (
-        player.skin.metadata.model if player.skin and player.skin.metadata else None
-    )
+    skin_model = player.skin.metadata.model if player.skin and player.skin.metadata else None
     cape_hash = player.cape.hash[:8] if player.cape and player.cape.hash else None
+
+    end_time = time()
+    const_time = end_time - start_time
 
     await ctx.scene.send_message(
         Picture(
             RawResource(
                 process_image(
                     image,
-                    f"Skin {skin_hash} ({skin_model}), Cape {cape_hash} / {datetime.now(TZ_SHANGHAI).isoformat()}, via SkinRenderMC, LittleSkin",
+                    f"({const_time:.3f}s) Skin {skin_hash} ({skin_model}), Cape {cape_hash} / {datetime.now(TZ_SHANGHAI).isoformat()}, via SkinRenderMC, LittleSkin",
                 )
             )
         )
@@ -101,6 +102,7 @@ async def cmd_view_ygg(ctx: Context, message: Message, player_name: Match[str]):
 )
 @dispatcher_from_preset_cafe
 async def cmd_view_pro(ctx: Context, message: Message, player_name: Match[str]):
+    start_time = time()
     try:
         player = await MJ_YGG.by_name_async(player_name.result)
     except ValueError:
@@ -119,23 +121,22 @@ async def cmd_view_pro(ctx: Context, message: Message, player_name: Match[str]):
             name_tag=name_tag,
         )
     except HTTPStatusError as e:
-        await ctx.scene.send_message(
-            f"SkinRenderMC API Error, Code: {e.response.status_code}", reply=message
-        )
+        await ctx.scene.send_message(f"SkinRenderMC API Error, Code: {e.response.status_code}", reply=message)
         return
 
     skin_hash = player.skin.hash[:8] if player.skin and player.skin.hash else None
-    skin_model = (
-        player.skin.metadata.model if player.skin and player.skin.metadata else None
-    )
+    skin_model = player.skin.metadata.model if player.skin and player.skin.metadata else None
     cape_hash = player.cape.hash[:8] if player.cape and player.cape.hash else None
+
+    end_time = time()
+    const_time = end_time - start_time
 
     await ctx.scene.send_message(
         Picture(
             RawResource(
                 process_image(
                     image,
-                    f"Skin {skin_hash} ({skin_model}), Cape {cape_hash} / {datetime.now(TZ_SHANGHAI).isoformat()}, via SkinRenderMC, Pro",
+                    f"({const_time:.3f}s) Skin {skin_hash} ({skin_model}), Cape {cape_hash} / {datetime.now(TZ_SHANGHAI).isoformat()}, via SkinRenderMC, Pro",
                 )
             )
         )
