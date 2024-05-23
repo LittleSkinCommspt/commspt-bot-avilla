@@ -55,7 +55,7 @@ async def user_info(ctx: Context, uid: Match[int]):
         meta=CommandMeta(
             description="设置用户记录的 UID (commspt only)",
             usage=f"{S_.command_prompt}setuid <target / qq> <uid>",
-            example=f"{S_.command_prompt}setuid 999999 123456",
+            example=f"{S_.command_prompt}setuid @SerinaNya 15301",
             author="SerinaNya",
         ),
     )
@@ -66,4 +66,4 @@ async def _(ctx: Context, target: Match[Notice | int], uid: Match[int]):
     target_qq = int(target.result.target["member"]) if isinstance(target.result, Notice) else target.result
     target_uid = uid.result
     await write_uid_db(uid=target_uid, qq=target_qq)
-    await ctx.scene.send_message(f"QQ {target_qq} -> UID {target_uid} ✅")
+    await ctx.scene.send_message(f"RESULT ✅ > QQ {target_qq} <-> UID {target_uid}")
