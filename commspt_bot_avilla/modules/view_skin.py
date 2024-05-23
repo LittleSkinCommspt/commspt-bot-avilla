@@ -74,14 +74,14 @@ async def cmd_view_ygg(ctx: Context, message: Message, player_name: Match[str]):
     cape_hash = player.cape.hash[:8] if player.cape and player.cape.hash else None
 
     end_time = time()
-    const_time = end_time - start_time
+    cost_time = end_time - start_time
 
     await ctx.scene.send_message(
         Picture(
             RawResource(
                 process_image(
                     image,
-                    f"({const_time:.3f}s) Skin {skin_hash} ({skin_model}), Cape {cape_hash} / {datetime.now(TZ_SHANGHAI).isoformat()}, via SkinRenderMC, LittleSkin",
+                    f"{cost_time:.3f}s / Skin {skin_hash} ({skin_model}), Cape {cape_hash} / {datetime.now(TZ_SHANGHAI).isoformat()}, via SkinRenderMC, LittleSkin",
                 )
             )
         )
@@ -129,14 +129,14 @@ async def cmd_view_pro(ctx: Context, message: Message, player_name: Match[str]):
     cape_hash = player.cape.hash[:8] if player.cape and player.cape.hash else None
 
     end_time = time()
-    const_time = end_time - start_time
+    cost_time = end_time - start_time
 
     await ctx.scene.send_message(
         Picture(
             RawResource(
                 process_image(
                     image,
-                    f"({const_time:.3f}s) Skin {skin_hash} ({skin_model}), Cape {cape_hash} / {datetime.now(TZ_SHANGHAI).isoformat()}, via SkinRenderMC, Pro",
+                    f"{cost_time:.3f}s / Skin {skin_hash} ({skin_model}), Cape {cape_hash} / {datetime.now(TZ_SHANGHAI).isoformat()}, via SkinRenderMC, Pro",
                 )
             )
         )
