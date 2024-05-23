@@ -132,10 +132,10 @@ async def member_join_welcome(ctx: Context, event: SceneCreated):
         ltsk_user = await LittleSkinUser.uid_info(uid_mapping.uid)
         # if qmail verified (only noti)
         if uid_mapping.qmail_verified:
-            nofi_msg.append("QMAIL ✅验证通过")
+            nofi_msg.append("QMAIL ✅ 验证通过")
         elif ltsk_user:
             nofi_msg.append(
-                f"QMAIL {'❔与 QQ 号不匹配' if ltsk_user.email.lower().endswith('@qq.com') else '❌非 QQ 邮箱'}"
+                f"QMAIL {'❔ 与 QQ 号不匹配' if ltsk_user.email.lower().endswith('@qq.com') else '❌ 非 QQ 邮箱'}"
             )
 
         if ltsk_user:
@@ -144,18 +144,23 @@ async def member_join_welcome(ctx: Context, event: SceneCreated):
                 nofi_msg.append("⚠️ 邮箱含有大写字母")
 
             # add LTSK email verification status (only noti)
-            nofi_msg.append(f"邮箱验证 {'✅已验证' if ltsk_user.verified else '❌未验证'} ({ltsk_user.email})")
+            nofi_msg.append(f"邮箱验证 {'✅ 已验证' if ltsk_user.verified else '❌ 未验证'} ({ltsk_user.email})")
 
             # add registration time (only noti)
             reg_time = arrow.get(ltsk_user.register_at).to("Asia/Shanghai").format("YYYY-MM-DD HH:mm:ss")
             nofi_msg.append(f"注册时间: {reg_time}")
+
+            # resay: if user was banned
+            if ltsk_user.permission == -1:
+                nofi_msg.append("❌ 账号被封禁")
+                # TODO: feishu sheets -> record query api
 
             # render image
             render = RenderUserInfo(**ltsk_user.model_dump(), qq=int(event.context.endpoint.user))
             image = await render.get_image()
         else:
             # UID not exists
-            nofi_msg.append("❌这个 UID 根本不存在")
+            nofi_msg.append("❌ 这个 UID 根本不存在")
     else:
         nofi_msg.append("🈚 未找到 UIDMapping 信息")
 
