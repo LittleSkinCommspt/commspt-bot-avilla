@@ -93,9 +93,9 @@ async def cmd_view_ygg(ctx: Context, message: Message, player_name: Match[str]):
         "%view.pro",
         Args["player_name", str],
         meta=CommandMeta(
-            description="查看玩家皮肤",
-            usage=r"%view <player_name>",
-            example=r"%view SerinaNya",
+            description="查看玩家皮肤 (Pro)",
+            usage=r"%view.pro <player_name>",
+            example=r"%view.pro SerinaNya",
             author="SerinaNya",
         ),
     )
