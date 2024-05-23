@@ -28,8 +28,7 @@ from commspt_bot_avilla.utils.setting_manager import S_
     Filter()
     .dispatch(RequestEvent)
     .assert_true(
-        lambda e: e.request.request_type
-        in ["onebot11::group.add", "onebot11::group.invite"],
+        lambda e: e.request.request_type in ["onebot11::group.add", "onebot11::group.invite"],
     )
 )
 async def member_join_request(ctx: Context, event: RequestEvent):
@@ -40,9 +39,7 @@ async def member_join_request(ctx: Context, event: RequestEvent):
         return
 
     answer = req.message.splitlines()[-1].removeprefix("答案：").strip()
-    logger.info(
-        f"Member Join Request Event {req.request_type} id={req.id} was received. {applicant} > {answer}"
-    )
+    logger.info(f"Member Join Request Event {req.request_type} id={req.id} was received. {applicant} > {answer}")
     message.append(
         f"""新的入群申请
 » 申请人 {applicant}
@@ -93,18 +90,13 @@ id={req.id}"""
         return
 
     # failed: not pass verification
-    logger.warning(
-        f"Member Join Request Event {req.request_type} was ignored. (GENERAL) {applicant} > {answer}"
-    )
+    logger.warning(f"Member Join Request Event {req.request_type} was ignored. (GENERAL) {applicant} > {answer}")
     await UIDMapping(uid=uid, qq=applicant).update()
     message.append("👀 请手动处理")
 
-
     await random_sleep(4)
     # remove empty string or None
-    await ctx.scene.into(f"::group({S_.defined_qq.commspt_group})").send_message(
-        "\n\n".join(m for m in message if m)
-    )
+    await ctx.scene.into(f"::group({S_.defined_qq.commspt_group})").send_message("\n\n".join(m for m in message if m))
 
 
 # endregion
@@ -124,7 +116,6 @@ async def member_join_welcome(ctx: Context, event: SceneCreated):
         welcome_msg.append(f"UID: {uid_mapping.uid}  ")
         nofi_msg.append(f"UID: {uid_mapping.uid}")
 
-        
     # add join announcement
     with open(".join-announcement.txt", encoding="utf-8") as f:
         join_announcement = f.read()
@@ -153,16 +144,10 @@ async def member_join_welcome(ctx: Context, event: SceneCreated):
                 nofi_msg.append("⚠️ 邮箱含有大写字母")
 
             # add LTSK email verification status (only noti)
-            nofi_msg.append(
-                f"邮箱验证 {'✅已验证' if ltsk_user.verified else '❌未验证'} ({ltsk_user.email})"
-            )
+            nofi_msg.append(f"邮箱验证 {'✅已验证' if ltsk_user.verified else '❌未验证'} ({ltsk_user.email})")
 
             # add registration time (only noti)
-            reg_time = (
-                arrow.get(ltsk_user.register_at)
-                .to("Asia/Shanghai")
-                .format("YYYY-MM-DD HH:mm:ss")
-            )
+            reg_time = arrow.get(ltsk_user.register_at).to("Asia/Shanghai").format("YYYY-MM-DD HH:mm:ss")
             nofi_msg.append(f"注册时间: {reg_time}")
 
             # render image
@@ -179,5 +164,6 @@ async def member_join_welcome(ctx: Context, event: SceneCreated):
     await ctx.scene.into(f"::group({S_.defined_qq.notification_channel})").send_message(
         [Picture(RawResource(image)) if image else "", "\n".join(nofi_msg)]
     )
+
 
 # endregion
