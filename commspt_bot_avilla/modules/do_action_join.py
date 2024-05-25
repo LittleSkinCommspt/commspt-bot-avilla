@@ -15,7 +15,7 @@ from graia.saya.builtins.broadcast.shortcut import dispatch
 from loguru import logger
 
 from commspt_bot_avilla.utils.adv_filter import (
-    dispatcher_from_preset_commspt,
+    dispatcher_from_preset_cafe,
     dispather_by_admin_only,
 )
 from commspt_bot_avilla.utils.random_sleep import random_sleep
@@ -25,9 +25,7 @@ from commspt_bot_avilla.utils.random_sleep import random_sleep
 @alcommand(
     Alconna(
         r"do",
-        Args["action", Literal["accept", "reject"]][
-            "reason", str, "答案错误，再仔细看看"
-        ],
+        Args["action", Literal["accept", "reject"]]["reason", str, "答案错误，再仔细看看"],
         meta=CommandMeta(
             description="处理入群请求 (commspt only)",
             usage="do <accept|reject> [reason]",
@@ -37,10 +35,8 @@ from commspt_bot_avilla.utils.random_sleep import random_sleep
     )
 )
 @dispather_by_admin_only
-@dispatcher_from_preset_commspt
-@dispatch(
-    Filter().dispatch(Message).assert_true(lambda message: message.reply is not None)
-)
+@dispatcher_from_preset_cafe
+@dispatch(Filter().dispatch(Message).assert_true(lambda message: message.reply is not None))
 async def do_action_join(
     ctx: Context,
     message: Message,
@@ -51,9 +47,7 @@ async def do_action_join(
 
     # check origin message
     if not message.reply:
-        await ctx.scene.send_message(
-            "需要回复一条申请提示消息以进行处理", reply=message
-        )
+        await ctx.scene.send_message("需要回复一条申请提示消息以进行处理", reply=message)
         return
     origin_message = await ctx.pull(Message, message.reply)
     origin_raw_text = origin_message.content.get_first(Text).text
@@ -61,16 +55,12 @@ async def do_action_join(
     applicant_match = re.search(r"申请人\s*(.*)$", origin_raw_text, re.MULTILINE)
 
     # if check failed then kill
-    if not (
-        origin_raw_text.startswith("新的入群申请") and req_match and applicant_match
-    ):
+    if not (origin_raw_text.startswith("新的入群申请") and req_match and applicant_match):
         return
 
     reqid = req_match.group(1)
     applicant = applicant_match.group(1)
-    logger.info(
-        f"do action (join group request): {action.result=}, {reason.result=}, {applicant=}, {reqid=}"
-    )
+    logger.info(f"do action (join group request): {action.result=}, {reason.result=}, {applicant=}, {reqid=}")
 
     # make selector
     scene = Selector().land("qq").group("")
