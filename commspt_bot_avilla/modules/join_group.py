@@ -14,14 +14,13 @@ from richuru import logger
 from commspt_bot_avilla.models.littleskin_api import LittleSkinUser
 from commspt_bot_avilla.models.mongodb_data import UIDMapping
 from commspt_bot_avilla.models.render_user_info import RenderUserInfo
-from commspt_bot_avilla.utils.adv_filter import (
-    dispatcher_from_preset_general,
-)
+from commspt_bot_avilla.utils.adv_filter import dispatcher_from_preset_general, dispatcher_from_preset_only_cafe
 from commspt_bot_avilla.utils.random_sleep import random_sleep
 from commspt_bot_avilla.utils.setting_manager import S_
 
 
 # region member join request
+# region main
 @listen(RequestEvent)
 @dispatcher_from_preset_general
 @dispatch(
@@ -50,7 +49,7 @@ id={req.id}"""
 
     if not answer.isdecimal():  # UID 应为十进制纯数字
         logger.warning(
-            f"Member Join Request Event {req.request_type} was ignored. (ANSWER NOT DECIMAL) {applicant} > {answer}"
+            f"(main) Member Join Request Event {req.request_type} was ignored. (ANSWER NOT DECIMAL) {applicant} > {answer}"
         )
         message.append("👀 答案不是纯数字，需手动处理")
         await ctx.scene.into(f"::group({S_.defined_qq.commspt_group})").send_message(
@@ -68,7 +67,7 @@ id={req.id}"""
             # ok: pass verification
             await UIDMapping(uid=uid, qq=applicant, qmail_verified=True).update()
             logger.success(
-                f"Member Join Request Event {req.request_type} was accepted. (QMAIL PASS) {applicant} > {answer}"
+                f"(main) Member Join Request Event {req.request_type} was accepted. (QMAIL PASS) {applicant} > {answer}"
             )
             await req.accept()
             message.append("👆 已同意，因为 QMAIL API 验证通过")
@@ -81,7 +80,7 @@ id={req.id}"""
     if not await LittleSkinUser.uid_info(uid):
         # failed: uid not exists
         logger.warning(
-            f"Member Join Request Event {req.request_type} was ignored. (UID NOT EXISTS) {applicant} > {answer}"
+            f"(main) Member Join Request Event {req.request_type} was ignored. (UID NOT EXISTS) {applicant} > {answer}"
         )
         message.append("👀 这个 UID 根本不存在，需手动处理")
         await ctx.scene.into(f"::group({S_.defined_qq.commspt_group})").send_message(
@@ -90,13 +89,65 @@ id={req.id}"""
         return
 
     # failed: not pass verification
-    logger.warning(f"Member Join Request Event {req.request_type} was ignored. (GENERAL) {applicant} > {answer}")
+    logger.warning(f"(main) Member Join Request Event {req.request_type} was ignored. (GENERAL) {applicant} > {answer}")
     await UIDMapping(uid=uid, qq=applicant).update()
     message.append("👀 请手动处理")
 
     await random_sleep(4)
     # remove empty string or None
     await ctx.scene.into(f"::group({S_.defined_qq.commspt_group})").send_message("\n\n".join(m for m in message if m))
+
+
+# endregion
+# region cafe
+@listen(RequestEvent)
+@dispatcher_from_preset_only_cafe
+async def _(ctx: Context, event: RequestEvent):
+    req = event.request
+    applicant = int(req.sender["user"])
+    message: list[str] = []
+    if not req.message:
+        return
+
+    answer = req.message.splitlines()[-1].removeprefix("答案：").strip()
+    logger.info(f"(cafe) Member Join Request Event {req.request_type} id={req.id} was received. {applicant} > {answer}")
+    message.append(
+        f"""新的入群申请
+» 申请人 {applicant}
+» 答案     {answer}
+
+id={req.id}"""
+    )
+
+    if not answer.isdecimal():  # UID 应为十进制纯数字
+        logger.warning(
+            f"(cafe) Member Join Request Event {req.request_type} was ignored. (ANSWER NOT DECIMAL) {applicant} > {answer}"
+        )
+        message.append("👀 答案不是纯数字，需手动处理")
+        await ctx.scene.into(f"::group({S_.defined_qq.littleskin_cafe})").send_message(
+            "\n\n".join(m for m in message if m)
+        )
+        return
+
+    uid = int(answer)
+
+    # more sleep is better
+    await random_sleep(3)
+
+    # lstk uid check
+    if not await LittleSkinUser.uid_info(uid):
+        # failed: uid not exists
+        logger.warning(
+            f"(cafe) Member Join Request Event {req.request_type} was ignored. (UID NOT EXISTS) {applicant} > {answer}"
+        )
+        message.append("👀 这个 UID 根本不存在，需手动处理")
+        await ctx.scene.into(f"::group({S_.defined_qq.littleskin_cafe})").send_message(
+            "\n\n".join(m for m in message if m)
+        )
+        return
+
+    # general: approve
+    await req.accept()
 
 
 # endregion
