@@ -148,6 +148,7 @@ id={req.id}"""
 
     # general: approve
     await req.accept()
+    await ctx.scene.into(f"::group({S_.defined_qq.littleskin_cafe})").send_message("> 自动核验通过 👆")
 
 
 # endregion
