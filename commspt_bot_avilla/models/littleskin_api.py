@@ -34,7 +34,7 @@ class LittleSkinUser(BaseModel):
     # Normal = 0,
     # Admin = 1,
     # SuperAdmin = 2,
-    
+
     last_sign_at: datetime
     register_at: datetime
     verified: bool
@@ -50,9 +50,7 @@ class LittleSkinUser(BaseModel):
         async with httpx.AsyncClient(
             http2=True, headers={"Authorization": f"Bearer {S_.littleskin_admin_token}"}
         ) as client:
-            api = await client.get(
-                "https://littleskin.cn/api/admin/users", params={"q": query_string}
-            )
+            api = await client.get("https://littleskin.cn/api/admin/users", params={"q": query_string})
             if data := api.json()["data"]:
                 return cls(**data[0])
 

@@ -21,9 +21,7 @@ def main():
     saya = it(Saya)
     broadcast = it(Broadcast)
     it(AlconnaBehaviour)
-    manager.add_component(
-        AlconnaGraiaService(AlconnaAvillaAdapter, global_remove_tome=True)
-    )
+    manager.add_component(AlconnaGraiaService(AlconnaAvillaAdapter, global_remove_tome=True))
     # endregion
 
     # region saya load modules

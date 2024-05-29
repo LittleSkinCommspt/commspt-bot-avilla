@@ -5,9 +5,7 @@ import httpx
 from commspt_bot_avilla.utils.setting_manager import S_
 
 
-async def request_skinrendermc(
-    skin_url: str | None, cape_url: str | None, name_tag: str | None
-):
+async def request_skinrendermc(skin_url: str | None, cape_url: str | None, name_tag: str | None):
     p = {
         "skinUrl": skin_url,
         "capeUrl": cape_url,
@@ -19,9 +17,7 @@ async def request_skinrendermc(
     for x in [k for k in p if not p[k]]:
         p.pop(x)
 
-    async with httpx.AsyncClient(
-        http2=True, base_url=S_.api_skinrendermc.endpoint, follow_redirects=True
-    ) as client:
+    async with httpx.AsyncClient(http2=True, base_url=S_.api_skinrendermc.endpoint, follow_redirects=True) as client:
         resp = await client.get(
             "/url/image/both",
             params=p,

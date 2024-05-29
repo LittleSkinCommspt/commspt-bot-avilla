@@ -40,7 +40,7 @@ async def member_join_request(ctx: Context, event: RequestEvent):
     answer = req.message.splitlines()[-1].removeprefix("答案：").strip()
     logger.info(f"Member Join Request Event {req.request_type} id={req.id} was received. {applicant} > {answer}")
     message.append(
-        f"""新的入群申请
+        f"""新的入群申请 (Main)
 » 申请人 {applicant}
 » 答案     {answer}
 
@@ -112,7 +112,7 @@ async def _(ctx: Context, event: RequestEvent):
     answer = req.message.splitlines()[-1].removeprefix("答案：").strip()
     logger.info(f"(cafe) Member Join Request Event {req.request_type} id={req.id} was received. {applicant} > {answer}")
     message.append(
-        f"""新的入群申请
+        f"""新的入群申请 (Cafe)
 » 申请人 {applicant}
 » 答案     {answer}
 

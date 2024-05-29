@@ -21,9 +21,7 @@ _GROUP_NAME_MAPPING = {
 @alcommand(
     Alconna(
         f"{S_.command_prompt}mute",
-        Args["target", int | Notice]["duration", int, 10][
-            "group", Literal["main", "cafe"] | None, None
-        ],
+        Args["target", int | Notice]["duration", int, 10]["group", Literal["main", "cafe"] | None, None],
         meta=CommandMeta(
             description="禁言用户 (commspt only)",
             usage=f"{S_.command_prompt}mute <target / qq> [duration] [group]",
@@ -46,11 +44,7 @@ async def mute(
             return
 
         await ctx[MuteCapability.mute](
-            target=(
-                ctx.scene.into(f"::group({_GROUP_NAME_MAPPING[group.result]})").into(
-                    f"~.member({target.result})"
-                )
-            ),
+            target=(ctx.scene.into(f"::group({_GROUP_NAME_MAPPING[group.result]})").into(f"~.member({target.result})")),
             duration=timedelta(minutes=duration),
         )
         return
@@ -88,17 +82,12 @@ async def unmute(
     group: Match[Literal["main", "cafe"] | None],
 ):
     if group.result:
-
         if isinstance(target.result, Notice):
             await ctx.scene.send_message("指定群组时不允许使用 @user")
             return
 
         await ctx[MuteCapability.unmute](
-            target=(
-                ctx.scene.into(f"::group({_GROUP_NAME_MAPPING[group.result]})").into(
-                    f"~.member({target.result})"
-                )
-            ),
+            target=(ctx.scene.into(f"::group({_GROUP_NAME_MAPPING[group.result]})").into(f"~.member({target.result})")),
         )
         return
 

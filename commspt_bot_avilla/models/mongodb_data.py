@@ -29,18 +29,14 @@ class UIDMapping(BaseModel):
 
     @overload
     @classmethod
-    async def fetch(cls, qq: int) -> Self | None:
-        ...
+    async def fetch(cls, qq: int) -> Self | None: ...
 
     @overload
     @classmethod
-    async def fetch(cls, uid: int) -> Self | None:
-        ...
+    async def fetch(cls, uid: int) -> Self | None: ...
 
     @classmethod
-    async def fetch(
-        cls, qq: int | None = None, uid: int | None = None
-    ) -> Self | None:
+    async def fetch(cls, qq: int | None = None, uid: int | None = None) -> Self | None:
         mongo = AsyncIOMotorClient(S_.db_mongo.url)
         coll = mongo["commspt-bot"]["uid"]
         if qq:
