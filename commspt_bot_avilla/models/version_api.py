@@ -1,14 +1,14 @@
+from datetime import datetime
+from typing import Annotated
+
+import httpx
+from cookit.pyd import type_validate_json
 from pydantic import BaseModel
 from pydantic.fields import Field
 from pydantic.networks import AnyHttpUrl
-from typing import Annotated
-from cookit.pyd import type_validate_json
-from datetime import datetime
-import httpx
 
 
 class CustomSkinLoaderLatest(BaseModel):
-
     class Downloads(BaseModel):
         fabric: Annotated[AnyHttpUrl, str] = Field(alias="Fabric")
         forge: Annotated[AnyHttpUrl, str] = Field(alias="Forge")
@@ -38,7 +38,6 @@ class CustomSkinLoaderLatest(BaseModel):
 
 
 class AuthlibInjectorLatest(BaseModel):
-
     class CheckSums(BaseModel):
         sha256: str
 
