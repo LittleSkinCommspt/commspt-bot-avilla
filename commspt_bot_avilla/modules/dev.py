@@ -27,5 +27,7 @@ async def _(ctx: Context, message: Message):
     await ctx.scene.send_message(
         f"""Channel ID: {ctx.scene.channel}
 Message ID: {message.id}
-Reply Message ID: {origin_message.id if message.reply else None}"""
+Message Content: {message.content}
+Reply Message ID: {origin_message.id if message.reply else None}
+Reply Message Content: {origin_message.content if message.reply else None}"""
     )
