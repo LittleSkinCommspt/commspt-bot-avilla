@@ -20,4 +20,5 @@ async def main():
             await mapping.update()
     mongo.close()
 
+
 asyncio.run(main())

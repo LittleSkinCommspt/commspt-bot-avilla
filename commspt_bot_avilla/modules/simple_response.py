@@ -13,7 +13,7 @@ cmd = AvillaCommands()
 
 
 default_dispatchers = [
-    Filter.cx.client.all([from_groups_preset_cafe()]), # type: ignore
+    Filter.cx.client.all([from_groups_preset_cafe()]),  # type: ignore
 ]
 
 
@@ -40,10 +40,10 @@ def register(command: str, response: str | Element | list[str | Element], reply:
     # register to command events
     cmd.on(
         command=S_.command_prompt + command,
-        dispatchers=default_dispatchers, # type: ignore
+        dispatchers=default_dispatchers,  # type: ignore
         need_tome=False,
         remove_tome=False,
-    )(_simple_response) # type: ignore
+    )(_simple_response)  # type: ignore
 
 
 # endregion
