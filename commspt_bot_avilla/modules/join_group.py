@@ -151,8 +151,12 @@ id={req.id}"""
         return
 
     # general: approve
+    mapping_uid = await UIDMapping.fetch(qq=applicant)
+    status = "✅" if (mapping_uid and mapping_uid.uid == uid) else "⚠️"
     await req.accept()
-    await ctx.scene.into(f"::group({S_.defined_qq.littleskin_cafe})").send_message("> 自动核验通过 👆")
+    await ctx.scene.into(f"::group({S_.defined_qq.littleskin_cafe})").send_message(
+        f"(RESULT) Mapping {status}: QQ {applicant} -> UID {uid}"
+    )
 
 
 # endregion
@@ -209,7 +213,6 @@ async def member_join_welcome(ctx: Context, event: SceneCreated):
             # resay: if user was banned
             if ltsk_user.permission == -1:
                 nofi_msg.append("❌ 账号被封禁")
-                # TODO: feishu sheets -> record query api
 
             # render image
             render = RenderUserInfo(**ltsk_user.model_dump(), qq=int(event.context.endpoint.user))
