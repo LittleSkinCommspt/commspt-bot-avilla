@@ -4,7 +4,6 @@ from avilla.core import Context, Message
 
 from commspt_bot_avilla.models.version_api import (
     AuthlibInjectorLatest,
-    CustomSkinLoaderLatest,
     LibericaJavaLatest,
 )
 
@@ -25,11 +24,6 @@ from commspt_bot_avilla.utils.adv_filter import dispatcher_from_preset_cafe
 )
 @dispatcher_from_preset_cafe
 async def _(ctx: Context, message: Message):
-    # csl_latest = await CustomSkinLoaderLatest.get()
-    # await ctx.scene.send_message(
-    #     f"「CustomSkinLoader」\n当前最新版本 > {csl_latest.version}\n\n{csl_latest.downloads.generate_download_text}",
-    #     reply=message,
-    # )
     await ctx.scene.send_message("「CustomSkinLoader」\n请前往 https://littleskin.cn/user/config 下载", reply=message)
 
 
