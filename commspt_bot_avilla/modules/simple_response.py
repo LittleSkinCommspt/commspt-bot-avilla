@@ -13,7 +13,7 @@ cmd = AvillaCommands()
 
 
 default_dispatchers = [
-    Filter.cx.client.all([from_groups_preset_cafe()]),
+    Filter.cx.client.all([from_groups_preset_cafe()]), # type: ignore
 ]
 
 
@@ -40,10 +40,10 @@ def register(command: str, response: str | Element | list[str | Element], reply:
     # register to command events
     cmd.on(
         command=S_.command_prompt + command,
-        dispatchers=default_dispatchers,
+        dispatchers=default_dispatchers, # type: ignore
         need_tome=False,
         remove_tome=False,
-    )(_simple_response)
+    )(_simple_response) # type: ignore
 
 
 # endregion
@@ -90,7 +90,7 @@ register(
 register(
     "csl.config",
     """若安装了 CustomSkinLoader 后无法正确加载皮肤，可能是当前角色名被同名正版优先加载，可通过以下方法手动修改 CustomSkinLoader 的加载顺序：
-https://manual.littlesk.in/newbee/mod#edit-csl-config""",
+https://manual.littlesk.in/newbee/csl#edit-csl-config""",
 )
 # endregion
 
@@ -134,9 +134,9 @@ register(
     "cape_format",
     """「不是有效的披风文件」
 LittleSkin 对于披风文件的格式要求如下：
-· png 格式文件；
-· 宽高比需为 2:1；
-· 为 64x32 的整倍数。""",
+· png 格式文件
+· 宽高比需为 2:1
+· 为 64x32 的整倍数""",
 )
 
 register(
