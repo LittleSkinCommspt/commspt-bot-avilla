@@ -67,7 +67,7 @@ dispatcher_from_preset_cafe = dispatch(
     Filter().dispatch(Context).assert_true(lambda ctx: from_groups_preset_cafe()(ctx.scene))
 )
 
-dispatcher_from_general_no_commspt = dispatch(
+dispatcher_from_preset_general_no_commspt = dispatch(
     Filter().dispatch(Context).assert_true(lambda ctx: from_groups_preset_general_no_commspt()(ctx.scene))
 )
 
