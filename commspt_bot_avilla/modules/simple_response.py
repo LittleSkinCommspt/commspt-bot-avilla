@@ -53,6 +53,16 @@ logger.info("registering simple response...")
 
 register("ping", "在", reply=True)
 
+# region bot help
+register(
+    "help",
+    """请参阅 👉 https://bot-manual.commspt.littlesk.in/
+源码请参见 👉 https://github.com/LittleSkinCommspt/commspt-bot-avilla
+
+请注意查询使用条例；在此提醒您: **请不要滥用机器人的任何功能，不然你有可能会被某个神秘人士出警**""",
+)
+# endregion
+
 # region ot
 register(
     "cafe",
