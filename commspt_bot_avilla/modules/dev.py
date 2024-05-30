@@ -25,5 +25,7 @@ async def _(ctx: Context, message: Message):
     if message.reply:
         origin_message = await ctx.pull(Message, message.reply)
     await ctx.scene.send_message(
-        f"Channel ID: {ctx.scene.channel}\nMessage ID: {message.id}\nReply Message ID: {origin_message.id if message.reply else None}"
+        f"""Channel ID: {ctx.scene.channel}
+Message ID: {message.id}
+Reply Message ID: {origin_message.id if message.reply else None}"""
     )
