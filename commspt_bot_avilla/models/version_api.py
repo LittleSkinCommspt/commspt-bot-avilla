@@ -3,7 +3,7 @@ from typing import Annotated
 
 import httpx
 from cookit.pyd import type_validate_json
-from pydantic import BaseModel
+from pydantic import AliasGenerator, BaseModel, ConfigDict, alias_generators
 from pydantic.fields import Field
 from pydantic.networks import AnyHttpUrl
 
@@ -62,32 +62,34 @@ class AuthlibInjectorLatest(BaseModel):
 
 
 class LibericaJavaLatest(BaseModel):
+    model_config = ConfigDict(alias_generator=AliasGenerator(validation_alias=alias_generators.to_camel))
+    #
     bitness: int
     latest_lts: bool = Field(alias="latestLTS")
-    update_version: int = Field(alias="updateVersion")
-    download_url: Annotated[AnyHttpUrl, str] = Field(alias="downloadUrl")
-    latest_in_feature_version: bool = Field(alias="latestInFeatureVersion")
+    update_version: int
+    download_url: Annotated[AnyHttpUrl, str]
+    latest_in_feature_version: bool
     lts: bool = Field(alias="LTS")
-    bundle_type: str = Field(alias="bundleType")
-    feature_version: int = Field(alias="featureVersion")
-    package_type: str = Field(alias="packageType")
+    bundle_type: str
+    feature_version: int
+    package_type: str
     fx: bool = Field(alias="FX")
     ga: bool = Field(alias="GA")
     architecture: str
     latest: bool
-    extra_version: int = Field(alias="extraVersion")
-    build_version: int = Field(alias="buildVersion")
+    extra_version: int
+    build_version: int
     eol: bool = Field(alias="EOL")
     os: str
-    interim_version: int = Field(alias="interimVersion")
+    interim_version: int
     version: str
     sha1: str
     filename: str
-    installation_type: str = Field(alias="installationType")
+    installation_type: str
     size: int
-    patch_version: int = Field(alias="patchVersion")
+    patch_version: int
     tck: bool = Field(alias="TCK")
-    update_type: str = Field(alias="updateType")
+    update_type: str
 
     @property
     def download_url_mirror(self):
