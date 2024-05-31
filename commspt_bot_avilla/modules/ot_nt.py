@@ -3,7 +3,7 @@ from arclet.alconna import Alconna, CommandMeta
 from arclet.alconna.graia import alcommand
 
 from commspt_bot_avilla.utils.setting_manager import S_
-from commspt_bot_avilla.utils.adv_filter import dispatcher_from_preset_commspt
+from commspt_bot_avilla.utils.adv_filter import dispatcher_from_preset_commspt, dispather_by_admin_only
 
 
 @alcommand(
@@ -18,6 +18,7 @@ from commspt_bot_avilla.utils.adv_filter import dispatcher_from_preset_commspt
     )
 )
 @dispatcher_from_preset_commspt
+@dispather_by_admin_only
 async def _(ctx: Context, message: Message):
     await ctx.scene.into(f"::group({S_.defined_qq.littleskin_main})").send_message(
         [
