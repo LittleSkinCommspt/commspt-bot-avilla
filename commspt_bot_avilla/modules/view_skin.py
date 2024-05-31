@@ -15,7 +15,7 @@ from httpx import HTTPStatusError
 from pytz import timezone
 
 # region utils
-LS_YGG = YggdrasilMC("https://littleskin.cn/api/yggdrasil")
+LS_YGG = YggdrasilMC(api_root="https://littleskin.cn/api/yggdrasil")
 MJ_YGG = YggdrasilMC()
 TZ_SHANGHAI = timezone("Asia/Shanghai")
 # endregion
@@ -76,12 +76,14 @@ async def cmd_view_ygg(ctx: Context, message: Message, player_name: Match[str]):
     end_time = time()
     cost_time = end_time - start_time
 
+    now_time = datetime.now(TZ_SHANGHAI).isoformat()
+
     await ctx.scene.send_message(
         Picture(
             RawResource(
                 process_image(
                     image,
-                    f"{cost_time:.3f}s / Skin {skin_hash} ({skin_model}), Cape {cape_hash} / {datetime.now(TZ_SHANGHAI).isoformat()}, via SkinRenderMC, LittleSkin",
+                    f"{cost_time:.3f}s / Skin {skin_hash} ({skin_model}), Cape {cape_hash} / {now_time}, via SkinRenderMC, LittleSkin",  # noqa: E501
                 )
             )
         )
@@ -131,12 +133,14 @@ async def cmd_view_pro(ctx: Context, message: Message, player_name: Match[str]):
     end_time = time()
     cost_time = end_time - start_time
 
+    now_time = datetime.now(TZ_SHANGHAI).isoformat()
+
     await ctx.scene.send_message(
         Picture(
             RawResource(
                 process_image(
                     image,
-                    f"{cost_time:.3f}s / Skin {skin_hash} ({skin_model}), Cape {cape_hash} / {datetime.now(TZ_SHANGHAI).isoformat()}, via SkinRenderMC, Pro",
+                    f"{cost_time:.3f}s / Skin {skin_hash} ({skin_model}), Cape {cape_hash} / {now_time}, via SkinRenderMC, Pro",  # noqa: E501
                 )
             )
         )
