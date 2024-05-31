@@ -22,9 +22,9 @@ class UIDMapping(BaseModel):
         query = {"qq": self.qq}
         data = self.model_dump()
         if await coll.find_one(query):
-            await coll.update_one(query, {"$set": data})
+            _ = await coll.update_one(query, {"$set": data})
         else:
-            await coll.insert_one(data)
+            _ = await coll.insert_one(data)
         mongo.close()
 
     @overload
@@ -42,7 +42,6 @@ class UIDMapping(BaseModel):
         if qq:
             if data := await coll.find_one({"qq": qq}):
                 return cls(**data)
-        elif uid:
-            if data := await coll.find_one({"uid": uid}):
-                return cls(**data)
+        elif uid and (data := await coll.find_one({"uid": uid})):
+            return cls(**data)
         mongo.close()

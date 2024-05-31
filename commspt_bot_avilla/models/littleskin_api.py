@@ -4,10 +4,10 @@ from typing import Annotated
 import arrow
 import httpx
 from pydantic import (
+    AfterValidator,
     BaseModel,
     EmailStr,
     IPvAnyAddress,
-    AfterValidator,
     field_validator,
 )
 
