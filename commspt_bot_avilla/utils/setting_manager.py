@@ -42,12 +42,6 @@ class API_browserless(BaseModel):
     endpoint: str
 
 
-class Feishu_Bitable(BaseModel):
-    app_token: str
-    table_id: str
-    access_token: str
-
-
 class Setting(BaseModel):
     command_prompt: str = "&"
     defined_qq: DefinedQQ
@@ -57,7 +51,6 @@ class Setting(BaseModel):
     db_mongo: DB_mongo
     api_bingling_ipip: API_bingling_ipip
     api_browserless: API_browserless
-    # feishu_bitable: Feishu_Bitable
 
     dev_mode: bool
     admin_list: list[int]
