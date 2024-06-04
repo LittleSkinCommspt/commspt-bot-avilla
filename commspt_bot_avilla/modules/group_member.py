@@ -2,11 +2,12 @@ from arclet.alconna import Alconna, Args, CommandMeta
 from arclet.alconna.graia import Match, alcommand
 from avilla.core import Context, Message, Notice
 from richuru import logger
+
+from commspt_bot_avilla.models.mongodb_data import UIDMapping
 from commspt_bot_avilla.utils.adv_filter import (
     dispatcher_from_preset_cafe,
     dispather_by_admin_only,
 )
-from commspt_bot_avilla.models.mongodb_data import UIDMapping
 from commspt_bot_avilla.utils.random_sleep import random_sleep
 from commspt_bot_avilla.utils.setting_manager import S_
 
@@ -21,7 +22,7 @@ from commspt_bot_avilla.utils.setting_manager import S_
             example=f"{S_.command_prompt}uid @user",
             author="SerinaNya",
         ),
-    )
+    ),
 )
 @dispather_by_admin_only
 @dispatcher_from_preset_cafe

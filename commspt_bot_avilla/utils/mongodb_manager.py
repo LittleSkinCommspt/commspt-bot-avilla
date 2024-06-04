@@ -1,4 +1,6 @@
 from datetime import datetime
+
+import pytz
 from motor.motor_asyncio import AsyncIOMotorClient
 
 from commspt_bot_avilla.utils.setting_manager import S_
@@ -13,7 +15,7 @@ async def write_uid_db(uid: int | str, qq: int | str):
     coll = mongo["commspt-bot"]["uid"]
     i = await coll.find_one({"qq": qq})
 
-    r = {"uid": uid, "qq": qq, "last_update": datetime.now().timestamp()}
+    r = {"uid": uid, "qq": qq, "last_update": datetime.now(tz=pytz.UTC).timestamp()}
 
     if i:
         await coll.update_one({"qq": qq}, {"$set": r})

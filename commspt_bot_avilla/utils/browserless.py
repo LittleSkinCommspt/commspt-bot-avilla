@@ -9,19 +9,16 @@ from commspt_bot_avilla.utils.setting_manager import S_, VERIFY_CONTENT
 
 async def screenshot(
     template_name: str,
-    params,
     width: int = 530,
     height: int = 800,
     is_mobile: bool = True,
     device_scale_factor: float = 2.5,
+    **params,
 ) -> bytes:
     # Jinja2 render
-    jinja_env = Environment(loader=FileSystemLoader("templates"))
+    jinja_env = Environment(loader=FileSystemLoader("templates"), autoescape=True)
     template = jinja_env.get_template(name=template_name)
-    if isinstance(params, BaseModel):
-        html = template.render(params.model_dump())
-    else:
-        html = template.render(params)
+    html = template.render(params.model_dump()) if isinstance(params, BaseModel) else template.render(params)
 
     # send request to /screenshot
     async with httpx.AsyncClient(
@@ -36,8 +33,8 @@ async def screenshot(
                     {
                         "ignoreHTTPSErrors": True,
                         "headless": True,
-                    }
-                )
+                    },
+                ),
             },
             json={
                 "html": html,

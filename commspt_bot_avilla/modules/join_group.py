@@ -15,9 +15,9 @@ from commspt_bot_avilla.models.littleskin_api import LittleSkinUser
 from commspt_bot_avilla.models.mongodb_data import UIDMapping
 from commspt_bot_avilla.models.render_user_info import RenderUserInfo
 from commspt_bot_avilla.utils.adv_filter import (
+    dispatcher_from_preset_general,
     dispatcher_from_preset_general_no_commspt,
     dispatcher_from_preset_only_cafe,
-    dispatcher_from_preset_general,
 )
 from commspt_bot_avilla.utils.random_sleep import random_sleep
 from commspt_bot_avilla.utils.setting_manager import S_

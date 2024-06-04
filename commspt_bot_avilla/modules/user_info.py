@@ -1,20 +1,20 @@
 from arclet.alconna import Alconna, Args, CommandMeta
 from arclet.alconna.graia import Match, alcommand
 from avilla.core import Context
-from avilla.core.elements import Picture, Notice
+from avilla.core.elements import Notice, Picture
 from avilla.core.resource import RawResource
+from richuru import logger
 
 from commspt_bot_avilla.models.littleskin_api import LittleSkinUser
-from commspt_bot_avilla.models.render_user_info import RenderUserInfo
-from commspt_bot_avilla.utils.mongodb_manager import write_uid_db
 from commspt_bot_avilla.models.mongodb_data import UIDMapping
+from commspt_bot_avilla.models.render_user_info import RenderUserInfo
 from commspt_bot_avilla.utils.adv_filter import (
-    dispather_by_admin_only,
-    dispatcher_from_preset_commspt,
     dispatcher_from_preset_cafe,
+    dispatcher_from_preset_commspt,
+    dispather_by_admin_only,
 )
+from commspt_bot_avilla.utils.mongodb_manager import write_uid_db
 from commspt_bot_avilla.utils.setting_manager import S_
-from richuru import logger
 
 
 @alcommand(
@@ -27,7 +27,7 @@ from richuru import logger
             example=f"{S_.command_prompt}user 123456",
             author="SerinaNya",
         ),
-    )
+    ),
 )
 @dispather_by_admin_only
 @dispatcher_from_preset_commspt
@@ -39,7 +39,7 @@ async def user_info(ctx: Context, uid: Match[int]):
     if ltsk_user:
         logger.info(f"Ready to render {uid.result} ↓")
         logger.info(ltsk_user)
-        render = RenderUserInfo(**ltsk_user.model_dump(), qq=mapping_qq)
+        render = RenderUserInfo(**ltsk_user.model_dump(), qq=mapping_qq.qq if mapping_qq else None)
         image = await render.get_image()
         await ctx.scene.send_message(Picture(RawResource(image)))
         logger.success("Image sent.")
@@ -58,7 +58,7 @@ async def user_info(ctx: Context, uid: Match[int]):
             example=f"{S_.command_prompt}setuid @SerinaNya 15301",
             author="SerinaNya",
         ),
-    )
+    ),
 )
 @dispather_by_admin_only
 @dispatcher_from_preset_cafe

@@ -1,12 +1,11 @@
 from arclet.alconna import Alconna, Args, CommandMeta
 from arclet.alconna.graia import Match, alcommand
 from avilla.core import Context, Message
-from yggdrasil_mc.client import YggdrasilMC
 from httpx import HTTPStatusError
+from yggdrasil_mc.client import YggdrasilMC
 
 from commspt_bot_avilla.utils.adv_filter import dispatcher_from_preset_cafe
 from commspt_bot_avilla.utils.random_sleep import random_sleep
-
 from commspt_bot_avilla.utils.setting_manager import S_
 
 # region utils
@@ -26,7 +25,7 @@ PRO_YGG = YggdrasilMC()
             example=r"%ygg SerinaNya",
             author="SerinaNya",
         ),
-    )
+    ),
 )
 @dispatcher_from_preset_cafe
 async def cmd_ygg(ctx: Context, message: Message, player_name: Match[str]):
@@ -69,7 +68,7 @@ async def cmd_ygg(ctx: Context, message: Message, player_name: Match[str]):
             example=r"%ygg SerinaNya",
             author="SerinaNya",
         ),
-    )
+    ),
 )
 @dispatcher_from_preset_cafe
 async def cmd_pro(ctx: Context, message: Message, player_name: Match[str]):

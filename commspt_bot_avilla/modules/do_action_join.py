@@ -32,7 +32,7 @@ from commspt_bot_avilla.utils.random_sleep import random_sleep
             example="do accept",
             author="SerinaNya",
         ),
-    )
+    ),
 )
 @dispather_by_admin_only
 @dispatcher_from_preset_cafe

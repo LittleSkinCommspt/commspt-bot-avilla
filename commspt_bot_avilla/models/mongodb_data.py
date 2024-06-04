@@ -3,6 +3,7 @@ from typing import Self, overload
 
 from motor.motor_asyncio import AsyncIOMotorClient
 from pydantic import BaseModel, Field, field_serializer
+
 from commspt_bot_avilla.utils.setting_manager import S_
 
 
@@ -36,7 +37,7 @@ class UIDMapping(BaseModel):
     async def fetch(cls, uid: int) -> Self | None: ...
 
     @classmethod
-    async def fetch(cls, qq: int | None = None, uid: int | None = None) -> Self | None:
+    async def fetch(cls, qq: int | None = None, uid: int | None = None) -> Self | None:  # TODO: need fix overload sign
         mongo = AsyncIOMotorClient(S_.db_mongo.url)
         coll = mongo["commspt-bot"]["uid"]
         if qq:
@@ -45,3 +46,4 @@ class UIDMapping(BaseModel):
         elif uid and (data := await coll.find_one({"uid": uid})):
             return cls(**data)
         mongo.close()
+        return None

@@ -3,6 +3,7 @@ from typing import Annotated
 
 import arrow
 import httpx
+from cookit.pyd.compat import type_validate_python
 from pydantic import (
     AfterValidator,
     BaseModel,
@@ -48,11 +49,12 @@ class LittleSkinUser(BaseModel):
     @classmethod
     async def query(cls, query_string: str):
         async with httpx.AsyncClient(
-            http2=True, headers={"Authorization": f"Bearer {S_.littleskin_admin_token}"}
+            http2=True, headers={"Authorization": f"Bearer {S_.littleskin_admin_token}"},
         ) as client:
             api = await client.get("https://littleskin.cn/api/admin/users", params={"q": query_string})
             if data := api.json()["data"]:
-                return cls(**data[0])
+                return type_validate_python(cls, data[0])
+            return None
 
     @classmethod
     async def qmail_api(cls, qq: int):

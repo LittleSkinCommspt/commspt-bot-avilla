@@ -107,8 +107,8 @@ class LibericaJavaLatest(BaseModel):
         Returns:
             List[LibericaJavaLatest]: Liberica Java 版本信息列表
         """
-        for key, _ in kwargs.items():
-            kwargs[key.replace("_", "-")] = kwargs.pop(key)
+        for key in kwargs:
+            kwargs[key.replace("_", "-")] = kwargs.pop(key)  # noqa: B909
         async with httpx.AsyncClient() as client:
             return type_validate_json(
                 list[cls],

@@ -1,6 +1,7 @@
 from arclet.alconna import Alconna, CommandMeta
 from arclet.alconna.graia import alcommand
 from avilla.core import Context, Message
+
 from commspt_bot_avilla.utils.adv_filter import (
     dispatcher_from_preset_commspt,
     dispather_by_admin_only,
@@ -17,7 +18,7 @@ from commspt_bot_avilla.utils.setting_manager import S_
             example=f"{S_.command_prompt}id",
             author="SerinaNya",
         ),
-    )
+    ),
 )
 @dispather_by_admin_only
 @dispatcher_from_preset_commspt
@@ -29,5 +30,5 @@ async def _(ctx: Context, message: Message):
 Message ID: {message.id}
 Message Content: {message.content}
 Reply Message ID: {origin_message.id if message.reply else None}
-Reply Message Content: {origin_message.content if message.reply else None}"""
+Reply Message Content: {origin_message.content if message.reply else None}""",
     )

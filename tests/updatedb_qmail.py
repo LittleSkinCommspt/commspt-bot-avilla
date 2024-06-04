@@ -1,10 +1,11 @@
 import asyncio
+
+from motor.motor_asyncio import AsyncIOMotorClient
+from rich import print
+
 from commspt_bot_avilla.models.littleskin_api import LittleSkinUser
 from commspt_bot_avilla.models.mongodb_data import UIDMapping
 from commspt_bot_avilla.utils.setting_manager import S_
-from motor.motor_asyncio import AsyncIOMotorClient
-
-from rich import print
 
 
 async def main():

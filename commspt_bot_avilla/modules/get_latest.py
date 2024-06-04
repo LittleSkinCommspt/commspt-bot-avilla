@@ -1,14 +1,13 @@
-from arclet.alconna import Alconna, CommandMeta, Args
-from arclet.alconna.graia import alcommand, CommandResult
+from arclet.alconna import Alconna, Args, CommandMeta
+from arclet.alconna.graia import CommandResult, alcommand
 from avilla.core import Context, Message
 
 from commspt_bot_avilla.models.version_api import (
     AuthlibInjectorLatest,
     LibericaJavaLatest,
 )
-
-from commspt_bot_avilla.utils.setting_manager import S_
 from commspt_bot_avilla.utils.adv_filter import dispatcher_from_preset_cafe
+from commspt_bot_avilla.utils.setting_manager import S_
 
 
 @alcommand(
@@ -20,7 +19,7 @@ from commspt_bot_avilla.utils.adv_filter import dispatcher_from_preset_cafe
             example=f"{S_.command_prompt}csl.latest",
             author="SerinaNya",
         ),
-    )
+    ),
 )
 @dispatcher_from_preset_cafe
 async def _(ctx: Context, message: Message):
@@ -36,7 +35,7 @@ async def _(ctx: Context, message: Message):
             example=f"{S_.command_prompt}ygg.latest",
             author="SerinaNya",
         ),
-    )
+    ),
 )
 @dispatcher_from_preset_cafe
 async def _(ctx: Context, message: Message):
@@ -57,17 +56,17 @@ async def _(ctx: Context, message: Message):
             example=f"{S_.command_prompt}java.latest 17 jdk windows",
             author="SerinaNya",
         ),
-    )
+    ),
 )
 @dispatcher_from_preset_cafe
 async def _(ctx: Context, message: Message, res: CommandResult):
     parma = res.result
     version: int = parma["version"]
-    type: str = parma["type"]
+    ftype: str = parma["type"]
     os: str = parma["os"]
     java_latest: list[LibericaJavaLatest] = await LibericaJavaLatest.get(
         version_feature=version,
-        bundle_type=f"{type}-full",
+        bundle_type=f"{ftype}-full",
         os=os,
     )
     await ctx.scene.send_message(

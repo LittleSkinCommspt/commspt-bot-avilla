@@ -1,5 +1,5 @@
 from avilla.core import Context
-from avilla.core.context import ContextClientSelector, ContextSceneSelector
+from avilla.core.context import ContextClientSelector, ContextSceneSelector  # type: ignore
 from avilla.core.tools.filter import Filter
 from graia.saya.builtins.broadcast.shortcut import dispatch
 
@@ -60,24 +60,24 @@ def by_admin_only():
 dispather_by_admin_only = dispatch(Filter().dispatch(Context).assert_true(lambda ctx: by_admin_only()(ctx.client)))
 
 dispatcher_from_preset_general = dispatch(
-    Filter().dispatch(Context).assert_true(lambda ctx: from_groups_preset_general()(ctx.scene))
+    Filter().dispatch(Context).assert_true(lambda ctx: from_groups_preset_general()(ctx.scene)),
 )
 
 dispatcher_from_preset_cafe = dispatch(
-    Filter().dispatch(Context).assert_true(lambda ctx: from_groups_preset_cafe()(ctx.scene))
+    Filter().dispatch(Context).assert_true(lambda ctx: from_groups_preset_cafe()(ctx.scene)),
 )
 
 dispatcher_from_preset_general_no_commspt = dispatch(
-    Filter().dispatch(Context).assert_true(lambda ctx: from_groups_preset_general_no_commspt()(ctx.scene))
+    Filter().dispatch(Context).assert_true(lambda ctx: from_groups_preset_general_no_commspt()(ctx.scene)),
 )
 
 dispatcher_from_preset_only_cafe = dispatch(
-    Filter().dispatch(Context).assert_true(lambda ctx: from_groups_preset_only_cafe()(ctx.scene))
+    Filter().dispatch(Context).assert_true(lambda ctx: from_groups_preset_only_cafe()(ctx.scene)),
 )
 
 
 dispatcher_from_preset_commspt = dispatch(
-    Filter().dispatch(Context).assert_true(lambda ctx: from_groups_preset_commspt()(ctx.scene))
+    Filter().dispatch(Context).assert_true(lambda ctx: from_groups_preset_commspt()(ctx.scene)),
 )
 
 
