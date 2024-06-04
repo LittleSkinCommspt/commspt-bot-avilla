@@ -43,7 +43,7 @@ includes = []
 
 [[tool.pdm.source]]
 name = "pypi"
-url = "https://mirror.sjtu.edu.cn/pypi/web/simple"
+url = "https://mirrors.pku.edu.cn/pypi/web/simple"
 verify_ssl = true
 
 [tool.ruff]
