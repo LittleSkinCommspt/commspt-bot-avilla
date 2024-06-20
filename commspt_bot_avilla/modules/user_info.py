@@ -54,7 +54,7 @@ async def user_info(ctx: Context, uid: Match[int]):
         Args["target", Notice | int]["uid", int],
         meta=CommandMeta(
             description="设置用户记录的 UID (commspt only)",
-            usage=f"{S_.command_prompt}setuid <target / qq> <uid>",
+            usage=f"{S_.command_prompt}setuid <target> <uid>",
             example=f"{S_.command_prompt}setuid @SerinaNya 15301",
             author="SerinaNya",
         ),
