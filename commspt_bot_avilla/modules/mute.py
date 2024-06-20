@@ -24,7 +24,7 @@ _GROUP_NAME_MAPPING = {
         Args["target", int | Notice]["duration", int, 10]["group", Literal["main", "cafe"] | None, None],
         meta=CommandMeta(
             description="禁言用户 (commspt only)",
-            usage=f"{S_.command_prompt}mute <target / qq> [duration] [group]",
+            usage=f"{S_.command_prompt}mute <target> [duration] [group]",
             example=f"{S_.command_prompt}mute @user 10 main",
             author="SerinaNya",
         ),
