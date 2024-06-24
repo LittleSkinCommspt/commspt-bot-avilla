@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import arrow
 from avilla.core import (
     Context,
@@ -22,6 +24,8 @@ from commspt_bot_avilla.utils.adv_filter import (
 from commspt_bot_avilla.utils.random_sleep import random_sleep
 from commspt_bot_avilla.utils.setting_manager import S_
 
+ANNOUNCEMENT_FILE = Path.cwd() / ".join-announcement.txt"
+
 
 # region member join request
 # region main
@@ -32,7 +36,7 @@ from commspt_bot_avilla.utils.setting_manager import S_
     .dispatch(RequestEvent)
     .assert_true(
         lambda e: e.request.request_type in ["onebot11::group.add", "onebot11::group.invite"],
-    )
+    ),
 )
 async def member_join_request(ctx: Context, event: RequestEvent):
     req = event.request
@@ -48,16 +52,16 @@ async def member_join_request(ctx: Context, event: RequestEvent):
 » 申请人 {applicant}
 » 答案     {answer}
 
-id={req.id}"""
+id={req.id}""",
     )
 
     if not answer.isdecimal():  # UID 应为十进制纯数字
         logger.warning(
-            f"(main) Member Join Request Event {req.request_type} was ignored. (ANSWER NOT DECIMAL) {applicant} > {answer}"
+            f"(main) Member Join Request Event {req.request_type} was ignored. (ANSWER NOT DECIMAL) {applicant} > {answer}",
         )
         message.append("👀 答案不是纯数字，需手动处理")
         await ctx.scene.into(f"::group({S_.defined_qq.commspt_group})").send_message(
-            "\n\n".join(m for m in message if m)
+            "\n\n".join(m for m in message if m),
         )
         return
 
@@ -66,31 +70,34 @@ id={req.id}"""
     # more sleep is better
     await random_sleep(3)
     # qmail api verification
-    if ltsk_qmail := await LittleSkinUser.qmail_api(applicant):
-        if ltsk_qmail.uid == uid:
-            # ok: pass verification
-            await UIDMapping(uid=uid, qq=applicant, qmail_verified=True).update()
-            logger.success(
-                f"(main) Member Join Request Event {req.request_type} was accepted. (QMAIL PASS) {applicant} > {answer}"
-            )
-            await req.accept()
-            message.append("👆 已同意，因为 QMAIL API 验证通过")
-            await ctx.scene.into(f"::group({S_.defined_qq.commspt_group})").send_message(
-                "\n\n".join(m for m in message if m)
-            )
-            return
+    if (ltsk_qmail := await LittleSkinUser.qmail_api(applicant)) and ltsk_qmail.uid == uid:
+        # ok: pass verification
+        await UIDMapping(uid=uid, qq=applicant, qmail_verified=True).update()
+        logger.success(
+            f"(main) Member Join Request Event {req.request_type} was accepted. (QMAIL PASS) {applicant} > {answer}",
+        )
+        await req.accept()
+        message.append("👆 已同意，因为 QMAIL API 验证通过")
+        # await ctx.scene.into(f"::group({S_.defined_qq.commspt_group})").send_message(
+        #     "\n\n".join(m for m in message if m),
+        # )
+        return
 
     # lstk uid check
     if not await LittleSkinUser.uid_info(uid):
         # failed: uid not exists
         logger.warning(
-            f"(main) Member Join Request Event {req.request_type} was ignored. (UID NOT EXISTS) {applicant} > {answer}"
+            f"(main) Member Join Request Event {req.request_type} was ignored. (UID NOT EXISTS) {applicant} > {answer}",
         )
         message.append("👀 这个 UID 根本不存在，需手动处理")
         await ctx.scene.into(f"::group({S_.defined_qq.commspt_group})").send_message(
-            "\n\n".join(m for m in message if m)
+            "\n\n".join(m for m in message if m),
         )
         return
+
+    if email_uid := await LittleSkinUser.qmail_api(qq=applicant):
+        may_current_uid = email_uid.uid
+        message.append(f"ⓘ 可能才为正确对应的 UID: {may_current_uid}")
 
     # failed: not pass verification
     logger.warning(f"(main) Member Join Request Event {req.request_type} was ignored. (GENERAL) {applicant} > {answer}")
@@ -120,16 +127,16 @@ async def _(ctx: Context, event: RequestEvent):
 » 申请人 {applicant}
 » 答案     {answer}
 
-id={req.id}"""
+id={req.id}""",
     )
 
     if not answer.isdecimal():  # UID 应为十进制纯数字
         logger.warning(
-            f"(cafe) Member Join Request Event {req.request_type} was ignored. (ANSWER NOT DECIMAL) {applicant} > {answer}"
+            f"(cafe) Member Join Request Event {req.request_type} was ignored. (ANSWER NOT DECIMAL) {applicant} > {answer}",
         )
         message.append("👀 答案不是纯数字，需手动处理")
         await ctx.scene.into(f"::group({S_.defined_qq.littleskin_cafe})").send_message(
-            "\n\n".join(m for m in message if m)
+            "\n\n".join(m for m in message if m),
         )
         return
 
@@ -142,11 +149,11 @@ id={req.id}"""
     if not await LittleSkinUser.uid_info(uid):
         # failed: uid not exists
         logger.warning(
-            f"(cafe) Member Join Request Event {req.request_type} was ignored. (UID NOT EXISTS) {applicant} > {answer}"
+            f"(cafe) Member Join Request Event {req.request_type} was ignored. (UID NOT EXISTS) {applicant} > {answer}",
         )
         message.append("👀 这个 UID 根本不存在，需手动处理")
         await ctx.scene.into(f"::group({S_.defined_qq.littleskin_cafe})").send_message(
-            "\n\n".join(m for m in message if m)
+            "\n\n".join(m for m in message if m),
         )
         return
 
@@ -155,7 +162,7 @@ id={req.id}"""
     status = "✅" if (mapping_uid and mapping_uid.uid == uid) else "⚠️"
     await req.accept()
     await ctx.scene.into(f"::group({S_.defined_qq.littleskin_cafe})").send_message(
-        f"(RESULT) Mapping {status}: QQ {applicant} -> UID {uid}"
+        f"(RESULT) Mapping {status}: QQ {applicant} -> UID {uid}",
     )
 
 
@@ -177,8 +184,7 @@ async def member_join_welcome(ctx: Context, event: SceneCreated):
         nofi_msg.append(f"UID: {uid_mapping.uid}")
 
     # add join announcement
-    with open(".join-announcement.txt", encoding="utf-8") as f:
-        join_announcement = f.read()
+    join_announcement = ANNOUNCEMENT_FILE.read_text(encoding="UTF-8")
     welcome_msg.append(f"\n{join_announcement}")
 
     # send to main group
@@ -195,7 +201,7 @@ async def member_join_welcome(ctx: Context, event: SceneCreated):
             nofi_msg.append("QMAIL ✅ 验证通过")
         elif ltsk_user:
             nofi_msg.append(
-                f"QMAIL {'❔ 与 QQ 号不匹配' if ltsk_user.email.lower().endswith('@qq.com') else '❌ 非 QQ 邮箱'}"
+                f"QMAIL {'❔ 与 QQ 号不匹配' if ltsk_user.email.lower().endswith('@qq.com') else '❌ 非 QQ 邮箱'}",
             )
 
         if ltsk_user:
@@ -226,7 +232,7 @@ async def member_join_welcome(ctx: Context, event: SceneCreated):
     await random_sleep(3)
     # send noti to commspt group
     await ctx.scene.into(f"::group({S_.defined_qq.notification_channel})").send_message(
-        [Picture(RawResource(image)) if image else "", "\n".join(nofi_msg)]
+        [Picture(RawResource(image)) if image else "", "\n".join(nofi_msg)],
     )
 
 
