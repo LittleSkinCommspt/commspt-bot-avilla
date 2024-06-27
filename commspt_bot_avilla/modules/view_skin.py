@@ -15,8 +15,8 @@ from httpx import HTTPStatusError
 from pytz import timezone
 
 # region utils
-LS_YGG = YggdrasilMC(api_root="https://littleskin.cn/api/yggdrasil")
-MJ_YGG = YggdrasilMC()
+LTSK_YGG = YggdrasilMC(api_root="https://littleskin.cn/api/yggdrasil")
+PRO_YGG = YggdrasilMC()
 TZ_SHANGHAI = timezone("Asia/Shanghai")
 # endregion
 
@@ -49,7 +49,7 @@ TZ_SHANGHAI = timezone("Asia/Shanghai")
 async def cmd_view_ygg(ctx: Context, message: Message, player_name: Match[str]):
     start_time = time()
     try:
-        player = await LS_YGG.by_name_async(player_name.result)
+        player = await LTSK_YGG.by_name_async(player_name.result)
     except ValueError:
         _message = f"「{player_name.result}」不存在"
         await ctx.scene.send_message(_message, reply=message)
@@ -106,7 +106,7 @@ async def cmd_view_ygg(ctx: Context, message: Message, player_name: Match[str]):
 async def cmd_view_pro(ctx: Context, message: Message, player_name: Match[str]):
     start_time = time()
     try:
-        player = await MJ_YGG.by_name_async(player_name.result)
+        player = await PRO_YGG.by_name_async(player_name.result)
     except ValueError:
         _message = f"「{player_name.result}」不存在"
         await ctx.scene.send_message(_message, reply=message)
