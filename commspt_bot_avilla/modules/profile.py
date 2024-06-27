@@ -9,7 +9,7 @@ from commspt_bot_avilla.utils.random_sleep import random_sleep
 from commspt_bot_avilla.utils.setting_manager import S_
 
 # region utils
-LS_YGG = YggdrasilMC("https://littleskin.cn/api/yggdrasil")
+LTSK_YGG = YggdrasilMC("https://littleskin.cn/api/yggdrasil")
 PRO_YGG = YggdrasilMC()
 # endregion
 
@@ -30,7 +30,7 @@ PRO_YGG = YggdrasilMC()
 @dispatcher_from_preset_cafe
 async def cmd_ygg(ctx: Context, message: Message, player_name: Match[str]):
     try:
-        player = await LS_YGG.by_name_async(player_name.result)
+        player = await LTSK_YGG.by_name_async(player_name.result)
     except ValueError:
         _message = f"「{player_name.result}」不存在"
         await ctx.scene.send_message(_message, reply=message)
