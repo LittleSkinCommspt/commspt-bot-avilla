@@ -43,6 +43,7 @@ async def member_join_request(ctx: Context, event: RequestEvent):
     applicant = int(req.sender["user"])
     message: list[str] = []
     if not req.message:
+        logger.warning(f"(main) request from {applicant} was ignored because request message is empty.")
         return
 
     answer = req.message.splitlines()[-1].removeprefix("答案：").strip()
