@@ -1,5 +1,6 @@
 from arclet.alconna import Alconna, Args, CommandMeta
-from arclet.alconna.graia import CommandResult, alcommand
+from arclet.alconna.arparma import Arparma
+from arclet.alconna.graia import alcommand
 from avilla.core import Context, Message
 
 from commspt_bot_avilla.models.version_api import (
@@ -59,8 +60,7 @@ async def _(ctx: Context, message: Message):
     ),
 )
 @dispatcher_from_preset_cafe
-async def _(ctx: Context, message: Message, res: CommandResult):
-    parma = res.result
+async def _(ctx: Context, message: Message, parma: Arparma):
     version: int = parma["version"]
     ftype: str = parma["type"]
     os: str = parma["os"]

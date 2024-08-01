@@ -6,6 +6,7 @@ from commspt_bot_avilla.utils.adv_filter import (
     dispatcher_from_preset_commspt,
     dispather_by_admin_only,
 )
+from commspt_bot_avilla.utils.command_utils import command_prehandler
 from commspt_bot_avilla.utils.setting_manager import S_
 
 
