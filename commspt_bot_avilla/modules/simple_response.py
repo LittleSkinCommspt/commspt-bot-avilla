@@ -53,7 +53,6 @@ logger.info("registering simple response...")
 
 register("ping", "在", reply=True)
 
-# region bot help
 register(
     "help",
     """请参阅 👉 https://bot-manual.commspt.littlesk.in/
@@ -61,9 +60,7 @@ register(
 
 请注意查看使用条例；在此提醒您: **请不要滥用机器人的任何功能，不然你有可能会被某个神秘人士出警**""",
 )
-# endregion
 
-# region ot
 register(
     "cafe",
     [
@@ -72,9 +69,7 @@ register(
 群号 👉🏻 651672723""",
     ],
 )
-# endregion
 
-# region log
 register("browser", Picture("assets/images/browser.png"), reply=True)
 
 register(
@@ -87,24 +82,18 @@ register(
     "请使用启动器的「测试游戏」功能启动游戏，并在复现问题后导出日志发送至群内。如果问题与外置登录有关，请在启动器的「JVM 参数（Java 虚拟机参数）」设置中填入 -Dauthlibinjector.debug",
 )
 
-# region 过渡区
 register(
     "csl.log",
-    "CustomSkinLoader 的日志位于 .minecraft/CustomSkinLoader/CustomSkinLoader.log，请将文件直接发送至群内。",
+    "请您查看下面的链接，将 CustomSkinLoader 日志文件直接发送至群内。
+👉🏻 https://manual.littlesk.in/problems#customskinloader",
 )
-# endregion
 
-# endregion
-
-# region csl
 register(
     "csl.config",
     """若安装了 CustomSkinLoader 后无法正确加载皮肤，可能是当前角色名被同名正版优先加载，可通过以下方法手动修改 CustomSkinLoader 的加载顺序：
 https://manual.littlesk.in/newbee/csl#edit-csl-config""",
 )
-# endregion
 
-# region other
 register(
     "pay",
     """在群里和大佬吹牛逼帮助不了你的问题？
@@ -164,4 +153,16 @@ register(
 此时请您查阅群公告以解决此问题。
 有时部分无法连接的问题也可通过群公告的教程解决。""",
 )
-# endregion
+
+register(
+    "faq",
+    """请您查看手册上的 常见问题解答 (FAQ) 章节，尝试按照手册上的指示自行解决您的问题。如无法解决请您继续询问。
+https://manual.littlesk.in/faq""",
+)
+
+
+register(
+    "hta",
+    """请您阅读手册上的 遇到问题了咋办 章节后，准备好可能需要的 信息 / 文件 后，再来询问，否则有可能无法获得 (社区) 支持组 的帮助！
+https://manual.littlesk.in/problems""",
+)
