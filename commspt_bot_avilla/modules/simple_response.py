@@ -74,7 +74,8 @@ register("browser", Picture("assets/images/browser.png"), reply=True)
 
 register(
     "log.csl",
-    "CustomSkinLoader 的日志位于 .minecraft/CustomSkinLoader/CustomSkinLoader.log，请将文件直接发送至群内。",
+    "请您查看下面的链接，将 CustomSkinLoader 日志文件直接发送至群内。
+👉🏻 https://manual.littlesk.in/problems#customskinloader",
 )
 
 register(
