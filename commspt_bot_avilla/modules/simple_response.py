@@ -74,8 +74,8 @@ register("browser", Picture("assets/images/browser.png"), reply=True)
 
 register(
     "log.csl",
-    "请您查看下面的链接，将 CustomSkinLoader 日志文件直接发送至群内。
-👉🏻 https://manual.littlesk.in/problems#customskinloader",
+    """请您查看下面的链接，将 CustomSkinLoader 日志文件直接发送至群内。
+👉🏻 https://manual.littlesk.in/problems#customskinloader""",
 )
 
 register(
@@ -85,8 +85,8 @@ register(
 
 register(
     "csl.log",
-    "请您查看下面的链接，将 CustomSkinLoader 日志文件直接发送至群内。
-👉🏻 https://manual.littlesk.in/problems#customskinloader",
+    """请您查看下面的链接，将 CustomSkinLoader 日志文件直接发送至群内。
+👉🏻 https://manual.littlesk.in/problems#customskinloader""",
 )
 
 register(
