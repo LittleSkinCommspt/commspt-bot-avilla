@@ -49,16 +49,13 @@ async def mute(
         )
         return
 
-    else:
-        await ctx[MuteCapability.mute](
-            target=(
-                target.result.target
-                if isinstance(target.result, Notice)
-                else ctx.scene.into(f"~.member({target.result})")
-            ),
-            duration=timedelta(minutes=duration),
-        )
-        return
+    await ctx[MuteCapability.mute](
+        target=(
+            target.result.target if isinstance(target.result, Notice) else ctx.scene.into(f"~.member({target.result})")
+        ),
+        duration=timedelta(minutes=duration),
+    )
+    return
 
 
 # MARK: %unmute
@@ -91,15 +88,12 @@ async def unmute(
         )
         return
 
-    else:
-        await ctx[MuteCapability.unmute](
-            target=(
-                target.result.target
-                if isinstance(target.result, Notice)
-                else ctx.scene.into(f"~.member({target.result})")
-            )
+    await ctx[MuteCapability.unmute](
+        target=(
+            target.result.target if isinstance(target.result, Notice) else ctx.scene.into(f"~.member({target.result})")
         )
-        return
+    )
+    return
 
 
 # MARK: %recall
