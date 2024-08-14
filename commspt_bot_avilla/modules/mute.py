@@ -3,7 +3,7 @@ from typing import Literal
 
 from arclet.alconna import Alconna, Args, CommandMeta
 from arclet.alconna.graia import Match, alcommand
-from avilla.core import Context, Message, MuteCapability, Notice
+from avilla.core import Context, Message, MuteAllCapability, MuteCapability, Notice
 
 from commspt_bot_avilla.utils.adv_filter import (
     dispatcher_from_preset_cafe,
@@ -28,7 +28,7 @@ _GROUP_NAME_MAPPING = {
             example=f"{S_.command_prompt}mute @user 10 main",
             author="SerinaNya",
         ),
-    )
+    ),
 )
 @dispatcher_from_preset_cafe
 @dispather_by_admin_only
@@ -69,7 +69,7 @@ async def mute(
             example=f"{S_.command_prompt}unmute @user main",
             author="SerinaNya",
         ),
-    )
+    ),
 )
 @dispatcher_from_preset_cafe
 @dispather_by_admin_only
@@ -91,7 +91,7 @@ async def unmute(
     await ctx[MuteCapability.unmute](
         target=(
             target.result.target if isinstance(target.result, Notice) else ctx.scene.into(f"~.member({target.result})")
-        )
+        ),
     )
     return
 
@@ -99,14 +99,14 @@ async def unmute(
 # MARK: %recall
 @alcommand(
     Alconna(
-        r"%recall",
+        f"{S_.command_prompt}recall",
         meta=CommandMeta(
             description="撤回消息 (commspt only)",
             usage=r"%recall",
             example=r"%recall",
             author="SerinaNya",
         ),
-    )
+    ),
 )
 @dispatcher_from_preset_cafe
 @dispather_by_admin_only
@@ -118,3 +118,45 @@ async def recall(ctx: Context, message: Message):
         return
     await origin_message.revoke()
     await message.revoke()
+
+
+@alcommand(
+    Alconna(
+        f"{S_.command_prompt}muteall",
+        Args["group", Literal["main", "cafe"]],
+        meta=CommandMeta(
+            description="MUTEALL (commspt only)",
+            usage=f"{S_.command_prompt}muteall <group>",
+            example=f"{S_.command_prompt}muteall main",
+            author="SerinaNya",
+        ),
+    ),
+)
+@dispatcher_from_preset_cafe
+@dispather_by_admin_only
+async def mute_all(ctx: Context, group: Match[Literal["main", "cafe"]]):
+    await ctx[MuteAllCapability.mute_all](
+        target=ctx.scene if not group.result else ctx.scene.into(f"::group({_GROUP_NAME_MAPPING[group.result]})"),
+    )
+    return
+
+
+@alcommand(
+    Alconna(
+        f"{S_.command_prompt}unmuteall",
+        Args["group", Literal["main", "cafe"]],
+        meta=CommandMeta(
+            description="UNMUTEALL (commspt only)",
+            usage=f"{S_.command_prompt}unmuteall <group>",
+            example=f"{S_.command_prompt}unmuteall main",
+            author="SerinaNya",
+        ),
+    ),
+)
+@dispatcher_from_preset_cafe
+@dispather_by_admin_only
+async def mute_all(ctx: Context, group: Match[Literal["main", "cafe"]]):
+    await ctx[MuteAllCapability.unmute_all](
+        target=ctx.scene if not group.result else ctx.scene.into(f"::group({_GROUP_NAME_MAPPING[group.result]})"),
+    )
+    return
