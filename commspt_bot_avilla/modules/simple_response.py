@@ -90,7 +90,7 @@ register(
 在使用版本隔离的情况下则为 .minecraft/versions/{versions}/CustomSkinLoader/CustomSkinLoader.log
 请将 CustomSkinLoader 日志文件直接发送至群内。
 
-文档地址:https://manual.littlesk.in/problems#customskinloader""",
+详细 👉 https://manual.littlesk.in/problems#customskinloader""",
 )
 
 register(
