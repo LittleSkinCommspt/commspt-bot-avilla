@@ -4,15 +4,12 @@ import httpx
 from cookit.pyd.compat import type_validate_python
 from pydantic import BaseModel, model_validator
 from pydantic.fields import Field
+from richuru import logger
 
 
 class CustomSkinLoaderApi(BaseModel):
-    class Skins(BaseModel):
-        slim: str | None
-        default: str | None
-
     username: str | None
-    skins: Skins | None
+    skins: dict[Literal["default", "slim"], str] | None
     skin_hash: str | None = None
     cape_hash: str | None = Field(None, alias="cape")
     player_existed: bool | None = True
@@ -56,4 +53,8 @@ class CustomSkinLoaderApi(BaseModel):
     @classmethod
     async def get(cls, api_root: str, username: str):
         async with httpx.AsyncClient(base_url=api_root) as client:
-            return type_validate_python(cls, (await client.get(f"{username}.json")).raise_for_status().json())
+            resp = (await client.get(f"{username}.json")).raise_for_status().json()
+            if not resp:
+                logger.warning(f"Player {username} not found.")
+                return None
+            return type_validate_python(cls, resp)

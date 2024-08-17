@@ -1,24 +1,15 @@
-from arclet.alconna import Alconna, Args, CommandMeta
-from avilla.core import Context, Message
-from avilla.core import Picture, RawResource
-from arclet.alconna.graia import alcommand, Match
-
-from yggdrasil_mc.client import YggdrasilMC
 from datetime import datetime
 from time import time
 
-from commspt_bot_avilla.utils.adv_filter import dispatcher_from_preset_cafe
-from commspt_bot_avilla.utils.skinrendermcapi import request_skinrendermc, process_image
-from commspt_bot_avilla.utils.setting_manager import S_
-
+from arclet.alconna import Alconna, Args, CommandMeta
+from arclet.alconna.graia import Match, alcommand
+from avilla.core import Context, Message, Picture, RawResource
 from httpx import HTTPStatusError
-from pytz import timezone
 
-# region utils
-LTSK_YGG = YggdrasilMC(api_root="https://littleskin.cn/api/yggdrasil")
-PRO_YGG = YggdrasilMC()
-TZ_SHANGHAI = timezone("Asia/Shanghai")
-# endregion
+from commspt_bot_avilla.models.const import TZ_SHANGHAI, get_ygg_player
+from commspt_bot_avilla.utils.adv_filter import dispatcher_from_preset_cafe
+from commspt_bot_avilla.utils.setting_manager import S_
+from commspt_bot_avilla.utils.skinrendermcapi import process_image, request_skinrendermc
 
 
 @alcommand(
@@ -49,7 +40,7 @@ TZ_SHANGHAI = timezone("Asia/Shanghai")
 async def cmd_view_ygg(ctx: Context, message: Message, player_name: Match[str]):
     start_time = time()
     try:
-        player = await LTSK_YGG.by_name_async(player_name.result)
+        player = await get_ygg_player(player_type="ltsk", player_name=player_name.result)
     except ValueError:
         _message = f"「{player_name.result}」不存在"
         await ctx.scene.send_message(_message, reply=message)
@@ -106,7 +97,7 @@ async def cmd_view_ygg(ctx: Context, message: Message, player_name: Match[str]):
 async def cmd_view_pro(ctx: Context, message: Message, player_name: Match[str]):
     start_time = time()
     try:
-        player = await PRO_YGG.by_name_async(player_name.result)
+        player = await get_ygg_player(player_type="pro", player_name=player_name.result)
     except ValueError:
         _message = f"「{player_name.result}」不存在"
         await ctx.scene.send_message(_message, reply=message)
