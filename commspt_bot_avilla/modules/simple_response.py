@@ -18,7 +18,7 @@ default_dispatchers = [
 
 
 # region register
-def register(command: str, response: str | Element | list[str | Element], reply: bool = False):
+def register(command: str | list[str], response: str | Element | list[str | Element], reply: bool = False):
     """
     ### Simple Response：将简易响应注册到对应的命令事件，可选是否回复触发消息
 
@@ -34,16 +34,25 @@ def register(command: str, response: str | Element | list[str | Element], reply:
 
     # send simple response message
     async def _simple_response(cx: Context, message: Message):
-        await random_sleep()
-        await cx.scene.send_message(response, reply=message if reply else None)
+        _ = await random_sleep()
+        _ = await cx.scene.send_message(response, reply=message if reply else None)
 
     # register to command events
-    cmd.on(
-        command=S_.command_prompt + command,
-        dispatchers=default_dispatchers,  # type: ignore
-        need_tome=False,
-        remove_tome=False,
-    )(_simple_response)  # type: ignore
+    if isinstance(command, list):
+        for command_item in command:
+            cmd.on(
+                command=S_.command_prompt + command_item,
+                dispatchers=default_dispatchers,  # type: ignore
+                need_tome=False,
+                remove_tome=False,
+            )(_simple_response)
+    else:
+        cmd.on(
+            command=S_.command_prompt + command,
+            dispatchers=default_dispatchers,  # type: ignore
+            need_tome=False,
+            remove_tome=False,
+        )(_simple_response)  # type: ignore
 
 
 # endregion
@@ -73,24 +82,17 @@ register(
 register("browser", Picture("assets/images/browser.png"), reply=True)
 
 register(
-    "log.csl",
-    """请您查看下面的链接，将 CustomSkinLoader 日志文件直接发送至群内。
-👉🏻 https://manual.littlesk.in/problems#customskinloader""",
+    ["log.csl", "csl.log"],
+    r"""CustomSkinLoader 的日志位于 .minecraft/CustomSkinLoader/CustomSkinLoader.log
+在使用版本隔离的情况下则为 .minecraft/versions/{versions}/CustomSkinLoader/CustomSkinLoader.log
+请将 CustomSkinLoader 日志文件直接发送至群内。
+
+详细 👉🏻 https://manual.littlesk.in/problems#customskinloader""",
 )
 
 register(
     "log.mc",
     "请使用启动器的「测试游戏」功能启动游戏，并在复现问题后导出日志发送至群内。如果问题与外置登录有关，请在启动器的「JVM 参数（Java 虚拟机参数）」设置中填入 -Dauthlibinjector.debug",
-)
-
-register(
-    "csl.log",
-    """CustomSkinLoader 的日志位于 .minecraft/CustomSkinLoader/CustomSkinLoader.log，
-
-在使用版本隔离的情况下则为 .minecraft/versions/{versions}/CustomSkinLoader/CustomSkinLoader.log
-请将 CustomSkinLoader 日志文件直接发送至群内。
-
-详细 👉 https://manual.littlesk.in/problems#customskinloader""",
 )
 
 register(
