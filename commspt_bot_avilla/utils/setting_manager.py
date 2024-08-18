@@ -45,8 +45,8 @@ class API_browserless(BaseModel):
     endpoint: str
 
 
-# class API_littleskin_origin(BaseModel):
-#     endpoint: str
+class API_littleskin_origin(BaseModel):
+    endpoint: str
 
 
 class Setting(BaseModel):
@@ -58,7 +58,7 @@ class Setting(BaseModel):
     db_mongo: DB_mongo
     api_bingling_ipip: API_bingling_ipip
     api_browserless: API_browserless
-    # api_littleskin_origin: API_littleskin_origin
+    api_littleskin_origin: API_littleskin_origin
 
     dev_mode: bool
     admin_list: list[int]
