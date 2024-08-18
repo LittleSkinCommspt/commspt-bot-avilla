@@ -20,7 +20,7 @@ from commspt_bot_avilla.utils.setting_manager import S_
 @alcommand(
     Alconna(
         f"{S_.command_prompt}user",
-        Args["uid", int],
+        Args["uid#UID", int],
         meta=CommandMeta(
             description="查询用户信息 (commspt [group] only)",
             usage=f"{S_.command_prompt}user <uid>",
@@ -51,7 +51,7 @@ async def user_info(ctx: Context, uid: Match[int]):
 @alcommand(
     Alconna(
         f"{S_.command_prompt}setuid",
-        Args["target", Notice | int]["uid", int],
+        Args["target#目标", Notice | int]["uid#UID", int],
         meta=CommandMeta(
             description="设置用户记录的 UID (commspt only)",
             usage=f"{S_.command_prompt}setuid <target> <uid>",

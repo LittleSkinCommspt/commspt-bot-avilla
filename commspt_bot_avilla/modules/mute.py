@@ -21,7 +21,7 @@ _GROUP_NAME_MAPPING = {
 @alcommand(
     Alconna(
         f"{S_.command_prompt}mute",
-        Args["target", int | Notice]["duration", int, 10]["group", Literal["main", "cafe"] | None, None],
+        Args["target#目标", int | Notice]["duration#时长", int, 10]["group#群组", Literal["main", "cafe"] | None, None],
         meta=CommandMeta(
             description="禁言用户 (commspt only)",
             usage=f"{S_.command_prompt}mute <target> [duration] [group]",
@@ -62,7 +62,7 @@ async def mute(
 @alcommand(
     Alconna(
         f"{S_.command_prompt}unmute",
-        Args["target", int | Notice]["group", Literal["main", "cafe"] | None, None],
+        Args["target#目标", int | Notice]["group#群组", Literal["main", "cafe"] | None, None],
         meta=CommandMeta(
             description="解除禁言 (commspt only)",
             usage=f"{S_.command_prompt}unmute <target / qq> [group]",
@@ -123,7 +123,7 @@ async def recall(ctx: Context, message: Message):
 @alcommand(
     Alconna(
         f"{S_.command_prompt}muteall",
-        Args["group", Literal["main", "cafe"]],
+        Args["group#群组", Literal["main", "cafe"]],
         meta=CommandMeta(
             description="MUTEALL (commspt only)",
             usage=f"{S_.command_prompt}muteall <group>",
@@ -144,7 +144,7 @@ async def mute_all(ctx: Context, group: Match[Literal["main", "cafe"]]):
 @alcommand(
     Alconna(
         f"{S_.command_prompt}unmuteall",
-        Args["group", Literal["main", "cafe"]],
+        Args["group#群组", Literal["main", "cafe"]],
         meta=CommandMeta(
             description="UNMUTEALL (commspt only)",
             usage=f"{S_.command_prompt}unmuteall <group>",

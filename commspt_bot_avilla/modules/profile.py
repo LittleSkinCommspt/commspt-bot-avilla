@@ -13,7 +13,7 @@ from commspt_bot_avilla.utils.setting_manager import S_
 @alcommand(
     Alconna(
         f"{S_.command_prompt}ygg",
-        Args["player_name", str],
+        Args["player_name#角色名", str],
         meta=CommandMeta(
             description="查询 Yggdrasil 玩家信息",
             usage=r"%ygg <player_name>",
@@ -56,7 +56,7 @@ async def cmd_ygg(ctx: Context, message: Message, player_name: Match[str]):
 @alcommand(
     Alconna(
         f"{S_.command_prompt}pro",
-        Args["player_name", str],
+        Args["player_name#角色名", str],
         meta=CommandMeta(
             description="查询 Pro 玩家信息",
             usage=r"%ygg <player_name>",

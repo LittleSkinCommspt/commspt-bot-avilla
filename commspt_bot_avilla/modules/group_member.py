@@ -15,7 +15,7 @@ from commspt_bot_avilla.utils.setting_manager import S_
 @alcommand(
     Alconna(
         f"{S_.command_prompt}uid",
-        Args["target", int | Notice],
+        Args["target#目标", int | Notice],
         meta=CommandMeta(
             description="查询用户 UID (commspt only)",
             usage=f"{S_.command_prompt}uid <target / qq>",

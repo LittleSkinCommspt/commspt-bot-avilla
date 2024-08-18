@@ -41,7 +41,7 @@ def translate_bool(value: bool, yes_word: str = "", no_word: str = "不") -> str
 @alcommand(
     Alconna(
         f"{S_.command_prompt}check",
-        Args["player_name", str],
+        Args["player_name#角色名", str],
         meta=CommandMeta(
             description="Check player profile, such as existence and skin hash.",
             usage=f"{S_.command_prompt}check <player_name>",

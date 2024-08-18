@@ -25,7 +25,7 @@ from commspt_bot_avilla.utils.random_sleep import random_sleep
 @alcommand(
     Alconna(
         r"do",
-        Args["action", Literal["accept", "reject"]]["reason", str, "答案错误，再仔细看看"],
+        Args["action#操作", Literal["accept", "reject"]]["reason#原因", str, "答案错误，再仔细看看"],
         meta=CommandMeta(
             description="处理入群请求 (commspt only)",
             usage="do <accept|reject> [reason]",

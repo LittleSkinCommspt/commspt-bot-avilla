@@ -15,7 +15,7 @@ from commspt_bot_avilla.utils.skinrendermcapi import process_image, request_skin
 @alcommand(
     Alconna(
         f"{S_.command_prompt}view",
-        Args["player_name", str],
+        Args["player_name#角色名", str],
         meta=CommandMeta(
             description="查看玩家皮肤",
             usage=f"{S_.command_prompt}view <player_name>",
@@ -27,7 +27,7 @@ from commspt_bot_avilla.utils.skinrendermcapi import process_image, request_skin
 @alcommand(
     Alconna(
         f"{S_.command_prompt}view.ygg",
-        Args["player_name", str],
+        Args["player_name#角色名", str],
         meta=CommandMeta(
             description="查看玩家皮肤 (LittleSkin)",
             usage=f"{S_.command_prompt}view.ygg <player_name>",
@@ -84,7 +84,7 @@ async def cmd_view_ygg(ctx: Context, message: Message, player_name: Match[str]):
 @alcommand(
     Alconna(
         "%view.pro",
-        Args["player_name", str],
+        Args["player_name#角色名", str],
         meta=CommandMeta(
             description="查看玩家皮肤 (Pro)",
             usage=r"%view.pro <player_name>",

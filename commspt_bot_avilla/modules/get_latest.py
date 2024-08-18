@@ -50,7 +50,7 @@ async def _(ctx: Context, message: Message):
 @alcommand(
     Alconna(
         f"{S_.command_prompt}java.latest",
-        Args["version", int, 17]["type", str, "jre"]["os", str, "windows"],
+        Args["version#Java 版本", int, 17]["type#Java 类型", str, "jre"]["os#操作系统类型", str, "windows"],
         meta=CommandMeta(
             description="获取 Java 最新版本信息",
             usage=f"{S_.command_prompt}java.latest [version] [type] [os]",
