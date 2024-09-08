@@ -6,7 +6,7 @@ from arclet.alconna.graia import Match, alcommand
 from avilla.core import Context, Message, Picture, RawResource
 from httpx import HTTPStatusError
 
-from commspt_bot_avilla.models.const import TZ_SHANGHAI, get_ygg_player
+from commspt_bot_avilla.models.const import TZ_SHANGHAI, PlayerNotFoundError, get_ygg_player
 from commspt_bot_avilla.utils.adv_filter import dispatcher_from_preset_cafe
 from commspt_bot_avilla.utils.setting_manager import S_
 from commspt_bot_avilla.utils.skinrendermcapi import process_image, request_skinrendermc
@@ -41,7 +41,7 @@ async def cmd_view_ygg(ctx: Context, message: Message, player_name: Match[str]):
     start_time = time()
     try:
         player = await get_ygg_player(player_type="ltsk", player_name=player_name.result)
-    except ValueError:
+    except PlayerNotFoundError:
         _message = f"「{player_name.result}」不存在"
         await ctx.scene.send_message(_message, reply=message)
         return
@@ -98,7 +98,7 @@ async def cmd_view_pro(ctx: Context, message: Message, player_name: Match[str]):
     start_time = time()
     try:
         player = await get_ygg_player(player_type="pro", player_name=player_name.result)
-    except ValueError:
+    except PlayerNotFoundError:
         _message = f"「{player_name.result}」不存在"
         await ctx.scene.send_message(_message, reply=message)
         return

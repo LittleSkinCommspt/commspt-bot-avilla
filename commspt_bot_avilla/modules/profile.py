@@ -3,7 +3,7 @@ from arclet.alconna.graia import Match, alcommand
 from avilla.core import Context, Message
 from httpx import HTTPStatusError
 
-from commspt_bot_avilla.models.const import get_ygg_player
+from commspt_bot_avilla.models.const import get_ygg_player, PlayerNotFoundError
 from commspt_bot_avilla.utils.adv_filter import dispatcher_from_preset_cafe
 from commspt_bot_avilla.utils.random_sleep import random_sleep
 from commspt_bot_avilla.utils.setting_manager import S_
@@ -26,7 +26,7 @@ from commspt_bot_avilla.utils.setting_manager import S_
 async def cmd_ygg(ctx: Context, message: Message, player_name: Match[str]):
     try:
         player = await get_ygg_player(player_type="ltsk", player_name=player_name.result)
-    except ValueError:
+    except PlayerNotFoundError:
         _message = f"「{player_name.result}」不存在"
         await ctx.scene.send_message(_message, reply=message)
         return
@@ -69,7 +69,7 @@ async def cmd_ygg(ctx: Context, message: Message, player_name: Match[str]):
 async def cmd_pro(ctx: Context, message: Message, player_name: Match[str]):
     try:
         player = await get_ygg_player(player_type="pro", player_name=player_name.result)
-    except ValueError:
+    except PlayerNotFoundError:
         _message = f"「{player_name.result}」不存在"
         await ctx.scene.send_message(_message, reply=message)
         return

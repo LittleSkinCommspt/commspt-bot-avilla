@@ -4,6 +4,7 @@ from urllib.parse import urljoin
 from pytz import timezone
 from yggdrasil_mc.client import YggdrasilMC
 from yggdrasil_mc.models import PlayerProfile
+from yggdrasil_mc.exceptions import PlayerNotFoundError
 
 from commspt_bot_avilla.utils.setting_manager import S_
 
@@ -32,18 +33,9 @@ async def get_ygg_player(
     player_type: Literal["pro", "ltsk"],
     player_name: str,
     origin: bool = False,
-) -> PlayerProfile | None:
+) -> PlayerProfile:
     if player_type == "pro":
-        try:
-            return await PRO_YGG.by_name_async(player_name)
-        except Exception:
-            return None
+        return await PRO_YGG.by_name_async(player_name)
     if origin:
-        try:
-            return await LTSK_ORIGIN_YGG.by_name_async(player_name)
-        except Exception:
-            return None
-    try:
-        return await LTSK_YGG.by_name_async(player_name)
-    except Exception:
-        return None
+        return await LTSK_ORIGIN_YGG.by_name_async(player_name)
+    return await LTSK_YGG.by_name_async(player_name)
