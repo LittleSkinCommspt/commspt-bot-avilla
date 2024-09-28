@@ -2,7 +2,6 @@ from datetime import datetime
 from typing import Annotated
 
 import httpx
-from cookit.pyd import type_validate_json
 from pydantic import AliasGenerator, BaseModel, ConfigDict, alias_generators
 from pydantic.fields import Field
 from pydantic.networks import AnyHttpUrl
@@ -29,11 +28,10 @@ class CustomSkinLoaderLatest(BaseModel):
             CustomSkinLoaderLatest: CustomSkinLoader 最新版本信息
         """
         async with httpx.AsyncClient() as client:
-            return type_validate_json(
-                cls,
-                (await client.get("https://csl-1258131272.cos.ap-shanghai.myqcloud.com/latest.json"))
+            return cls(
+                **(await client.get("https://api.github.com/repos/CustomSkinLoader/CustomSkinLoader/releases/latest"))
                 .raise_for_status()
-                .text,
+                .json(),
             )
 
 

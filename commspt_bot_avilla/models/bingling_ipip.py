@@ -1,5 +1,4 @@
 import httpx
-from cookit.pyd import type_validate_python
 from pydantic import BaseModel
 
 from commspt_bot_avilla.utils.setting_manager import S_, VERIFY_CONTENT
@@ -42,4 +41,4 @@ class BingLingIPIP(BaseModel):
             verify=VERIFY_CONTENT, base_url=S_.api_bingling_ipip.endpoint, http2=True,
         ) as client:
             resp = await client.get(f"/{ip}")
-        return type_validate_python(cls, resp.json())
+        return cls(**resp.json())

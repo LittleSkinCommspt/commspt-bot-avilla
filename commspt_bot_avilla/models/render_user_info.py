@@ -2,7 +2,6 @@ from datetime import datetime
 from typing import Annotated
 
 import arrow
-from cookit.pyd.compat import model_dump
 from pydantic import BaseModel, EmailStr, Field, IPvAnyAddress, computed_field
 from pydantic.functional_serializers import PlainSerializer
 
@@ -48,4 +47,4 @@ class RenderUserInfo(BaseModel):
         ipip = await BingLingIPIP.get(self.ip[0])
         self.network = f"{ipip.country_name}{ipip.region_name}{ipip.city_name} {ipip.isp_domain}{ipip.owner_domain}"
 
-        return await screenshot("user-info.html.jinja", **model_dump(self), height=750 if self.qq else 600)
+        return await screenshot("user-info.html.jinja", **self.model_dump(), height=750 if self.qq else 600)

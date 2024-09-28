@@ -3,7 +3,6 @@ from pathlib import Path
 
 import httpx
 import yaml
-from cookit.pyd.compat import type_validate_python
 from pydantic import BaseModel
 
 VERIFY_CONTENT = httpx.create_ssl_context(verify=ssl.create_default_context(), http2=True)
@@ -65,4 +64,4 @@ class Setting(BaseModel):
     littleskin_admin_token: str
 
 
-S_ = type_validate_python(Setting, yaml.safe_load(CONFIG_FILE.read_text()))
+S_ = Setting(**yaml.safe_load(CONFIG_FILE.read_text()))
