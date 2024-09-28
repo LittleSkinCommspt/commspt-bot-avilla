@@ -26,7 +26,6 @@ _GROUP_NAME_MAPPING = {
             description="禁言用户 (commspt only)",
             usage=f"{S_.command_prompt}mute <target> [duration] [group]",
             example=f"{S_.command_prompt}mute @user 10 main",
-            author="SerinaNya",
         ),
     ),
 )
@@ -67,7 +66,6 @@ async def mute(
             description="解除禁言 (commspt only)",
             usage=f"{S_.command_prompt}unmute <target / qq> [group]",
             example=f"{S_.command_prompt}unmute @user main",
-            author="SerinaNya",
         ),
     ),
 )
@@ -104,7 +102,6 @@ async def unmute(
             description="撤回消息 (commspt only)",
             usage=r"%recall",
             example=r"%recall",
-            author="SerinaNya",
         ),
     ),
 )
@@ -128,7 +125,6 @@ async def recall(ctx: Context, message: Message):
             description="MUTEALL (commspt only)",
             usage=f"{S_.command_prompt}muteall <group>",
             example=f"{S_.command_prompt}muteall main",
-            author="SerinaNya",
         ),
     ),
 )
@@ -149,7 +145,6 @@ async def mute_all(ctx: Context, group: Match[Literal["main", "cafe"]]):
             description="UNMUTEALL (commspt only)",
             usage=f"{S_.command_prompt}unmuteall <group>",
             example=f"{S_.command_prompt}unmuteall main",
-            author="SerinaNya",
         ),
     ),
 )

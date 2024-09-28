@@ -20,7 +20,6 @@ from commspt_bot_avilla.utils.setting_manager import S_
             description="查询用户 UID (commspt only)",
             usage=f"{S_.command_prompt}uid <target / qq>",
             example=f"{S_.command_prompt}uid @user",
-            author="SerinaNya",
         ),
     ),
 )

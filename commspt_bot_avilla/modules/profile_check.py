@@ -69,7 +69,6 @@ def translate_bool(value: bool, yes_word: str = "", no_word: str = "不") -> str
             description="Check player profile, such as existence and skin hash.",
             usage=f"{S_.command_prompt}check <player_name>",
             example=f"{S_.command_prompt}check jeb_",
-            author="SerinaNya",
         ),
     ),
 )

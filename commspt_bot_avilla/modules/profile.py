@@ -18,7 +18,6 @@ from commspt_bot_avilla.utils.setting_manager import S_
             description="查询 Yggdrasil 玩家信息",
             usage=r"%ygg <player_name>",
             example=r"%ygg SerinaNya",
-            author="SerinaNya",
         ),
     ),
 )
@@ -61,7 +60,6 @@ async def cmd_ygg(ctx: Context, message: Message, player_name: Match[str]):
             description="查询 Pro 玩家信息",
             usage=r"%ygg <player_name>",
             example=r"%ygg SerinaNya",
-            author="SerinaNya",
         ),
     ),
 )

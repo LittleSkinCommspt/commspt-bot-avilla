@@ -30,7 +30,6 @@ from commspt_bot_avilla.utils.random_sleep import random_sleep
             description="处理入群请求 (commspt only)",
             usage="do <accept|reject> [reason]",
             example="do accept",
-            author="SerinaNya",
         ),
     ),
 )

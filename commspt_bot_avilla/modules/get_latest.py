@@ -18,7 +18,6 @@ from commspt_bot_avilla.utils.setting_manager import S_
             description="获取 CustomSkinLoader 最新版本信息",
             usage=f"{S_.command_prompt}csl.latest",
             example=f"{S_.command_prompt}csl.latest",
-            author="SerinaNya",
         ),
     ),
 )
@@ -34,7 +33,6 @@ async def _(ctx: Context, message: Message):
             description="获取 Yggdrasil 最新版本信息",
             usage=f"{S_.command_prompt}ygg.latest",
             example=f"{S_.command_prompt}ygg.latest",
-            author="SerinaNya",
         ),
     ),
 )
@@ -55,7 +53,6 @@ async def _(ctx: Context, message: Message):
             description="获取 Java 最新版本信息",
             usage=f"{S_.command_prompt}java.latest [version] [type] [os]",
             example=f"{S_.command_prompt}java.latest 17 jdk windows",
-            author="SerinaNya",
         ),
     ),
 )

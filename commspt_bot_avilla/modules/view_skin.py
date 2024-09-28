@@ -20,7 +20,6 @@ from commspt_bot_avilla.utils.skinrendermcapi import process_image, request_skin
             description="查看玩家皮肤",
             usage=f"{S_.command_prompt}view <player_name>",
             example=f"{S_.command_prompt}view SerinaNya",
-            author="SerinaNya",
         ),
     )
 )
@@ -32,7 +31,6 @@ from commspt_bot_avilla.utils.skinrendermcapi import process_image, request_skin
             description="查看玩家皮肤 (LittleSkin)",
             usage=f"{S_.command_prompt}view.ygg <player_name>",
             example=f"{S_.command_prompt}view.ygg SerinaNya",
-            author="SerinaNya",
         ),
     )
 )
@@ -89,7 +87,6 @@ async def cmd_view_ygg(ctx: Context, message: Message, player_name: Match[str]):
             description="查看玩家皮肤 (Pro)",
             usage=r"%view.pro <player_name>",
             example=r"%view.pro SerinaNya",
-            author="SerinaNya",
         ),
     )
 )

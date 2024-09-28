@@ -25,7 +25,6 @@ from commspt_bot_avilla.utils.setting_manager import S_
             description="查询用户信息 (commspt [group] only)",
             usage=f"{S_.command_prompt}user <uid>",
             example=f"{S_.command_prompt}user 123456",
-            author="SerinaNya",
         ),
     ),
 )
@@ -56,7 +55,6 @@ async def user_info(ctx: Context, uid: Match[int]):
             description="设置用户记录的 UID (commspt only)",
             usage=f"{S_.command_prompt}setuid <target> <uid>",
             example=f"{S_.command_prompt}setuid @SerinaNya 15301",
-            author="SerinaNya",
         ),
     ),
 )

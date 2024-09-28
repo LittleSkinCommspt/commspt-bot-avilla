@@ -13,7 +13,6 @@ from commspt_bot_avilla.utils.setting_manager import S_
             description=f"{S_.command_prompt}ot",
             usage=f"{S_.command_prompt}ot",
             example=f"{S_.command_prompt}ot",
-            author="SerinaNya",
         ),
     )
 )
