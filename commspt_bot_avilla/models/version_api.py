@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import Annotated
 
 import httpx
-from pydantic import AliasGenerator, BaseModel, ConfigDict, alias_generators
+from pydantic import AliasGenerator, BaseModel, ConfigDict, TypeAdapter, alias_generators
 from pydantic.fields import Field
 from pydantic.networks import AnyHttpUrl
 
@@ -53,9 +53,10 @@ class AuthlibInjectorLatest(BaseModel):
             AuthlibInjectorLatest: Authlib-Injector 最新版本信息
         """
         async with httpx.AsyncClient() as client:
-            return type_validate_json(
-                cls,
-                (await client.get("https://authlib-injector.yushi.moe/artifact/latest.json")).raise_for_status().text,
+            return cls(
+                **(await client.get("https://authlib-injector.yushi.moe/artifact/latest.json"))
+                .raise_for_status()
+                .json()
             )
 
 
@@ -105,11 +106,13 @@ class LibericaJavaLatest(BaseModel):
         Returns:
             List[LibericaJavaLatest]: Liberica Java 版本信息列表
         """
+
+        libereca_releases = TypeAdapter(list[cls])
+
         for key in kwargs:
             kwargs[key.replace("_", "-")] = kwargs.pop(key)  # noqa: B909
         async with httpx.AsyncClient() as client:
-            return type_validate_json(
-                list[cls],
+            return libereca_releases.validate_python(
                 (
                     await client.get(
                         "https://api.bell-sw.com/v1/liberica/releases",
@@ -117,5 +120,5 @@ class LibericaJavaLatest(BaseModel):
                     )
                 )
                 .raise_for_status()
-                .text,
+                .json(),
             )
