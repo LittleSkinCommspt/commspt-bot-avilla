@@ -150,7 +150,7 @@ async def mute_all(ctx: Context, group: Match[Literal["main", "cafe"]]):
 )
 @dispatcher_from_preset_cafe
 @dispather_by_admin_only
-async def mute_all(ctx: Context, group: Match[Literal["main", "cafe"]]):
+async def unmute_all(ctx: Context, group: Match[Literal["main", "cafe"]]):
     await ctx[MuteAllCapability.unmute_all](
         target=ctx.scene if not group.result else ctx.scene.into(f"::group({_GROUP_NAME_MAPPING[group.result]})"),
     )
