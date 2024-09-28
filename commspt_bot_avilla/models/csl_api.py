@@ -1,7 +1,6 @@
 from typing import Literal
 
 import httpx
-from cookit.pyd.compat import type_validate_python
 from pydantic import BaseModel, model_validator
 from pydantic.fields import Field
 from richuru import logger
@@ -18,6 +17,7 @@ class CustomSkinLoaderApi(BaseModel):
     cape_existed: bool | None = True
 
     @model_validator(mode="before")
+    @classmethod
     def pre_processor(cls, values: dict):
         #
         player_existed = bool(values)
@@ -57,4 +57,4 @@ class CustomSkinLoaderApi(BaseModel):
             if not resp:
                 logger.warning(f"Player {username} not found.")
                 return None
-            return type_validate_python(cls, resp)
+            return cls(**resp)

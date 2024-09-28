@@ -1,8 +1,18 @@
+import traceback
+
 from arclet.alconna import Alconna, Args, CommandMeta
 from arclet.alconna.graia import Match, alcommand
 from avilla.core import Context, Message
+from loguru import logger
 
-from commspt_bot_avilla.models.const import get_csl_player, get_ygg_player
+from commspt_bot_avilla.models.const import (
+    CustomSkinLoaderApi,
+    PlayerNameInvalidError,
+    PlayerNotFoundError,
+    PlayerProfile,
+    get_csl_player,
+    get_ygg_player,
+)
 from commspt_bot_avilla.utils.adv_filter import dispatcher_from_preset_cafe
 from commspt_bot_avilla.utils.setting_manager import S_
 
@@ -74,61 +84,48 @@ def translate_bool(value: bool, yes_word: str = "", no_word: str = "不") -> str
 )
 @dispatcher_from_preset_cafe
 async def check_profile(ctx: Context, message: Message, player_name: Match[str]):
-    csl_exists = await check_ltsk_csl_exists(player_name=player_name.result)
-    ygg_exists = await check_ltsk_ygg_exists(player_name=player_name.result)
+    messages = [f"「{player_name.result}」的检查报告", ""]
 
-    origin_csl_exists = await check_ltsk_origin_csl_exists(player_name=player_name.result)
-    origin_ygg_exists = await check_ltsk_orogin_ygg_exists(player_name=player_name.result)
+    ygg_profile: PlayerProfile | None = None
+    pro_profile: PlayerProfile | None = None
+    csl_profile: CustomSkinLoaderApi | None = None
 
-    if not csl_exists and not ygg_exists and not origin_csl_exists and not origin_ygg_exists:
-        await ctx.scene.send_message("Player not found.", reply=message)
-        return
+    # region 从所有非源站来源获取 Profile
+    try:
+        csl_profile = await get_csl_player(player_name=player_name.result)
+        if not csl_profile or not csl_profile.player_existed:
+            messages.append("❌ CSL: 玩家不存在")
+        messages.append("✅ CSL: 玩家存在")
+    except Exception as e:
+        messages.append(f"❌ CSL: Request: 发生错误 {e}")
+        logger.exception(traceback.format_exc())
 
-    messages = [f"「{player_name.result}」的检查报告"]
+    try:
+        ygg_profile = await get_ygg_player(player_type="ltsk", player_name=player_name.result)
+        if ygg_profile.name != player_name.result:
+            messages.extend(("⚠️ player_name: 玩家名存在大小写错误", f"⚠️ player_name: 应为 {ygg_profile.name}"))
+        messages.append("✅ Ygg: 玩家存在")
+    except PlayerNotFoundError:
+        messages.append("❌ Ygg: 不存在")
+    except Exception as e:
+        messages.append(f"❌ Ygg: Request: 发生错误 {e}")
 
-    if not csl_exists or not ygg_exists:
-        messages.append(
-            f"> 此玩家在 Yggdrasil 缓存中{translate_bool(ygg_exists)}存在，在 CSL 缓存中却{translate_bool(csl_exists)}存在",
-        )
+    try:
+        pro_profile = await get_ygg_player(player_type="pro", player_name=player_name.result)
+        messages.extend(("⚠️ 正版: 存在同名角色", f"⚠️ 正版: 玩家名 {pro_profile.name}", f"⚠️ 正版: UUID {pro_profile.id}"))
+    except PlayerNameInvalidError:
+        messages.append("❔ 正版: Request (pre-check): 玩家名含有无效字符 | 可忽略")
+    except PlayerNotFoundError:
+        messages.append("✅ 正版: 不存在同名角色")
+    except Exception as e:
+        messages.append(f"❌ 正版: Request: 发生错误 {e}")
+    # endregion
 
-    if not origin_csl_exists or not origin_ygg_exists:
-        messages.append(
-            f"> 此玩家在 Yggdrasil 非缓存中{translate_bool(origin_ygg_exists)}存在，在 CSL 非缓存中却{translate_bool(origin_csl_exists)}存在",
-        )
+    # TODO 与源站进行比对
+    #
+    # - Ygg 只能比对相应内容，可比较内容的 hash
+    # - CSL 可以通过 OPTION 方式比对 Etag 头部
+    #
+    # 不需要很详细地一项一项逐个比对，仅需告知相关响应是否存在差异即可
 
-    if origin_csl_exists and not csl_exists:
-        messages.append("> 此玩家的 CSL 档案在缓存中不存在")
-    if origin_ygg_exists and not ygg_exists:
-        messages.append("> 此玩家的 Yggdrasil 档案在缓存中不存在")
-
-    csl_skin_hash, csl_cape_hash = await get_csl_skin_hash(player_name=player_name.result)
-    ygg_skin_hash, ygg_cape_hash = await get_ygg_skin_hash(player_name=player_name.result)
-
-    origin_csl_skin_hash, origin_csl_cape_hash = await get_csl_origin_skin_hash(player_name=player_name.result)
-    origin_ygg_skin_hash, origin_ygg_cape_hash = await get_ygg_origin_skin_hash(player_name=player_name.result)
-
-    if csl_skin_hash != ygg_skin_hash:
-        messages.append("> 此玩家的皮肤在缓存两端中并不一致")
-    if csl_cape_hash != ygg_cape_hash:
-        messages.append("> 此玩家的披风在缓存两端中并不一致")
-
-    if origin_csl_skin_hash != origin_ygg_skin_hash:
-        messages.append("> 此玩家的皮肤在非缓存两端中并不一致")
-    if origin_csl_cape_hash != origin_ygg_cape_hash:
-        messages.append("> 此玩家的披风在非缓存两端中并不一致")
-
-    if origin_csl_skin_hash != csl_skin_hash:
-        messages.append("> 此玩家的 CSL 皮肤在缓存中与实际不一致")
-    if origin_csl_cape_hash != csl_cape_hash:
-        messages.append("> 此玩家的 CSL 披风在缓存中与实际不一致")
-    if origin_ygg_skin_hash != ygg_skin_hash:
-        messages.append("> 此玩家的 Yggdrasil 皮肤在缓存中与实际不一致")
-    if origin_ygg_cape_hash != ygg_cape_hash:
-        messages.append("> 此玩家的 Yggdrasil 披风在缓存中与实际不一致")
-
-    if await check_pro_exists(player_name=player_name.result):
-        messages.append("> 存在以此角色名命名的正版玩家")
-
-    if len(messages) == 1:
-        messages.append("🎉 一切正常！")
     await ctx.scene.send_message("\n".join(messages), reply=message)

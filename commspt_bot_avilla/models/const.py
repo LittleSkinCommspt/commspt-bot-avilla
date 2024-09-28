@@ -1,5 +1,6 @@
 from typing import Literal
 from urllib.parse import urljoin
+import string
 
 from pytz import timezone
 from yggdrasil_mc.client import YggdrasilMC
@@ -22,6 +23,13 @@ PRO_YGG = YggdrasilMC()
 TZ_SHANGHAI = timezone("Asia/Shanghai")
 LTSK_CSL = CustomSkinLoaderApi
 
+PRO_ALLOWED_CHARS = set(string.ascii_letters + string.digits + "_-")
+
+
+class PlayerNameInvalidError(ValueError):
+    def __init__(self, message):  # noqa: ANN001
+        super().__init__(message)
+
 
 async def get_csl_player(player_name: str, origin: bool = False) -> CustomSkinLoaderApi | None:
     if origin:
@@ -35,6 +43,8 @@ async def get_ygg_player(
     origin: bool = False,
 ) -> PlayerProfile:
     if player_type == "pro":
+        if not set(player_name).issubset(PRO_ALLOWED_CHARS):
+            raise PlayerNameInvalidError("pre-check: player_name contains invalid chars")
         return await PRO_YGG.by_name_async(player_name)
     if origin:
         return await LTSK_ORIGIN_YGG.by_name_async(player_name)
