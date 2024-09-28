@@ -193,9 +193,9 @@ async def member_join_welcome(ctx: Context, event: SceneCreated):
     await ctx.scene.send_message(welcome_msg)
 
     # render image
+    image: bytes | None = None  # pre define
 
     if uid_mapping:
-        image: bytes | None = None  # pre define
         ltsk_user = await LittleSkinUser.uid_info(uid_mapping.uid)
         # if qmail verified (only noti)
         if uid_mapping.qmail_verified:
