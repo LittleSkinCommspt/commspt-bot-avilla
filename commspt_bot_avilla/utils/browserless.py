@@ -31,6 +31,7 @@ async def screenshot(
             params={
                 "launch": json.dumps(
                     {
+                        "args": ["--ignore-certificate-errors"],
                         "ignoreHTTPSErrors": True,
                         "headless": True,
                     },
