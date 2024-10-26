@@ -10,6 +10,7 @@ from commspt_bot_avilla.utils.adv_filter import (
     dispather_by_admin_only,
 )
 from commspt_bot_avilla.utils.setting_manager import S_
+from commspt_bot_avilla.utils.timedelta_humanize import parse_timedelta
 
 _GROUP_NAME_MAPPING = {
     "main": S_.defined_qq.littleskin_main,
@@ -21,11 +22,13 @@ _GROUP_NAME_MAPPING = {
 @alcommand(
     Alconna(
         f"{S_.command_prompt}mute",
-        Args["target#目标", int | Notice]["duration#时长", int, 10]["group#群组", Literal["main", "cafe"] | None, None],
+        Args["target#目标", int | Notice]["duration#时长", str, "30d"][
+            "group#群组", Literal["main", "cafe"] | None, None
+        ],
         meta=CommandMeta(
             description="禁言用户 (commspt only)",
             usage=f"{S_.command_prompt}mute <target> [duration] [group]",
-            example=f"{S_.command_prompt}mute @user 10 main",
+            example=f"{S_.command_prompt}mute @user 30d main",
         ),
     ),
 )
@@ -34,17 +37,23 @@ _GROUP_NAME_MAPPING = {
 async def mute(
     ctx: Context,
     target: Match[int | Notice],
-    duration: int,
+    duration: str,
     group: Match[Literal["main", "cafe"] | None],
+    message: Message,
 ):
     if group.result:
         if isinstance(target.result, Notice):
             await ctx.scene.send_message("指定群组时不允许使用 @user")
             return
 
+        duration_parsed = parse_timedelta(duration)
+        if duration_parsed > timedelta(days=30) or duration_parsed < timedelta(seconds=1):
+            await ctx.scene.send_message("时长不得超过 30 天或小于 1 秒。", reply=message)
+            return
+
         await ctx[MuteCapability.mute](
             target=(ctx.scene.into(f"::group({_GROUP_NAME_MAPPING[group.result]})").into(f"~.member({target.result})")),
-            duration=timedelta(minutes=duration),
+            duration=parse_timedelta(duration),
         )
         return
 
