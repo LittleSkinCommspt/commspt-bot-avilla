@@ -115,7 +115,7 @@ id={req.id}""",
     await random_sleep(4)
     # remove empty string or None, send picture if image is not None
     await ctx.scene.into(f"::group({S_.defined_qq.commspt_group})").send_message(
-        [*(Picture(RawResource(image)) if image else []), "\n\n".join(m for m in message if m)],
+        [*([Picture(RawResource(image))] if image else []), "\n\n".join(m for m in message if m)],
     )
 
 
