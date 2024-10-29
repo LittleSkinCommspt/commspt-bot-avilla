@@ -56,9 +56,9 @@ class LittleSkinUser(BaseModel):
             return None
 
     @classmethod
-    async def qmail_api(cls, qq: int):
+    async def qmail_api(cls, qq: int | str):
         return await cls.query(f"email:'{qq}@qq.com'")
 
     @classmethod
-    async def uid_info(cls, uid: int):
+    async def uid_info(cls, uid: int | str):
         return await cls.query(f"uid:{uid}")
