@@ -105,9 +105,18 @@ id={req.id}""",
     await UIDMapping(uid=uid, qq=applicant).update()
     message.append("👀 请手动处理")
 
+    image: bytes | None = None
+    if ltsk_user := await LittleSkinUser.uid_info(answer):
+        render = RenderUserInfo(**ltsk_user.model_dump(), qq=int(applicant))
+        image = await render.get_image()
+    else:
+        message.append("👀 未获取到 UID 信息，无法渲染图片")
+
     await random_sleep(4)
-    # remove empty string or None
-    await ctx.scene.into(f"::group({S_.defined_qq.commspt_group})").send_message("\n\n".join(m for m in message if m))
+    # remove empty string or None, send picture if image is not None
+    await ctx.scene.into(f"::group({S_.defined_qq.commspt_group})").send_message(
+        [*(Picture(RawResource(image)) if image else []), "\n\n".join(m for m in message if m)],
+    )
 
 
 # endregion
@@ -136,9 +145,6 @@ id={req.id}""",
             f"(cafe) Member Join Request Event {req.request_type} was ignored. (ANSWER NOT DECIMAL) {applicant} > {answer}",
         )
         message.append("👀 答案不是纯数字，需手动处理")
-        await ctx.scene.into(f"::group({S_.defined_qq.littleskin_cafe})").send_message(
-            "\n\n".join(m for m in message if m),
-        )
         return
 
     uid = int(answer)
