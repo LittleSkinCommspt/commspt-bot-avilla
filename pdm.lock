@@ -5,7 +5,7 @@
 groups = ["default"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.1"
-content_hash = "sha256:fc7655a4169ebcc87f104c1f625cea9fa7eb3912c58bd0b747f67913d0b60c6a"
+content_hash = "sha256:be9d20afee2bf567e74f3370afb74b8e46f42650938ac9db3abbb83ab4eb2052"
 
 [[package]]
 name = "aiohttp"
@@ -1164,7 +1164,7 @@ files = [
 
 [[package]]
 name = "yggdrasil-mc"
-version = "0.2.6"
+version = "0.2.7"
 requires_python = "<4.0,>=3.10"
 summary = "A simple Python lib to get player info and texture from Mojang and Yggdrasil APIs. / 一个简单的 Python 库，可从 Mojang 和 Yggdrasil APIs 获取玩家的信息和材质。"
 groups = ["default"]
@@ -1173,8 +1173,8 @@ dependencies = [
     "pydantic>=2",
 ]
 files = [
-    {file = "yggdrasil_mc-0.2.6-py3-none-any.whl", hash = "sha256:ce3319667a8e80c966fd477f00ce6a78a45ceb36a4049f106df7e3a8f1f6df09"},
-    {file = "yggdrasil_mc-0.2.6.tar.gz", hash = "sha256:5bec5860de97c361057fffcfebf6b7f3f9a812e644e7cb724ecb5548d5f13ad6"},
+    {file = "yggdrasil_mc-0.2.7-py3-none-any.whl", hash = "sha256:28785a569f09c5b359aa9735b77ccc5926c50e6fdd656bc5fc8b263ed6f58289"},
+    {file = "yggdrasil_mc-0.2.7.tar.gz", hash = "sha256:a9ca5fc4a0418c5b6de124ca787a9152852dbe86cec98d90e90965049af8237a"},
 ]
 
 [[package]]
