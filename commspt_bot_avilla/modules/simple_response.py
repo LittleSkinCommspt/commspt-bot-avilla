@@ -87,7 +87,6 @@ register(
 很多过时的浏览器不支持 LittleSkin 使用的一些新技术，而你可能就正在使用这些过时的浏览器。你需要更新你的浏览器至最新版本。然而，有些浏览器即使更新到最新版本，其使用的浏览器内核仍然是过时的。
 
 经测试，LittleSkin 在以下浏览器的最新版本上都能正常工作：
-
 Microsoft Edge (仅新版)
 Google Chrome
 Mozilla Firefox
