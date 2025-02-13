@@ -79,15 +79,22 @@ register(
     ],
 )
 
-register("browser", Picture("assets/images/browser.png"), reply=True)
+register(
+    "browser",
+    [
+        Picture("assets/images/browser.png"),
+        "详见 👉🏻 https://manual.littlesk.in/faq/site#broken-webpage",
+    ],
+)
 
 register(
     ["log.csl", "csl.log"],
-    r"""CustomSkinLoader 的日志位于 .minecraft/CustomSkinLoader/CustomSkinLoader.log
+    """CustomSkinLoader 的日志位于 .minecraft/CustomSkinLoader/CustomSkinLoader.log
 在使用版本隔离的情况下则为 .minecraft/versions/{versions}/CustomSkinLoader/CustomSkinLoader.log
+
 请将 CustomSkinLoader 日志文件直接发送至群内。
 
-详细 👉🏻 https://manual.littlesk.in/problems#customskinloader""",
+详见 👉🏻 https://manual.littlesk.in/problems#customskinloader""",
 )
 
 register(
