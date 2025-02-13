@@ -79,11 +79,26 @@ register(
     ],
 )
 
-register("browser", Picture("assets/images/browser.png"), reply=True)
+register(
+    "browser",
+    [
+        """请先尝试按下键盘上的 Ctrl+Shift+R（即清除本地缓存并刷新页面），如果问题仍然存在，则说明你的浏览器过时了。
+
+很多过时的浏览器不支持 LittleSkin 使用的一些新技术，而你可能就正在使用这些过时的浏览器。你需要更新你的浏览器至最新版本。然而，有些浏览器即使更新到最新版本，其使用的浏览器内核仍然是过时的。
+
+经测试，LittleSkin 在以下浏览器的最新版本上都能正常工作：
+
+Microsoft Edge (仅新版)
+Google Chrome
+Mozilla Firefox
+
+详细 👉🏻 https://manual.littlesk.in/faq/site#broken-webpage""",
+    ],
+)
 
 register(
     ["log.csl", "csl.log"],
-    r"""CustomSkinLoader 的日志位于 .minecraft/CustomSkinLoader/CustomSkinLoader.log
+    """CustomSkinLoader 的日志位于 .minecraft/CustomSkinLoader/CustomSkinLoader.log
 在使用版本隔离的情况下则为 .minecraft/versions/{versions}/CustomSkinLoader/CustomSkinLoader.log
 请将 CustomSkinLoader 日志文件直接发送至群内。
 
