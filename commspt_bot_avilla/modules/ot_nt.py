@@ -25,5 +25,4 @@ async def _(ctx: Context, message: Message):
             """本群不允许闲聊，闲聊请加群 👉 651672723
 大水怪将会收到我们赠送的禁言大礼包。""",
         ]
-    await ctx.scene.send_message("✅ Sent", reply=message)
     )
