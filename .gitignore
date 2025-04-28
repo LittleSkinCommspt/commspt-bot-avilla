@@ -164,5 +164,6 @@ cython_debug/
 .join-announcement.txt
 .config.yaml
 .pdm-python
+.python-version
 typings/
 .vscode/settings.json

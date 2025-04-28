@@ -41,11 +41,6 @@ build-backend = "pdm.backend"
 [tool.pdm.build]
 includes = []
 
-[[tool.pdm.source]]
-name = "pypi"
-url = "https://mirror.sjtu.edu.cn/pypi/web/simple"
-verify_ssl = true
-
 [tool.ruff]
 extend-exclude = []
 line-length = 120
