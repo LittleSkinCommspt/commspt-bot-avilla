@@ -30,7 +30,7 @@ def register(command: str | list[str], response: str | Element | list[str | Elem
     Returns:
         None
     """
-    logger.info(f"- ✅ {command}")
+    logger.info(f"- ✅ {' & '.join(command) if isinstance(command, list) else command}")
 
     # send simple response message
     async def _simple_response(cx: Context, message: Message):

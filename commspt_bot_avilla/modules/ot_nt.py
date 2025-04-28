@@ -14,7 +14,7 @@ from commspt_bot_avilla.utils.setting_manager import S_
             usage=f"{S_.command_prompt}ot",
             example=f"{S_.command_prompt}ot",
         ),
-    )
+    ),
 )
 @dispatcher_from_preset_commspt
 @dispather_by_admin_only
@@ -24,5 +24,6 @@ async def _(ctx: Context, message: Message):
             Picture("assets/images/honoka cafe ng.png"),
             """本群不允许闲聊，闲聊请加群 👉 651672723
 大水怪将会收到我们赠送的禁言大礼包。""",
-        ]
+        ],
     )
+    _ = await ctx.scene.send_message("✅ Sent", reply=message)
