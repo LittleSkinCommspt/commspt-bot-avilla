@@ -90,7 +90,7 @@ register(
 register(
     ["log.csl", "csl.log"],
     """CustomSkinLoader 的日志位于 .minecraft/CustomSkinLoader/CustomSkinLoader.log
-在使用版本隔离的情况下则为 .minecraft/versions/{versions}/CustomSkinLoader/CustomSkinLoader.log
+在使用版本隔离的情况下则为 .minecraft/versions/{version}/CustomSkinLoader/CustomSkinLoader.log
 
 请将 CustomSkinLoader 日志文件直接发送至群内。
 
