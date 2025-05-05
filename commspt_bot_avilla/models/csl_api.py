@@ -8,11 +8,11 @@ from richuru import logger
 
 class CustomSkinLoaderApi(BaseModel):
     username: str | None
-    skins: dict[Literal["default", "slim"], str] | None
+    skins: dict[Literal["default", "slim"], str | None] | None
     skin_hash: str | None = None
     cape_hash: str | None = Field(None, alias="cape")
     player_existed: bool | None = True
-    skin_type: Literal["default", "slim", None] | None = None
+    skin_type: Literal["default", "slim"] | None = None
     skin_existed: bool | None = True
     cape_existed: bool | None = True
 
@@ -31,13 +31,11 @@ class CustomSkinLoaderApi(BaseModel):
         # parse skin hash
         if skin_type == "default":
             skin_hash = values["skins"]["default"]
-            skin_existed = True
         elif skin_type == "slim":
             skin_hash = values["skins"]["slim"]
-            skin_existed = True
         else:
             skin_hash = None
-            skin_existed = False
+        skin_existed = bool(skin_hash)
 
         values.update(
             {
