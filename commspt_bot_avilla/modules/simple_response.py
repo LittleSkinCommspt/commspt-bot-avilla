@@ -64,8 +64,8 @@ register("ping", "在", reply=True)
 
 register(
     "help",
-    """请参阅 👉 https://bot-manual.commspt.littlesk.in/
-源码请参见 👉 https://github.com/LittleSkinCommspt/commspt-bot-avilla
+    """请参阅 https://bot-manual.commspt.littlesk.in/
+源码请参见 https://github.com/LittleSkinCommspt/commspt-bot-avilla
 
 请注意查看使用条例；在此提醒您: **请不要滥用机器人的任何功能，不然你有可能会被某个神秘人士出警**""",
 )
@@ -75,7 +75,7 @@ register(
     [
         Picture("assets/images/honoka cafe ng.png"),
         """本群不允许讨论非 LittleSkin 问题和闲聊，可以加入 Honoka Café 和大家一起水群。
-群号 👉🏻 651672723""",
+群号: 651672723""",
     ],
 )
 
@@ -83,7 +83,7 @@ register(
     "browser",
     [
         Picture("assets/images/browser.png"),
-        "详见 👉🏻 https://manual.littlesk.in/faq/site#broken-webpage",
+        "详见 https://manual.littlesk.in/faq/site#broken-webpage",
     ],
 )
 
@@ -94,7 +94,7 @@ register(
 
 请将 CustomSkinLoader 日志文件直接发送至群内。
 
-详见 👉🏻 https://manual.littlesk.in/problems#customskinloader""",
+详见 https://manual.littlesk.in/problems#customskinloader""",
 )
 
 register(
@@ -111,7 +111,7 @@ https://manual.littlesk.in/newbee/csl#edit-csl-config""",
 register(
     "pay",
     """在群里和大佬吹牛逼帮助不了你的问题？
-速来 👉🏻 https://afdian.com/a/tnqzh123
+速来 https://afdian.com/a/tnqzh123
 获取一对一帮助服务即可快速解决你的问题！""",
 )
 
@@ -131,7 +131,7 @@ register(
 · 赠送您 1000 积分；
 · 在皮肤站内取回您的正版 ID 对应的角色（如果您的 ID 已被人抢注）。
 
-请参考 👉 https://manual.littlesk.in/newbee/premium
+请参考 https://manual.littlesk.in/newbee/premium
 
 使用「正版验证」的前提是「您购买了正版并在官方启动器启动过一次游戏」；如您的目的并不是这个，请考虑换种问法提问。
 
