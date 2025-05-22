@@ -22,7 +22,7 @@ async def _(ctx: Context, message: Message):
     _ = await ctx.scene.into(f"::group({S_.defined_qq.littleskin_main})").send_message(
         [
             Picture("assets/images/honoka cafe ng.png"),
-            """本群不允许闲聊，闲聊请加群 👉 651672723
+            """本群不允许闲聊，闲聊请加群 651672723
 大水怪将会收到我们赠送的禁言大礼包。""",
         ],
     )
