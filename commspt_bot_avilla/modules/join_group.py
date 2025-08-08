@@ -13,6 +13,7 @@ from avilla.core.tools.filter import Filter
 from graia.saya.builtins.broadcast.shortcut import dispatch, listen
 from richuru import logger
 
+from commspt_bot_avilla.models.cloudconfig import CloudConfig
 from commspt_bot_avilla.models.littleskin_api import LittleSkinUser
 from commspt_bot_avilla.models.mongodb_data import UIDMapping
 from commspt_bot_avilla.models.render_user_info import RenderUserInfo
@@ -56,11 +57,32 @@ async def member_join_request(ctx: Context, event: RequestEvent):
 id={req.id}""",
     )
 
+    try:
+        cloudconfig = await CloudConfig.fetch()
+        if cloudconfig.enable_auto_accept_join_request_main:
+            await random_sleep(3)  # sleep before action
+            await req.accept()
+
+            message.append("👆 已同意 [云控策略：enable_auto_accept_join_request_main]")
+            logger.info(
+                f"Member Join Request Event {req.request_type} id={req.id} was auto accepted by cloudconfig policy [enable_auto_accept_join_request_main]. {applicant} > {answer}"
+            )
+
+            await random_sleep(3)  # sleep before action
+            await ctx.scene.into(f"::group({S_.defined_qq.commspt_group})").send_message(
+                "\n\n".join(m for m in message if m)
+            )
+            return
+    except Exception as e:
+        logger.exception(e)
+
     if not answer.isdecimal():  # UID 应为十进制纯数字
         logger.warning(
             f"(main) Member Join Request Event {req.request_type} was ignored. (ANSWER NOT DECIMAL) {applicant} > {answer}",
         )
         message.append("👀 答案不是纯数字，需手动处理")
+
+        await random_sleep(3)  # sleep before action
         await ctx.scene.into(f"::group({S_.defined_qq.commspt_group})").send_message(
             "\n\n".join(m for m in message if m),
         )
@@ -68,8 +90,6 @@ id={req.id}""",
 
     uid = int(answer)
 
-    # more sleep is better
-    await random_sleep(3)
     # qmail api verification
     if (ltsk_qmail := await LittleSkinUser.qmail_api(applicant)) and ltsk_qmail.uid == uid:
         # ok: pass verification
@@ -77,8 +97,10 @@ id={req.id}""",
         logger.success(
             f"(main) Member Join Request Event {req.request_type} was accepted. (QMAIL PASS) {applicant} > {answer}",
         )
+
+        await random_sleep(3)  # sleep before action
         await req.accept()
-        message.append("👆 已同意，因为 QMAIL API 验证通过")
+        message.append("👆 已同意 [QMAIL API passed]")
         # await ctx.scene.into(f"::group({S_.defined_qq.commspt_group})").send_message(
         #     "\n\n".join(m for m in message if m),
         # )
@@ -91,6 +113,7 @@ id={req.id}""",
             f"(main) Member Join Request Event {req.request_type} was ignored. (UID NOT EXISTS) {applicant} > {answer}",
         )
         message.append("👀 这个 UID 根本不存在，需手动处理")
+        await random_sleep(3)  # sleep before action
         await ctx.scene.into(f"::group({S_.defined_qq.commspt_group})").send_message(
             "\n\n".join(m for m in message if m),
         )
@@ -112,7 +135,7 @@ id={req.id}""",
     else:
         message.append("👀 未获取到 UID 信息，无法渲染图片")
 
-    await random_sleep(4)
+    await random_sleep(4)  # sleep before action
     # remove empty string or None, send picture if image is not None
     await ctx.scene.into(f"::group({S_.defined_qq.commspt_group})").send_message(
         [*([Picture(RawResource(image))] if image else []), "\n\n".join(m for m in message if m)],
@@ -192,6 +215,15 @@ async def member_join_welcome(ctx: Context, event: SceneCreated):
 
     # add join announcement
     join_announcement = ANNOUNCEMENT_FILE.read_text(encoding="UTF-8")
+
+    try:
+        cloudconfig = await CloudConfig.fetch()
+        if cloudconfig.enable_temporary_welcome_message_main:
+            # override join announcement if temporary welcome message is enabled
+            join_announcement = cloudconfig.temporary_welcome_message_main
+    except Exception as e:
+        logger.exception(e)
+
     welcome_msg.append(f"\n{join_announcement}")
 
     # send to main group

@@ -48,6 +48,12 @@ class API_littleskin_origin(BaseModel):
     endpoint: str
 
 
+class API_cloudconfig(BaseModel):
+    endpoint: str
+    username: str
+    password: str
+
+
 class Setting(BaseModel):
     command_prompt: str = "&"
     defined_qq: DefinedQQ
@@ -58,6 +64,7 @@ class Setting(BaseModel):
     api_bingling_ipip: API_bingling_ipip
     api_browserless: API_browserless
     api_littleskin_origin: API_littleskin_origin
+    api_cloudconfig: API_cloudconfig
 
     dev_mode: bool
     admin_list: list[int]
