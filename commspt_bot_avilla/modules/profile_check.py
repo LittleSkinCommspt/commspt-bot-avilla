@@ -1,9 +1,12 @@
 import traceback
+from io import BytesIO
 
+import httpx
 from arclet.alconna import Alconna, Args, CommandMeta
 from arclet.alconna.graia import Match, alcommand
 from avilla.core import Context, Message
 from loguru import logger
+from PIL import Image
 
 from commspt_bot_avilla.models.const import (
     CustomSkinLoaderApi,
@@ -15,6 +18,16 @@ from commspt_bot_avilla.models.const import (
 )
 from commspt_bot_avilla.utils.adv_filter import dispatcher_from_preset_cafe
 from commspt_bot_avilla.utils.setting_manager import S_
+
+
+def check_image_size_64(data: bytes) -> bool:
+    """
+    检查图片尺寸是否为64*64
+    """
+    image_data = BytesIO(data)
+    img = Image.open(image_data)
+    width, height = img.size
+    return width == 64 and height == 64
 
 
 async def check_pro_exists(player_name: str) -> bool:
@@ -90,8 +103,6 @@ async def check_profile(ctx: Context, message: Message, player_name: Match[str])
     pro_profile: PlayerProfile | None = None
     csl_profile: CustomSkinLoaderApi | None = None
 
-    # region 从所有非源站来源获取 Profile
-
     # CSL
     try:
         csl_profile = await get_csl_player(player_name=player_name.result)
@@ -111,6 +122,16 @@ async def check_profile(ctx: Context, message: Message, player_name: Match[str])
         if ygg_profile.name != player_name.result:
             messages.append(f"⚠️ Ygg: 玩家名存在大小写错误 👉 {ygg_profile.name}")
         messages.append("✅ Ygg: 玩家存在")
+
+        if ygg_profile.skin is None:
+            messages.append("❌ Ygg: 未设置皮肤")
+        else:
+            async with httpx.AsyncClient(http2=True, follow_redirects=True) as client:
+                response = await client.get(str(ygg_profile.skin.url))
+                response.raise_for_status()
+                if not check_image_size_64(response.content):
+                    messages.extend(("⚠️ Ygg: 非标准 64x64 皮肤", "🤖 原版 MC 不支持非标准皮肤"))
+
     except PlayerNotFoundError:
         messages.append("❌ Ygg: 不存在")
     except Exception as e:
@@ -131,12 +152,5 @@ async def check_profile(ctx: Context, message: Message, player_name: Match[str])
     finally:
         messages.append("")
     # endregion
-
-    # TODO 与源站进行比对
-    #
-    # - Ygg 只能比对相应内容，可比较内容的 hash
-    # - CSL 可以通过 OPTION 方式比对 Etag 头部
-    #
-    # 不需要很详细地一项一项逐个比对，仅需告知相关响应是否存在差异即可
 
     await ctx.scene.send_message("\n".join(messages), reply=message)
