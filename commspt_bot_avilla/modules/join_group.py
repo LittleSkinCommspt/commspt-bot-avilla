@@ -252,7 +252,7 @@ async def member_join_welcome(ctx: Context, event: SceneCreated):
             nofi_msg.append(f"邮箱验证 {'✅ 已验证' if ltsk_user.verified else '❌ 未验证'} ({ltsk_user.email})")
 
             # add registration time (only noti)
-            reg_time = arrow.get(ltsk_user.register_at).to("Asia/Shanghai").format("YYYY-MM-DD HH:mm:ss")
+            reg_time = arrow.get(ltsk_user.register_at, tzinfo="Asia/Shanghai").format("YYYY-MM-DD HH:mm:ss")
             nofi_msg.append(f"注册时间: {reg_time}")
 
             # resay: if user was banned
