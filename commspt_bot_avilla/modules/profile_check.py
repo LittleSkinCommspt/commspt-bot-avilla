@@ -16,7 +16,7 @@ from commspt_bot_avilla.models.const import (
     get_csl_player,
     get_ygg_player,
 )
-from commspt_bot_avilla.utils.adv_filter import dispatcher_from_preset_cafe
+from commspt_bot_avilla.utils.adv_filter import dispatcher_from_preset_cafe, dispather_by_admin_only
 from commspt_bot_avilla.utils.setting_manager import S_
 
 
@@ -96,6 +96,7 @@ def translate_bool(value: bool, yes_word: str = "", no_word: str = "不") -> str
     ),
 )
 @dispatcher_from_preset_cafe
+@dispather_by_admin_only
 async def check_profile(ctx: Context, message: Message, player_name: Match[str]):
     messages = [f"🔍 {player_name.result} \t的检查报告", ""]
 
