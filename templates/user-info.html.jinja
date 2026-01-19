@@ -43,7 +43,7 @@
                             <i class="fa-solid fa-handcuffs"></i>
                         </span>
                     </div>
-                    <p class="help is-danger">账号处于封禁状态</p>
+                    <p class="help is-danger">账号处于封禁状态 &nbsp;&nbsp; →</p>
                 </div>
                 {% endif %}
                 <div class="field cell is-col-span-2">
@@ -54,6 +54,9 @@
                             <i class="fa-solid fa-user"></i>
                         </span>
                     </div>
+                    {% if permission == -1 and ban_reason %}
+                    <p class="help is-danger">{{ ban_reason }}</p>
+                    {% endif %}
                 </div>
                 <div class="field cell">
                     <label class="label">积分</label>
@@ -104,15 +107,6 @@
                     </div>
                 </div>
                 {% endif %}
-                <div class="field">
-                    <label class="label">QQ 昵称</label>
-                    <div class="control has-icons-left">
-                        <input class="input" type="text" value="{{ qq_nickname }}" />
-                        <span class="icon is-small is-left">
-                            <i class="fa-solid fa-wallet"></i>
-                        </span>
-                    </div>
-                </div>
             </div>
         </div>
         {% endif %}

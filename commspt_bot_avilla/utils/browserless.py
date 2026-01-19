@@ -25,6 +25,7 @@ async def screenshot(
         base_url=S_.api_browserless.endpoint,
         verify=VERIFY_CONTENT,
         http2=True,
+        timeout=20,
     ) as client:
         resp = await client.post(
             "/screenshot",

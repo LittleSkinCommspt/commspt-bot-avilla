@@ -41,6 +41,8 @@ class LittleSkinUser(BaseModel):
     verification_token: str = ""
     salt: str = ""
 
+    ban_reason: str | None = None
+
     @field_validator("ip", mode="before")
     def validate_ip(cls, v: str):
         return v.split(", ")

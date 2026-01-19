@@ -34,6 +34,8 @@ class RenderUserInfo(BaseModel):
 
     ip: list[Annotated[str, IPvAnyAddress]]
 
+    ban_reason: str | None = None
+
     @computed_field
     def email_help(self) -> str:
         v: list[str] = []
